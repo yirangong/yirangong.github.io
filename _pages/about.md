@@ -25,7 +25,9 @@ latest_posts:
   limit: 3 # leave blank to include all the blog posts
 ---
 
-Hi, I am a rising senior at Barnard College of Columbia University, majoring in Cognitive Science and Computer Science. 
+Hi! I’m a rising senior at Barnard College of Columbia University, majoring in Cognitive Science and Computer Science. I’m broadly interested in computational approaches to understanding the mind—especially how we make decisions and navigate social interactions.
 
-I love traveling and making itineraries: check out my [Wanderlog](https://wanderlog.com/u/yiran88).
+Since 2024, I’ve been working in [Weiji's Lab](https://www.cns.nyu.edu/malab/) at NYU, where I study how communication influences collaborative planning. I’m especially curious about the subtle ways people share uncertainty, coordinate actions, and shape each other’s thinking.
+
+In my free time, I love to eat, staying outdoors and active, and traveling. Check out my travels and guides I made at [Wanderlog](https://wanderlog.com/u/yiran88).
 

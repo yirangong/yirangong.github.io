@@ -27,5 +27,5 @@ latest_posts:
 
 Hi, I am a rising senior at Barnard College of Columbia University, majoring in Cognitive Science and Computer Science. 
 
-I love traveling and making itineraries: check out my [Wanderlog]([https://wanderlog.com/u/yiran88]).
+I love traveling and making itineraries: check out my [Wanderlog](https://wanderlog.com/u/yiran88).
 

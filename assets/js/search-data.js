@@ -23,15 +23,15 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "dropdown-bookshelf",
-              title: "bookshelf",
+        },{id: "dropdown-food",
+              title: "food",
               description: "",
               section: "Dropdown",
               handler: () => {
-                window.location.href = "/books/";
+                window.location.href = "/food/";
               },
-            },{id: "dropdown-blog",
-              title: "blog",
+            },{id: "dropdown-travel",
+              title: "travel",
               description: "",
               section: "Dropdown",
               handler: () => {

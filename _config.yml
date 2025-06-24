@@ -195,7 +195,7 @@ exclude:
   - _pages/profiles.md
   - _pages/publications.md
   - _pages/teaching.md
-  - _posts/books.md
+  - _pages/books.md
   - _projects/?_project.md
   
 keep_files:

@@ -3,9 +3,8 @@ layout: about
 title: about
 permalink: /
 subtitle: |
-  <!-- <a href='#'> CONTENT </a> -->
-  Barnard College of Columbia University  
-  yg2990[AT]barnard[DOT]edu
+  <!-- <a href='#'> yg2990[AT]barnard[DOT]edu </a> -->
+  Barnard College of Columbia University 
 
 profile:
   align: right

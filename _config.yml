@@ -192,6 +192,11 @@ exclude:
   - vendor
   - _news/announcement_*.md
   - _pages/blog.md
+  - _pages/profiles.md
+  - _pages/publications.md
+  - _pages/teaching.md
+  - _posts/books.md
+  - _projects/?_project.md
   
 keep_files:
   - CNAME

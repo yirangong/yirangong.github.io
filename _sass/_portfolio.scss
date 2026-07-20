@@ -32,9 +32,7 @@ html {
 }
 
 body {
-  background:
-    linear-gradient(rgba(24, 24, 22, 0.025) 1px, transparent 1px),
-    var(--portfolio-paper);
+  background: linear-gradient(rgba(24, 24, 22, 0.025) 1px, transparent 1px), var(--portfolio-paper);
   background-size: 100% 8px;
   color: var(--portfolio-ink);
   font-family: var(--portfolio-serif);
@@ -81,7 +79,10 @@ h6 {
 a,
 table.table a {
   color: inherit;
-  transition: color 140ms ease, background-color 140ms ease, transform 140ms ease;
+  transition:
+    color 140ms ease,
+    background-color 140ms ease,
+    transform 140ms ease;
 }
 
 a:hover,

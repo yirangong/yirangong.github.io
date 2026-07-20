@@ -8,6 +8,8 @@
     </div>
     <h3>{{ note.title }}</h3>
     <p>{{ note.summary }}</p>
-    {% if note.status == 'draft' %}<span class="draft-flag">Framework preview</span>{% endif %}
+    {% if note.status == 'draft' -%}
+      <span class="draft-flag">Framework preview</span>
+    {%- endif %}
   </a>
 </article>

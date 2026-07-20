@@ -9,17 +9,25 @@
     <div class="project-card__body">
       <div class="project-card__eyebrow">
         <span>{{ project.kind }}</span>
-        {% if project.status == 'draft' %}<span class="draft-flag">Framework preview</span>{% endif %}
+        {% if project.status == 'draft' -%}
+          <span class="draft-flag">Framework preview</span>
+        {%- endif %}
       </div>
       <h3>{{ project.title }}</h3>
       <p>{{ project.summary }}</p>
 
       <dl class="project-card__facts">
         {% if project.role %}
-          <div><dt>Role</dt><dd>{{ project.role }}</dd></div>
+          <div>
+            <dt>Role</dt>
+            <dd>{{ project.role }}</dd>
+          </div>
         {% endif %}
         {% if project.skills %}
-          <div><dt>Methods</dt><dd>{{ project.skills | join: ' · ' }}</dd></div>
+          <div>
+            <dt>Methods</dt>
+            <dd>{{ project.skills | join: ' · ' }}</dd>
+          </div>
         {% endif %}
       </dl>
     </div>

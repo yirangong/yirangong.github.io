@@ -1,7 +1,6 @@
 ---
 layout: default
 ---
-
 <main class="pillar-page pillar-page--{{ page.pillar }}">
   <header class="pillar-hero">
     <div>
@@ -10,7 +9,9 @@ layout: default
     </div>
     <div class="pillar-hero__description">
       <p>{{ page.description }}</p>
-      {% if page.supporting_text %}<p class="pillar-hero__supporting">{{ page.supporting_text }}</p>{% endif %}
+      {% if page.supporting_text %}
+        <p class="pillar-hero__supporting">{{ page.supporting_text }}</p>
+      {% endif %}
     </div>
   </header>
 

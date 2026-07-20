@@ -21,14 +21,16 @@ description: Observations of people, places, and systems.
     </div>
   </header>
 
-  {% assign field_notes = site.field_notes | sort: 'importance' %}
-  {% if field_notes.size > 0 %}
-    <div class="field-note-grid field-note-grid--index">
-      {% for note in field_notes %}
-        {% include field-note-card.liquid note=note %}
-      {% endfor %}
-    </div>
-  {% else %}
-    <p class="framework-message">Field notes remain unpublished until each entry has an observation, evidence, and connection to the wider portfolio.</p>
-  {% endif %}
+{% assign field_notes = site.field_notes | sort: 'importance' %}
+{% if field_notes.size > 0 %}
+
+<div class="field-note-grid field-note-grid--index">
+{% for note in field_notes %}
+{% include field-note-card.liquid note=note %}
+{% endfor %}
+</div>
+{% else %}
+<p class="framework-message">Field notes remain unpublished until each entry has an observation, evidence, and connection to the wider portfolio.</p>
+{% endif %}
+
 </main>

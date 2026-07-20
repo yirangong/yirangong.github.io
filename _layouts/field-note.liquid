@@ -1,0 +1,22 @@
+---
+layout: default
+---
+
+<main class="field-note-page">
+  <header class="field-note-page__hero">
+    <div class="field-note-page__meta">
+      <span>{{ page.index }}</span>
+      <span>{{ page.place }}</span>
+      <span>{{ page.year }}</span>
+      {% if page.status == 'draft' %}<span class="draft-flag">Framework preview</span>{% endif %}
+    </div>
+    <h1>{{ page.title }}</h1>
+    <p>{{ page.summary }}</p>
+  </header>
+
+  <article class="field-note-page__content">
+    {{ content }}
+  </article>
+
+  <a class="field-note-page__back" href="{{ '/field-notes/' | relative_url }}">← Back to field notes</a>
+</main>

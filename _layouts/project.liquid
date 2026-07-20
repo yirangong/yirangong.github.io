@@ -1,0 +1,45 @@
+---
+layout: default
+---
+
+<main class="case-study case-study--{{ page.pillar }}">
+  <header class="case-study__hero">
+    <div class="case-study__index">
+      <span>{{ page.index }}</span>
+      <span>{{ page.pillar | upcase }}</span>
+      <span>{{ page.kind }}</span>
+      {% if page.status == 'draft' %}<span class="draft-flag">Framework preview</span>{% endif %}
+    </div>
+    <h1>{{ page.title }}</h1>
+    <p class="case-study__summary">{{ page.summary }}</p>
+  </header>
+
+  <section class="case-study__snapshot" aria-label="Project summary">
+    <dl>
+      {% if page.role %}<div><dt>Role</dt><dd>{{ page.role }}</dd></div>{% endif %}
+      {% if page.timeframe %}<div><dt>Timeline</dt><dd>{{ page.timeframe }}</dd></div>{% endif %}
+      {% if page.team %}<div><dt>Team</dt><dd>{{ page.team }}</dd></div>{% endif %}
+      {% if page.skills %}<div><dt>Methods</dt><dd>{{ page.skills | join: ' · ' }}</dd></div>{% endif %}
+    </dl>
+  </section>
+
+  {% if page.metrics %}
+    <section class="metric-strip" aria-label="Selected outcomes">
+      {% for metric in page.metrics %}
+        <div>
+          <strong>{{ metric.value }}</strong>
+          <span>{{ metric.label }}</span>
+        </div>
+      {% endfor %}
+    </section>
+  {% endif %}
+
+  <article class="case-study__content">
+    {{ content }}
+  </article>
+
+  <nav class="case-study__footer" aria-label="Case study navigation">
+    <a href="{{ '/' | append: page.pillar | append: '/' | relative_url }}">← Back to {{ page.pillar }}</a>
+    <a href="{{ '/field-notes/' | relative_url }}">Observation index ↗</a>
+  </nav>
+</main>

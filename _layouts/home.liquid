@@ -1,0 +1,131 @@
+---
+layout: default
+---
+<main class="portfolio-home">
+  <section class="home-hero" aria-labelledby="home-title">
+    <div class="home-hero__copy">
+      <p class="route-label">YG / PORTFOLIO / {{ site.time | date: '%Y' }}</p>
+      <h1 id="home-title">
+        A product and AI builder with a background in cognitive science, interested in creating thoughtful technology for deeply human contexts.
+      </h1>
+      <p class="home-hero__lede">
+        My work moves between implementation and inquiry. Both begin with close observation—of behavior, communities, and the systems around us.
+      </p>
+      <div class="route-actions">
+        <a class="route-button route-button--dark" href="{{ '/build/' | relative_url }}">See what I build <span>↗</span></a>
+        <a class="route-button" href="{{ '/understand/' | relative_url }}">See what I study <span>↗</span></a>
+      </div>
+    </div>
+
+    <div class="home-hero__portrait">
+      <img src="{{ '/assets/img/prof_pic.jpg' | relative_url }}" alt="Portrait of Yiran Gong">
+      <div class="image-index">
+        <span>PORTRAIT / 01</span>
+        <span>AI × COGNITION</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block" aria-labelledby="selected-work-title">
+    <div class="section-heading">
+      <p class="route-label">INDEX / 01</p>
+      <h2 id="selected-work-title">Selected work</h2>
+      <p>Projects are structured so the problem, contribution, methods, and evidence are visible before opening the full case study.</p>
+    </div>
+
+    {% assign featured_projects = site.projects | where: 'featured', true | sort: 'importance' %}
+    {% if featured_projects.size > 0 %}
+      <div class="project-index">
+        {% for project in featured_projects %}
+          {% include project-card.liquid project=project %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="framework-message">Selected projects remain unpublished until their content and evidence are ready.</p>
+    {% endif %}
+  </section>
+
+  <section class="mode-switchboard" aria-labelledby="modes-title">
+    <div class="mode-switchboard__header">
+      <p class="route-label">INDEX / 02</p>
+      <h2 id="modes-title">Two modes. One lens.</h2>
+    </div>
+
+    <a class="mode-panel mode-panel--build" href="{{ '/build/' | relative_url }}">
+      <span class="mode-panel__index">B—01</span>
+      <h3>Build</h3>
+      <p>Turning ideas into products, workflows, agents, and experiments.</p>
+      <span class="mode-panel__link">Enter Build ↗</span>
+    </a>
+
+    <a class="mode-panel mode-panel--understand" href="{{ '/understand/' | relative_url }}">
+      <span class="mode-panel__index">U—01</span>
+      <h3>Understand</h3>
+      <p>Investigating cognition, decisions, interaction, and evaluation.</p>
+      <span class="mode-panel__link">Enter Understand ↗</span>
+    </a>
+
+    <a class="observe-rail" href="{{ '/field-notes/' | relative_url }}">
+      <span>OBSERVE / THE SHARED LENS</span>
+      <p>Paying close attention to people, places, and systems before deciding what to make or study.</p>
+      <span>Field notes ↗</span>
+    </a>
+  </section>
+
+  <section class="capability-board section-block" aria-labelledby="capabilities-title">
+    <div class="section-heading">
+      <p class="route-label">INDEX / 03</p>
+      <h2 id="capabilities-title">Capabilities in context</h2>
+      <p>Skills stay attached to the projects and evidence that demonstrate them.</p>
+    </div>
+    <div class="capability-board__grid">
+      <div>
+        <span class="capability-board__number">01</span>
+        <h3>Making</h3>
+        <p>AI workflows · product operations · model evaluation · prompt design · testing · deployment · instrumentation</p>
+      </div>
+      <div>
+        <span class="capability-board__number">02</span>
+        <h3>Investigating</h3>
+        <p>Human collaboration · computational modeling · reinforcement learning · Bayesian models · evaluation</p>
+      </div>
+      <div>
+        <span class="capability-board__number">03</span>
+        <h3>Connecting</h3>
+        <p>Community trust · close observation · cultural systems · synthesis · communication</p>
+      </div>
+    </div>
+  </section>
+
+  {% assign field_notes = site.field_notes | sort: 'importance' %}
+  <section class="field-notes-preview section-block" aria-labelledby="field-notes-title">
+    <div class="section-heading section-heading--inline">
+      <div>
+        <p class="route-label">INDEX / 04</p>
+        <h2 id="field-notes-title">Field notes</h2>
+      </div>
+      <a href="{{ '/field-notes/' | relative_url }}">View the observation index ↗</a>
+    </div>
+    {% if field_notes.size > 0 %}
+      <div class="field-note-grid">
+        {% for note in field_notes limit: 3 %}
+          {% include field-note-card.liquid note=note %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="framework-message">Field notes remain unpublished while their observations and evidence are being assembled.</p>
+    {% endif %}
+  </section>
+
+  <section class="home-about" aria-labelledby="home-about-title">
+    <p class="route-label">INDEX / 05</p>
+    <div>
+      <h2 id="home-about-title">I work where technical systems meet human behavior.</h2>
+      <p>The detailed biography, current academic timeline, and contact information will be finalized before publication.</p>
+    </div>
+    <div class="route-actions">
+      <a class="route-button" href="{{ '/about/' | relative_url }}">About <span>↗</span></a>
+      <a class="route-button" href="{{ '/cv/' | relative_url }}">CV <span>↗</span></a>
+    </div>
+  </section>
+</main>

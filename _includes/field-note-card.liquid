@@ -1,0 +1,15 @@
+{% assign note = include.note %}
+<article class="field-note-card">
+  <a href="{{ note.url | relative_url }}" aria-label="Read field note: {{ note.title }}">
+    <div class="field-note-card__meta">
+      <span>{{ note.index }}</span>
+      <span>{{ note.place }}</span>
+      <span>{{ note.year }}</span>
+    </div>
+    <h3>{{ note.title }}</h3>
+    <p>{{ note.summary }}</p>
+    {% if note.status == 'draft' -%}
+      <span class="draft-flag">Framework preview</span>
+    {%- endif %}
+  </a>
+</article>

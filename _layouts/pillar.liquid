@@ -1,0 +1,36 @@
+---
+layout: default
+---
+<main class="pillar-page pillar-page--{{ page.pillar }}">
+  <header class="pillar-hero">
+    <div>
+      <p class="route-label">{{ page.index }} / {{ page.pillar | upcase }}</p>
+      <h1>{{ page.title }}</h1>
+    </div>
+    <div class="pillar-hero__description">
+      <p>{{ page.description }}</p>
+      {% if page.supporting_text %}
+        <p class="pillar-hero__supporting">{{ page.supporting_text }}</p>
+      {% endif %}
+    </div>
+  </header>
+
+  {% assign pillar_projects = site.projects | where: 'pillar', page.pillar | sort: 'importance' %}
+  <section class="pillar-projects" aria-label="{{ page.title }} projects">
+    {% if pillar_projects.size > 0 %}
+      <div class="project-index">
+        {% for project in pillar_projects %}
+          {% include project-card.liquid project=project %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="framework-message">Projects in this section remain unpublished until their case-study content is ready.</p>
+    {% endif %}
+  </section>
+
+  <aside class="observe-bridge">
+    <span>OBSERVE / BEFORE THE WORK</span>
+    <p>{{ page.observe_text }}</p>
+    <a href="{{ '/field-notes/' | relative_url }}">Open field notes ↗</a>
+  </aside>
+</main>

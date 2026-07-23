@@ -412,6 +412,11 @@ ninja.data = [{
           description: "",
           section: "Books",handler: () => {
               window.location.href = "/books/the_godfather/";
+            },},{id: "projects-from-model-evaluation-to-shipped-ai-video-workflows",
+          title: 'From model evaluation to shipped AI video workflows',
+          description: "",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/applied-ai-product-operations/";
             },},{
         id: 'social-email',
         title: 'email',

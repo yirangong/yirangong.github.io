@@ -1,51 +1,41 @@
 ---
 layout: default
 ---
-<main class="case-study case-study--{{ page.pillar }}">
-  <header class="case-study__hero">
-    <div class="case-study__index">
-      <span>{{ page.index }}</span>
-      <span>{{ page.pillar | upcase }}</span>
-      <span>{{ page.kind }}</span>
-      {% if page.status == 'draft' -%}
-        <span class="draft-flag">Framework preview</span>
-      {%- endif %}
-    </div>
+<main class="case-study cs cs--{{ page.pillar }}">
+  <nav class="cs-breadcrumb" aria-label="Breadcrumb">
+    <a href="{{ '/' | append: page.pillar | append: '/' | relative_url }}">{{ page.pillar | capitalize }}</a>
+    <span aria-hidden="true">/</span>
+    <span>{{ page.title }}</span>
+  </nav>
+
+  <header class="cs-hero">
+    <p class="cs-eyebrow">
+      <span>{{ page.pillar | capitalize }}</span>
+      {% if page.kind %}<span>· {{ page.kind }}</span>{% endif %}
+      {% if page.status == 'draft' %}<span class="cs-draft">Draft</span>{% endif %}
+    </p>
     <h1>{{ page.title }}</h1>
-    <p class="case-study__summary">{{ page.summary }}</p>
+    {% if page.summary %}<p class="cs-lede">{{ page.summary }}</p>{% endif %}
+
+    <dl class="cs-meta">
+      {% if page.role %}<div><dt>Role</dt><dd>{{ page.role }}</dd></div>{% endif %}
+      {% if page.company %}<div><dt>Company</dt><dd>{{ page.company }}</dd></div>{% endif %}
+      {% if page.timeframe %}<div><dt>When</dt><dd>{{ page.timeframe }}</dd></div>{% endif %}
+      {% if page.team %}<div><dt>Team</dt><dd>{{ page.team }}</dd></div>{% endif %}
+    </dl>
   </header>
 
-  <section class="case-study__snapshot" aria-label="Project summary">
-    <dl>
-      {% if page.role %}
-        <div>
-          <dt>Role</dt>
-          <dd>{{ page.role }}</dd>
-        </div>
-      {% endif %}
-      {% if page.timeframe %}
-        <div>
-          <dt>Timeline</dt>
-          <dd>{{ page.timeframe }}</dd>
-        </div>
-      {% endif %}
-      {% if page.team %}
-        <div>
-          <dt>Team</dt>
-          <dd>{{ page.team }}</dd>
-        </div>
-      {% endif %}
-      {% if page.skills %}
-        <div>
-          <dt>Methods</dt>
-          <dd>{{ page.skills | join: ' · ' }}</dd>
-        </div>
-      {% endif %}
-    </dl>
-  </section>
+  {% if page.skills %}
+    <section class="cs-block cs-skills" aria-label="Skills and stack">
+      <p class="cs-label">Skills &amp; stack</p>
+      <ul class="cs-chips">
+        {% for skill in page.skills %}<li>{{ skill }}</li>{% endfor %}
+      </ul>
+    </section>
+  {% endif %}
 
   {% if page.metrics %}
-    <section class="metric-strip" aria-label="Selected outcomes">
+    <section class="cs-metrics" aria-label="Selected outcomes">
       {% for metric in page.metrics %}
         <div>
           <strong>{{ metric.value }}</strong>
@@ -55,12 +45,173 @@ layout: default
     </section>
   {% endif %}
 
-  <article class="case-study__content">
-    {{ content }}
-  </article>
+  {% if page.links %}
+    <section class="cs-block cs-links" aria-label="Project links">
+      {% for link in page.links %}
+        <a href="{{ link.url }}"{% unless link.url contains site.url %} target="_blank" rel="noopener"{% endunless %} class="cs-button{% if forloop.first %} cs-button--primary{% endif %}">{{ link.label }} <span aria-hidden="true">↗</span></a>
+      {% endfor %}
+    </section>
+  {% endif %}
 
-  <nav class="case-study__footer" aria-label="Case study navigation">
-    <a href="{{ '/' | append: page.pillar | append: '/' | relative_url }}">← Back to {{ page.pillar }}</a>
-    <a href="{{ '/field-notes/' | relative_url }}">Observation index ↗</a>
+  {% if page.media %}
+    <section class="cs-block cs-media" aria-label="Highlights">
+      <p class="cs-label">{{ page.media_label | default: 'Highlights' }}</p>
+      <div class="cs-media-grid">
+        {% for item in page.media %}
+          <figure class="cs-media-item{% if item.featured %} cs-media-item--featured{% endif %}">
+            {% if item.src == nil %}
+              <div class="cs-media-placeholder">{{ item.caption | default: 'Media to add' }}</div>
+            {% elsif item.type == 'video' %}
+              <video controls preload="metadata"{% if item.poster %} poster="{{ item.poster | relative_url }}"{% endif %}>
+                <source src="{{ item.src | relative_url }}" type="video/mp4">
+              </video>
+            {% elsif item.type == 'embed' %}
+              <div class="cs-media-embed"><iframe src="{{ item.src }}" title="{{ item.caption | default: page.title }}" allowfullscreen loading="lazy"></iframe></div>
+            {% else %}
+              <img src="{{ item.src | relative_url }}" alt="{{ item.caption | default: page.title }}" loading="lazy">
+            {% endif %}
+            {% if item.caption and item.src %}<figcaption>{{ item.caption }}</figcaption>{% endif %}
+          </figure>
+        {% endfor %}
+      </div>
+    </section>
+  {% endif %}
+
+  {% if page.problem or page.approach or page.impact %}
+    <section class="cs-block cs-summary" aria-label="At a glance">
+      {% if page.problem %}<div><h2>The problem</h2><p>{{ page.problem }}</p></div>{% endif %}
+      {% if page.approach %}<div><h2>What I did</h2><p>{{ page.approach }}</p></div>{% endif %}
+      {% if page.impact %}<div><h2>The impact</h2><p>{{ page.impact }}</p></div>{% endif %}
+    </section>
+  {% endif %}
+
+  {% assign body = content | strip %}
+  {% if body != '' %}
+    <section class="cs-roadmap" aria-label="Process walkthrough">
+      {% if page.roadmap_label %}<p class="cs-label">{{ page.roadmap_label }}</p>{% endif %}
+      <div class="cs-roadmap__grid">
+        <nav class="roadmap-rail" aria-label="Process stages">
+          <p class="roadmap-rail__title">Process</p>
+          <ol></ol>
+        </nav>
+        <div class="roadmap-body">
+          {{ content }}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  <nav class="cs-footer" aria-label="Case study navigation">
+    <a href="{{ '/' | append: page.pillar | append: '/' | relative_url }}">← Back to {{ page.pillar | capitalize }}</a>
+    <a href="{{ '/field-notes/' | relative_url }}">Field notes ↗</a>
   </nav>
 </main>
+
+<script>
+  (function () {
+    var body = document.querySelector(".roadmap-body");
+    if (!body) return;
+
+    function slug(text) {
+      return text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+    }
+
+    // 1. Build the sticky rail from the stage headings (h2) and enable scroll-spy.
+    var grid = document.querySelector(".cs-roadmap__grid");
+    var rail = document.querySelector(".roadmap-rail ol");
+    var headings = Array.prototype.slice.call(body.querySelectorAll(":scope > h2"));
+    var links = [];
+    if (rail && headings.length > 1) {
+      headings.forEach(function (h, i) {
+        if (!h.id) h.id = slug(h.textContent) || "stage-" + (i + 1);
+        var label = h.textContent.replace(/^\s*\d+\s*[\/.\-]?\s*/, "").trim();
+        var li = document.createElement("li");
+        var a = document.createElement("a");
+        a.href = "#" + h.id;
+        a.innerHTML = '<span class="roadmap-rail__num">' + (i + 1) + "</span><span>" + label + "</span>";
+        li.appendChild(a);
+        rail.appendChild(li);
+        links.push(a);
+      });
+      if (grid) grid.classList.add("has-rail");
+
+      if ("IntersectionObserver" in window) {
+        var seen = {};
+        var io = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (e) { seen[e.target.id] = e.isIntersecting; });
+            var current = headings.filter(function (h) { return seen[h.id]; })[0] || headings[0];
+            links.forEach(function (a) {
+              a.classList.toggle("is-active", a.getAttribute("href") === "#" + current.id);
+            });
+          },
+          { rootMargin: "-10% 0px -70% 0px", threshold: 0 }
+        );
+        headings.forEach(function (h) { io.observe(h); });
+      }
+    }
+
+    // 2. Turn [ADD: ...] paragraphs into tidy media slots.
+    Array.prototype.slice.call(body.querySelectorAll("p")).forEach(function (p) {
+      var t = p.textContent.trim();
+      if (/^\[ADD:/i.test(t)) {
+        var slot = document.createElement("div");
+        slot.className = "media-slot";
+        slot.textContent = t.replace(/^\[ADD:\s*/i, "").replace(/\]\s*$/, "");
+        p.parentNode.replaceChild(slot, p);
+      }
+    });
+
+    // 3. Blockquotes with arrows -> horizontal route-flow chips.
+    Array.prototype.slice.call(body.querySelectorAll("blockquote")).forEach(function (bq) {
+      if (bq.closest("details")) return; // prompts inside reveals handled below
+      var raw = bq.textContent.replace(/\s+/g, " ").trim();
+      if (raw.indexOf("->") === -1 && raw.indexOf("→") === -1) return;
+      var label = "";
+      var strong = bq.querySelector("strong");
+      if (strong && strong.textContent.indexOf("->") === -1) {
+        label = strong.textContent.trim();
+        raw = raw.replace(label, "").trim();
+      }
+      var parts = raw.split(/->|→/).map(function (s) { return s.trim(); }).filter(Boolean);
+      if (parts.length < 2) return;
+      var flow = document.createElement("div");
+      flow.className = "route-flow";
+      if (label) {
+        var l = document.createElement("span");
+        l.className = "route-flow__label";
+        l.textContent = label;
+        flow.appendChild(l);
+      }
+      parts.forEach(function (part, i) {
+        var step = document.createElement("span");
+        step.className = "route-flow__step";
+        step.textContent = part;
+        flow.appendChild(step);
+        if (i < parts.length - 1) {
+          var arr = document.createElement("span");
+          arr.className = "route-flow__arrow";
+          arr.textContent = "→";
+          flow.appendChild(arr);
+        }
+      });
+      bq.parentNode.replaceChild(flow, bq);
+    });
+
+    // 4. Blockquotes inside a reveal -> monospace prompt cards with a copy button.
+    Array.prototype.slice.call(body.querySelectorAll("details blockquote")).forEach(function (bq) {
+      bq.classList.add("prompt-card");
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "prompt-card__copy";
+      btn.textContent = "Copy";
+      btn.addEventListener("click", function () {
+        var text = bq.textContent.replace("Copy", "").trim();
+        if (navigator.clipboard) navigator.clipboard.writeText(text);
+        btn.textContent = "Copied";
+        setTimeout(function () { btn.textContent = "Copy"; }, 1500);
+      });
+      bq.appendChild(btn);
+    });
+  })();
+</script>

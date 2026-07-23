@@ -1,0 +1,51 @@
+/*******************************************************************************
+ * DESIGN TOKENS — the whole portfolio's look lives here.
+ *
+ * Change a value below and it cascades across every page. Colors, type,
+ * spacing, and shape are all expressed as CSS custom properties, so any
+ * editor (a person, Claude, or an MCP like Paper) can safely restyle the
+ * site by editing this one file — no need to touch templates or components.
+ ******************************************************************************/
+
+:root {
+  /* --- Palette ------------------------------------------------------------ */
+  --portfolio-paper: #f1eee6; /* page background (warm off-white) */
+  --portfolio-paper-deep: #e4e0d6; /* subtle raised surface, chip fill */
+  --portfolio-surface: #fbfaf7; /* card background */
+  --portfolio-ink: #181816; /* primary text */
+  --portfolio-muted: #615e57; /* secondary text */
+  --portfolio-concrete: #aaa69d;
+  --portfolio-concrete-light: #d7d2c8;
+  --portfolio-signal: #f0d41f; /* legacy editorial highlight */
+
+  /* Accent — links, eyebrows, active states. Swap this to re-tint the site. */
+  --portfolio-accent: #c0662b;
+  --portfolio-accent-ink: #8a441a; /* darker accent for text on tints */
+  --portfolio-accent-soft: #f3ede5; /* accent tint background */
+
+  /* Borders */
+  --portfolio-line: rgba(24, 24, 22, 0.28); /* original editorial hairline */
+  --portfolio-line-light: rgba(241, 238, 230, 0.32);
+  --portfolio-hairline: rgba(24, 24, 22, 0.13); /* soft hairline (clean UI) */
+  --portfolio-hairline-strong: rgba(24, 24, 22, 0.4);
+
+  /* --- Type --------------------------------------------------------------- */
+  --portfolio-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --portfolio-serif: "Source Serif 4", Georgia, serif;
+  --portfolio-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --portfolio-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+
+  /* --- Shape -------------------------------------------------------------- */
+  --portfolio-radius: 12px;
+  --portfolio-radius-sm: 8px;
+
+  /* --- al-folio globals mapped to the palette (keeps the theme in sync) --- */
+  --global-bg-color: var(--portfolio-paper);
+  --global-text-color: var(--portfolio-ink);
+  --global-text-color-light: var(--portfolio-muted);
+  --global-theme-color: var(--portfolio-ink);
+  --global-hover-color: var(--portfolio-ink);
+  --global-hover-text-color: var(--portfolio-paper);
+  --global-divider-color: var(--portfolio-line);
+  --global-card-bg-color: transparent;
+}

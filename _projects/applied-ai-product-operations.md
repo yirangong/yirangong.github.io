@@ -1,124 +1,186 @@
 ---
 layout: project
-title: Applied AI Product & Operations
+title: From model evaluation to shipped AI video workflows
 pillar: build
-index: B—01
 kind: Generative AI · Product operations
-summary: Turning community and product signals into deployed AI video workflows, templates, experiments, and operating practices.
-role: Applied AI product & operations internship
-timeframe: "[Dates to add]"
-team: "[Team and collaborators to add]"
-skills:
-  - Model selection
-  - Prompt design
-  - Workflow implementation
-  - Testing
-  - Deployment
-  - Instrumentation
+summary: Designed, tested, and shipped generative-video workflows by connecting model capabilities, input architecture, prompt design, deployment constraints, and user experience.
+role: Applied AI Product & Operations
+company: "[Company]"
+timeframe: "2025"
 featured: true
 importance: 1
 status: draft
-published: false
+published: true
+skills:
+  - AI pipeline architecture
+  - Model evaluation & selection
+  - Prompt & preprocessing design
+  - Failure diagnosis
+  - Cost / latency / moderation tradeoffs
+  - Deployment & configuration
+  - Monitoring & fallback design
 metrics:
-  - value: "800"
-    label: Knee Slide videos generated in the first week
+  - value: "~800"
+    label: Knee Slide generations in week one
   - value: "~70%"
-    label: Knee Slide publish conversion versus a 57% template average
+    label: Publish conversion vs 57% template average
   - value: "~8%"
-    label: Share of daily app generations later attributed to Dai Dai
+    label: Share of daily app generations (Dai Dai)
+media_label: Highlights
+media:
+  - type: video
+    src: /assets/video/knee-slide.mp4
+    featured: true
+    caption: "FIFA · Knee Slide — ~800 first-week generations, ~70% publish conversion"
+  - type: video
+    src: /assets/video/dai-dai.mp4
+    caption: "FIFA · Dai Dai — built in an afternoon, ~8% of daily generations"
+  - type: video
+    src: /assets/video/kaiju-fight.mp4
+    caption: "Kaiju Fight — reusable jersey-personalization infrastructure"
+roadmap_label: How I built it
+problem: The community wanted AI video templates, but turning a toy-community idea into a product feature meant handling messy user images, very different character shapes, coherent motion transfer, model restrictions, and reliable product integration.
+approach: I treated the model as one part of a system — sequencing image-prep and video models, controlling inputs, designing an anatomy-aware evaluation, and building fallback and monitoring into the product itself.
+impact: Shipped reusable, personalizable video workflows that beat template benchmarks (Knee Slide ~70% vs 57%) and grew a creative subreddit from 0 to 500+ members.
 ---
 
-<section class="case-scene case-scene--human">
-  <p class="scene-label">SCENE A / HUMAN SIGNAL</p>
-  <h2>What I observed</h2>
-  <p>Creative community trust, Reddit participation, product behavior, and emerging visual ideas informed what was worth building.</p>
-  <div class="content-placeholder">
-    <strong>Evidence to add</strong>
-    <p>Specific community observations · representative posts or patterns · trust considerations · what changed in my thinking</p>
-  </div>
-</section>
+{::options parse_block_html="true" /}
 
-<section class="case-scene case-scene--technical">
-  <p class="scene-label">SCENE B / TECHNICAL SYSTEM</p>
-  <h2>AI video-generation workflows and templates</h2>
-  <p>This is the highlighted body of work: model selection, prompt design, preprocessing, testing, deployment, and iteration.</p>
-  <div class="content-placeholder content-placeholder--dark">
-    <strong>Technical evidence to add</strong>
-    <p>Architecture diagram · model comparison · preprocessing steps · prompt examples · testing criteria · deployment screenshots</p>
-  </div>
-</section>
+Building an AI video template was not a matter of finding one model and writing one prompt. It was turning an idea from the toy community into a system that could handle messy user images, preserve very different character shapes, transfer motion coherently, survive model restrictions, and connect reliably to the product.
 
-<section class="case-section">
-  <p class="scene-label">DEMO 01 / LIFECYCLE</p>
-  <h2>From observation to iteration</h2>
-  <ol class="lifecycle-route">
-    <li><span>01</span><strong>Research</strong><p>Community behavior, Reddit signals, product context, and constraints.</p></li>
-    <li><span>02</span><strong>Prototype</strong><p>Model selection, evaluation, prompt design, and preprocessing.</p></li>
-    <li><span>03</span><strong>Implement</strong><p>Workflow configuration, technical integration, testing, and deployment.</p></li>
-    <li><span>04</span><strong>Coordinate</strong><p>Cross-functional decisions and delivery details to be added.</p></li>
-    <li><span>05</span><strong>Instrument</strong><p>Analysis, dashboards, workflow outcomes, and failure signals.</p></li>
-    <li><span>06</span><strong>Iterate</strong><p>Configuration changes, product learning, and infrastructure rebuilds.</p></li>
-  </ol>
+Using Kaiju Fight as the running example, this is the lifecycle I followed: research, prototype, implement, deploy, and reflect.
 
-  <div class="signal-route" aria-label="Example project route">
-    <span>Reddit</span><span>Model selection + evaluation</span><span>Deploy + configure</span><span>Analysis + dashboards</span><span>Infrastructure rebuild</span>
-  </div>
-</section>
+> **Route**
+> Reddit signal -> model system -> controlled input -> product integration -> monitoring -> iteration
 
-<section class="case-section">
-  <p class="scene-label">DEMO 02 / FIFA CAMPAIGN</p>
-  <h2>Knee Slide and Dai Dai</h2>
-  <div class="evidence-grid">
-    <article>
-      <span class="evidence-grid__index">FIFA / 01</span>
-      <h3>Knee Slide</h3>
-      <p>Generated 800 videos in its first week and achieved approximately 70% publish conversion, compared with a 57% template average.</p>
-      <div class="content-placeholder">
-        <strong>To add</strong>
-        <p>Initial concept · personal ownership · workflow decisions · launch context · metric definition</p>
-      </div>
-    </article>
-    <article>
-      <span class="evidence-grid__index">FIFA / 02</span>
-      <h3>Dai Dai</h3>
-      <p>Shipped in one afternoon and later accounted for approximately 8% of daily app generations.</p>
-      <div class="content-placeholder">
-        <strong>To add</strong>
-        <p>Why speed mattered · implementation decisions · personal ownership · timeframe behind the generation share</p>
-      </div>
-    </article>
-  </div>
-</section>
+## 01 / Research
 
-<section class="case-scene case-scene--human">
-  <p class="scene-label">OPERATIONS / COMMUNITY TRUST</p>
-  <h2>AI judgment, not AI maximalism</h2>
-  <p>Community-growth practices were grounded in genuine participation rather than indiscriminate automation. The subreddit grew from 0 to more than 500 users.</p>
-  <div class="evidence-grid evidence-grid--compact">
-    <article>
-      <h3>Lightweight automation tool</h3>
-      <p>[Purpose, workflow, implementation, and boundaries to add.]</p>
-    </article>
-    <article>
-      <h3>Community participation</h3>
-      <p>[Practices, evidence, personal contribution, and product connection to add.]</p>
-    </article>
-  </div>
-</section>
+[ADD: Reddit inspiration video and link]
 
-<section class="case-section">
-  <p class="scene-label">REFLECTION / FIVE LESSONS</p>
-  <h2>What changed in how I work</h2>
-  <div class="learning-list">
-    <article><span>01</span><div><h3>AI judgment, not AI maximalism</h3><p>[Evidence, change in practice, and future application to add.]</p></div></article>
-    <article><span>02</span><div><h3>[Learning to add]</h3><p>[Evidence and application to add.]</p></div></article>
-    <article><span>03</span><div><h3>[Learning to add]</h3><p>[Evidence and application to add.]</p></div></article>
-    <article><span>04</span><div><h3>[Learning to add]</h3><p>[Evidence and application to add.]</p></div></article>
-    <article><span>05</span><div><h3>[Learning to add]</h3><p>[Evidence and application to add.]</p></div></article>
-  </div>
-</section>
+## 02 / Prototype
 
-<aside class="verification-note">
-  <strong>Before publication</strong>
-  <p>Confirm individual ownership, team contributions, metric definitions, timeframes, confidentiality boundaries, and public-safe visuals.</p>
-</aside>
+#### Building the model system
+
+The first question was not simply, "Which video model is best?" It was, "What sequence of models gives the video model a solvable input?"
+
+I separated those jobs:
+
+> **Messy user image**
+> -> **image preparation** with Grok, Flux 9B Klein, or Seedream
+> -> **reference-to-video** with Seedance or Kling
+> -> **fallback if the main route fails**
+
+[ADD: simplified pipeline diagram or public-safe fal workflow screenshot]
+
+<details>
+<summary>View model and fallback decisions</summary>
+
+- Grok image edit was versatile, fast, and generally reliable, but could reject some protected-character inputs.
+- Flux 9B Klein provided a safer alternate image-preparation route.
+- A standard-to-pro fallback helped when the issue was performance.
+- A different model family (for example, Kling instead of Seedance) was more useful when the failure came from moderation or IP restrictions.
+
+</details>
+
+## 03 / Implement & iterate
+
+### Controlling the input
+
+<details>
+<summary>View prompt-design details</summary>
+
+Prompt placement mattered. I placed key instructions at the beginning and end, and kept grounding constraints beside the description of character placement.
+
+The longer image-preparation prompt also specified:
+
+- Whether to keep one or multiple figures.
+- Whether to retain the background.
+- Whether to remove stands and hand-held objects.
+- How much blank space to leave around the subject.
+- Which toy should be treated as the sole subject.
+
+</details>
+
+### Diagnosing the real failure
+
+> Observe the failure -> identify the constraint -> change the input, prompt, model route, or infrastructure -> test again
+
+The long-leg and takeoff cases initially looked like general hallucinations. Looking across repeated failures revealed a consistent spatial problem: head-position mapping.
+
+Similar diagnosis shaped the rest of the workflow:
+
+- Change the input structure before endlessly tuning the prompt.
+- Use another model family when a more expensive tier cannot solve the restriction.
+- Evaluate different character anatomies with different failure gates.
+- Treat configuration and monitoring as part of the AI product itself.
+
+[ADD: long-leg or takeoff failure beside the grounded result]
+
+<details>
+<summary>View the reference-model head-anchoring fix</summary>
+
+I moved the character anchor to the ground, specified the intended scale, and placed those constraints inside the prompt section responsible for character positioning.
+
+> Anchor the character to the ground using its feet, bottom edge, or lowest point. Scale it proportionally from the ground up. Do not align its head with the reference fighter's head. Element 1 and Element 2 are small toy-sized characters; their total height should be approximately 40–60% of the reference video fighters' height. Scale down proportionally and keep them grounded.
+
+This was a deeper fix than another round of surface-level prompt tuning. The problem was the model's anchor, not the visual style.
+
+</details>
+
+#### Testing before release
+
+I used a fidelity-first evaluation, because different toy anatomies fail in different ways.
+
+<details>
+<summary>View the complete evaluation framework</summary>
+
+| Metric | A — Humanoid | B — Semi-humanoid | C — Limbless |
+| --- | --- | --- | --- |
+| Character fidelity | High | High — shape + color + markings, not face proportions | High — silhouette + color is the whole identity |
+| Skeleton / rig sanity | High | Gating — hallucinated limbs = instant fail (most fragile metric for type B) | Replace with: no phantom limbs added |
+| Motion quality | High | Mid — creative locomotion is ok if coherent | Mid — sliding or floating should feel intentional |
+| Prompt adherence | High | Mid — credit partial adherence if limbs cannot physically do the move | Low — score intent, not literal execution |
+| BG / style consistency | Mid | Mid | Mid — scene-level metric, same weight across all |
+
+</details>
+
+## 04 / Deploy
+
+### Connecting the workflow to the product
+
+A strong sandbox output was not yet a product feature. The workflow also needed hosted reference assets, a demo video and cover, product pricing, a configured generation engine, the correct image bindings, beta testing, and production configuration.
+
+<details>
+<summary>View the release checklist</summary>
+
+1. Host the reference assets.
+2. Prepare the demo video and a correctly cropped cover.
+3. Convert API cost into the product's pricing unit.
+4. Configure the engine, provider, target, and preprocessing policy.
+5. Bind the user image to the workflow input.
+6. Connect the engine to the template.
+7. Test the complete experience in beta.
+8. Configure the production version.
+
+</details>
+
+### Connecting model quality to product behavior
+
+How did the workflow behave once it was connected to the product? I used the product dashboard to connect model testing with workflow behavior. Relevant signals included generation success, fallback behavior, and whether users moved from generating to publishing.
+
+This kept the build loop open after configuration. A model could look strong in selected demonstrations and still expose a different pattern at real usage levels.
+
+[ADD: public-safe dashboard view]
+
+## Reflection
+
+**What I learned**
+
+- The strongest AI product decisions often happen around the model rather than inside it.
+- A cleaner input can matter more than another round of prompt tuning.
+- A fallback from another model family can be more useful than a more expensive version of the same model.
+- An evaluation system designed around real toy anatomy reveals failures that a generic quality score would miss.
+
+**What failed**
+
+- The workflow depended fully on vendor availability. When a vendor hit very high latency or CDN errors, we needed to switch vendors flexibly — a lesson that fed straight back into the fallback design.

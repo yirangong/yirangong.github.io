@@ -44,14 +44,11 @@ approach: I treated the model as one part of a system — sequencing image-prep 
 impact: Shipped reusable, personalizable video workflows that beat template benchmarks (Knee Slide ~70% vs 57%) and grew a creative subreddit from 0 to 500+ members.
 ---
 
-{::options parse_block_html="true" /}
-
 Building an AI video template was not a matter of finding one model and writing one prompt. It was turning an idea from the toy community into a system that could handle messy user images, preserve very different character shapes, transfer motion coherently, survive model restrictions, and connect reliably to the product.
 
 Using Kaiju Fight as the running example, this is the lifecycle I followed: research, prototype, implement, deploy, and reflect.
 
-> **Route**
-> Reddit signal -> model system -> controlled input -> product integration -> monitoring -> iteration
+> **Route** Reddit signal -> model system -> controlled input -> product integration -> monitoring -> iteration
 
 ## 01 / Research
 
@@ -65,29 +62,24 @@ The first question was not simply, "Which video model is best?" It was, "What se
 
 I separated those jobs:
 
-> **Messy user image**
-> -> **image preparation** with Grok, Flux 9B Klein, or Seedream
-> -> **reference-to-video** with Seedance or Kling
-> -> **fallback if the main route fails**
+> **Messy user image** -> **image preparation** with Grok, Flux 9B Klein, or Seedream -> **reference-to-video** with Seedance or Kling -> **fallback if the main route fails**
 
 [ADD: simplified pipeline diagram or public-safe fal workflow screenshot]
 
-<details>
-<summary>View model and fallback decisions</summary>
+{% details View model and fallback decisions %}
 
 - Grok image edit was versatile, fast, and generally reliable, but could reject some protected-character inputs.
 - Flux 9B Klein provided a safer alternate image-preparation route.
 - A standard-to-pro fallback helped when the issue was performance.
 - A different model family (for example, Kling instead of Seedance) was more useful when the failure came from moderation or IP restrictions.
 
-</details>
+{% enddetails %}
 
 ## 03 / Implement & iterate
 
 ### Controlling the input
 
-<details>
-<summary>View prompt-design details</summary>
+{% details View prompt-design details %}
 
 Prompt placement mattered. I placed key instructions at the beginning and end, and kept grounding constraints beside the description of character placement.
 
@@ -99,7 +91,7 @@ The longer image-preparation prompt also specified:
 - How much blank space to leave around the subject.
 - Which toy should be treated as the sole subject.
 
-</details>
+{% enddetails %}
 
 ### Diagnosing the real failure
 
@@ -116,8 +108,7 @@ Similar diagnosis shaped the rest of the workflow:
 
 [ADD: long-leg or takeoff failure beside the grounded result]
 
-<details>
-<summary>View the reference-model head-anchoring fix</summary>
+{% details View the reference-model head-anchoring fix %}
 
 I moved the character anchor to the ground, specified the intended scale, and placed those constraints inside the prompt section responsible for character positioning.
 
@@ -125,14 +116,13 @@ I moved the character anchor to the ground, specified the intended scale, and pl
 
 This was a deeper fix than another round of surface-level prompt tuning. The problem was the model's anchor, not the visual style.
 
-</details>
+{% enddetails %}
 
 #### Testing before release
 
 I used a fidelity-first evaluation, because different toy anatomies fail in different ways.
 
-<details>
-<summary>View the complete evaluation framework</summary>
+{% details View the complete evaluation framework %}
 
 | Metric | A — Humanoid | B — Semi-humanoid | C — Limbless |
 | --- | --- | --- | --- |
@@ -142,7 +132,7 @@ I used a fidelity-first evaluation, because different toy anatomies fail in diff
 | Prompt adherence | High | Mid — credit partial adherence if limbs cannot physically do the move | Low — score intent, not literal execution |
 | BG / style consistency | Mid | Mid | Mid — scene-level metric, same weight across all |
 
-</details>
+{% enddetails %}
 
 ## 04 / Deploy
 
@@ -150,8 +140,7 @@ I used a fidelity-first evaluation, because different toy anatomies fail in diff
 
 A strong sandbox output was not yet a product feature. The workflow also needed hosted reference assets, a demo video and cover, product pricing, a configured generation engine, the correct image bindings, beta testing, and production configuration.
 
-<details>
-<summary>View the release checklist</summary>
+{% details View the release checklist %}
 
 1. Host the reference assets.
 2. Prepare the demo video and a correctly cropped cover.
@@ -162,7 +151,7 @@ A strong sandbox output was not yet a product feature. The workflow also needed 
 7. Test the complete experience in beta.
 8. Configure the production version.
 
-</details>
+{% enddetails %}
 
 ### Connecting model quality to product behavior
 

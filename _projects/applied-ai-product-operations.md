@@ -4,9 +4,7 @@ title: From model evaluation to shipped AI video workflows
 pillar: build
 kind: Generative AI · Product operations
 summary: Designed, tested, and shipped generative-video workflows by connecting model capabilities, input architecture, prompt design, deployment constraints, and user experience.
-role: Applied AI Product & Operations
-company: "[Company]"
-timeframe: "2025"
+experience: nauknauk
 featured: true
 importance: 1
 status: draft
@@ -124,13 +122,13 @@ I used a fidelity-first evaluation, because different toy anatomies fail in diff
 
 {% details View the complete evaluation framework %}
 
-| Metric | A — Humanoid | B — Semi-humanoid | C — Limbless |
-| --- | --- | --- | --- |
-| Character fidelity | High | High — shape + color + markings, not face proportions | High — silhouette + color is the whole identity |
-| Skeleton / rig sanity | High | Gating — hallucinated limbs = instant fail (most fragile metric for type B) | Replace with: no phantom limbs added |
-| Motion quality | High | Mid — creative locomotion is ok if coherent | Mid — sliding or floating should feel intentional |
-| Prompt adherence | High | Mid — credit partial adherence if limbs cannot physically do the move | Low — score intent, not literal execution |
-| BG / style consistency | Mid | Mid | Mid — scene-level metric, same weight across all |
+| Metric                 | A — Humanoid | B — Semi-humanoid                                                           | C — Limbless                                      |
+| ---------------------- | ------------ | --------------------------------------------------------------------------- | ------------------------------------------------- |
+| Character fidelity     | High         | High — shape + color + markings, not face proportions                       | High — silhouette + color is the whole identity   |
+| Skeleton / rig sanity  | High         | Gating — hallucinated limbs = instant fail (most fragile metric for type B) | Replace with: no phantom limbs added              |
+| Motion quality         | High         | Mid — creative locomotion is ok if coherent                                 | Mid — sliding or floating should feel intentional |
+| Prompt adherence       | High         | Mid — credit partial adherence if limbs cannot physically do the move       | Low — score intent, not literal execution         |
+| BG / style consistency | Mid          | Mid                                                                         | Mid — scene-level metric, same weight across all  |
 
 {% enddetails %}
 

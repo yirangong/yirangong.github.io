@@ -185,6 +185,62 @@ button:focus-visible {
   color: var(--portfolio-signal);
 }
 
+.portfolio-nav__left {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+.navbar .portfolio-brand-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0;
+  padding-left: 1.1rem;
+  list-style: none;
+  border-left: 1px solid var(--portfolio-line);
+}
+
+.navbar .portfolio-brand-nav .nav-item {
+  display: flex;
+  margin: 0;
+  border-bottom: 0;
+}
+
+.navbar .portfolio-brand-nav .nav-link {
+  width: auto;
+  padding: 0.35rem 0.55rem !important;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--portfolio-muted) !important;
+  background: none !important;
+}
+
+.navbar .portfolio-brand-nav .nav-link:hover,
+.navbar .portfolio-brand-nav .nav-item.active .nav-link {
+  color: var(--portfolio-ink) !important;
+  background: none !important;
+  box-shadow: inset 0 -2px 0 var(--portfolio-signal);
+  text-decoration: none;
+}
+
+@media (max-width: 767.98px) {
+  .portfolio-nav__left {
+    gap: 0.7rem;
+  }
+
+  .navbar .portfolio-brand-nav {
+    gap: 0.1rem;
+    padding-left: 0.7rem;
+  }
+
+  .navbar .portfolio-brand-nav .nav-link {
+    padding: 0.3rem 0.4rem !important;
+    font-size: 0.72rem;
+  }
+}
+
 .navbar-toggler {
   border: 0;
   border-radius: 0;

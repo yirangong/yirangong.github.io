@@ -81,7 +81,6 @@ button:focus-visible {
 
 .route-label,
 .scene-label,
-.image-index,
 .nav-index,
 .project-card__eyebrow,
 .project-card__index,
@@ -450,19 +449,6 @@ button:focus-visible {
   filter: grayscale(1) contrast(1.05);
   object-fit: cover;
   object-position: center top;
-}
-
-.image-index {
-  display: flex;
-  position: absolute;
-  right: 1rem;
-  bottom: 2.5rem;
-  left: 1rem;
-  justify-content: space-between;
-  background: var(--portfolio-paper);
-  border: 1px solid var(--portfolio-ink);
-  color: var(--portfolio-ink);
-  padding: 0.55rem 0.65rem;
 }
 
 /* Project cards */
@@ -1327,6 +1313,58 @@ button:focus-visible {
   font-size: clamp(3rem, 6vw, 6rem);
   line-height: 0.85;
   text-transform: uppercase;
+}
+
+.about-contact {
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  padding-top: 2rem;
+  border-top: 1px solid var(--portfolio-ink);
+}
+
+.about-contact h3 {
+  margin: 0.4rem 0 0.75rem;
+  font-size: clamp(1.6rem, 3vw, 2.25rem);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.about-contact__note {
+  max-width: 34rem;
+  margin-bottom: 1.75rem;
+}
+
+.about-contact__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 1.25rem 2rem;
+  margin: 0 0 2rem;
+}
+
+.about-contact__list dt {
+  margin-bottom: 0.3rem;
+  color: var(--portfolio-muted);
+  font-family: var(--portfolio-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.about-contact__list dd {
+  margin: 0;
+}
+
+.about-contact__list a {
+  border-bottom: 1px solid var(--portfolio-ink);
+  color: var(--portfolio-ink);
+  font-weight: 600;
+  text-decoration: none;
+  word-break: break-word;
+}
+
+.about-contact__list a:hover {
+  background: var(--portfolio-signal);
+  border-bottom-color: transparent;
+  color: var(--portfolio-ink);
 }
 
 .cv-framework {

@@ -49,6 +49,11 @@ ninja.data = [{
           description: "",
           section: "Projects",handler: () => {
               window.location.href = "/projects/applied-ai-product-operations/";
+            },},{id: "projects-building-a-community-growth-system-without-automating-away-trust",
+          title: 'Building a community-growth system without automating away trust',
+          description: "",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/community-growth-operations/";
             },},{id: "projects-rebuilding-the-measurement-system-behind-ai-templates",
           title: 'Rebuilding the measurement system behind AI templates',
           description: "",

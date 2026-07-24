@@ -60,11 +60,25 @@ ninja.data = [{
           section: "Projects",handler: () => {
               window.location.href = "/projects/product-analytics-infrastructure/";
             },},{
+        id: 'social-email',
+        title: 'email',
+        section: 'Socials',
+        handler: () => {
+          window.open("mailto:%79%69%72%61%6E%67%6F%6E%67%39%39@%67%6D%61%69%6C.%63%6F%6D", "_blank");
+        },
+      },{
         id: 'social-github',
         title: 'GitHub',
         section: 'Socials',
         handler: () => {
           window.open("https://github.com/yirangong", "_blank");
+        },
+      },{
+        id: 'social-linkedin',
+        title: 'LinkedIn',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://www.linkedin.com/in/yiran-gong", "_blank");
         },
       },{
         id: 'social-rss',

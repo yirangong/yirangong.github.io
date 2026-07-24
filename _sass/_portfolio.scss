@@ -1827,6 +1827,44 @@ button:focus-visible {
   color: var(--portfolio-muted);
 }
 .cs-meta dd { margin: 0; font-size: 0.95rem; font-weight: 500; }
+
+/* Shared experience chip (driven by _data/experience.yml via `experience:`) */
+.cs-experience {
+  margin: 1.75rem 0 0;
+  border: 1px solid var(--portfolio-hairline);
+  border-radius: 10px;
+  padding: 0.6rem 0.9rem;
+}
+.cs-experience__chip {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+}
+.cs-experience__chip::-webkit-details-marker { display: none; }
+.cs-experience__company { font-weight: 600; }
+.cs-experience__role,
+.cs-experience__when { color: var(--portfolio-muted); }
+.cs-experience__more {
+  margin-left: auto;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--portfolio-muted);
+}
+.cs-experience[open] .cs-experience__more { opacity: 0; }
+.cs-experience__body {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--portfolio-hairline);
+  font-size: 0.92rem;
+}
+.cs-experience__body p { margin: 0 0 0.5rem; }
+.cs-experience__body p:last-child { margin-bottom: 0; }
+.cs-experience__reporting { color: var(--portfolio-muted); }
 .cs-block {
   padding: 2.1rem 0;
   border-top: 1px solid var(--portfolio-hairline);

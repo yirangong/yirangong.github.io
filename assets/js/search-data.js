@@ -49,6 +49,11 @@ ninja.data = [{
           description: "",
           section: "Projects",handler: () => {
               window.location.href = "/projects/applied-ai-product-operations/";
+            },},{id: "projects-rebuilding-the-measurement-system-behind-ai-templates",
+          title: 'Rebuilding the measurement system behind AI templates',
+          description: "",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/product-analytics-infrastructure/";
             },},{
         id: 'social-github',
         title: 'GitHub',

@@ -4,11 +4,34 @@
     class="navbar navbar-light navbar-expand-md {% if site.navbar_fixed %}fixed-top{% else %}sticky-top{% endif %}"
     aria-label="Primary navigation"
   >
+    {% assign sorted_pages = site.pages | sort: 'nav_order' %}
     <div class="container portfolio-nav">
-      <a class="portfolio-brand" href="{{ '/' | relative_url }}" aria-label="Yiran Gong, home">
-        <span class="portfolio-brand__mark">YG</span>
-        <span class="portfolio-brand__name">Yiran Gong</span>
-      </a>
+      <div class="portfolio-nav__left">
+        <a class="portfolio-brand" href="{{ '/' | relative_url }}" aria-label="Yiran Gong, home">
+          <span class="portfolio-brand__mark">YG</span>
+          <span class="portfolio-brand__name">Yiran Gong</span>
+        </a>
+
+        <ul class="portfolio-brand-nav">
+          {% for p in sorted_pages %}
+            {% if p.nav and p.autogen == null %}
+              {% if p.permalink == '/about/' or p.permalink == '/cv/' %}
+                {% assign parent_link = p.permalink | remove: 'index.html' %}
+                {% assign nav_active = false %}
+                {% if page.url contains parent_link %}{% assign nav_active = true %}{% endif %}
+                <li class="nav-item {% if nav_active %}active{% endif %}">
+                  <a class="nav-link" href="{{ p.url | relative_url }}">
+                    <span>{{ p.nav_label | default: p.title }}</span>
+                    {% if nav_active -%}
+                      <span class="sr-only">(current)</span>
+                    {%- endif %}
+                  </a>
+                </li>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
 
       <button
         class="navbar-toggler collapsed ml-auto"
@@ -27,22 +50,22 @@
 
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
-          {% assign sorted_pages = site.pages | sort: 'nav_order' %}
           {% for p in sorted_pages %}
             {% if p.nav and p.autogen == null %}
-              {% assign parent_link = p.permalink | remove: 'index.html' %}
-              {% assign nav_active = false %}
-              {% if page.url contains parent_link %}{% assign nav_active = true %}{% endif %}
-              {% if page.pillar and p.pillar == page.pillar %}{% assign nav_active = true %}{% endif %}
-              <li class="nav-item {% if nav_active %}active{% endif %}">
-                <a class="nav-link" href="{{ p.url | relative_url }}">
-                  <span class="nav-index">{{ p.nav_index }}</span>
-                  <span>{{ p.nav_label | default: p.title }}</span>
-                  {% if nav_active -%}
-                    <span class="sr-only">(current)</span>
-                  {%- endif %}
-                </a>
-              </li>
+              {% unless p.permalink == '/about/' or p.permalink == '/cv/' %}
+                {% assign parent_link = p.permalink | remove: 'index.html' %}
+                {% assign nav_active = false %}
+                {% if page.url contains parent_link %}{% assign nav_active = true %}{% endif %}
+                {% if page.pillar and p.pillar == page.pillar %}{% assign nav_active = true %}{% endif %}
+                <li class="nav-item {% if nav_active %}active{% endif %}">
+                  <a class="nav-link" href="{{ p.url | relative_url }}">
+                    <span>{{ p.nav_label | default: p.title }}</span>
+                    {% if nav_active -%}
+                      <span class="sr-only">(current)</span>
+                    {%- endif %}
+                  </a>
+                </li>
+              {% endunless %}
             {% endif %}
           {% endfor %}
         </ul>

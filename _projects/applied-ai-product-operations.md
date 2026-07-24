@@ -7,7 +7,6 @@ summary: Designed, tested, and shipped generative-video workflows by connecting 
 experience: nauknauk
 featured: true
 importance: 1
-status: draft
 published: true
 skills:
   - AI pipeline architecture

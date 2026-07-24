@@ -4,12 +4,9 @@ title: From model evaluation to shipped AI video workflows
 pillar: build
 kind: Generative AI · Product operations
 summary: Designed, tested, and shipped generative-video workflows by connecting model capabilities, input architecture, prompt design, deployment constraints, and user experience.
-role: Applied AI Product & Operations
-company: "[Company]"
-timeframe: "2025"
+experience: nauknauk
 featured: true
 importance: 1
-status: draft
 published: true
 skills:
   - AI pipeline architecture

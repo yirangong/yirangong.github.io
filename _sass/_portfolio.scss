@@ -1367,34 +1367,73 @@ button:focus-visible {
   color: var(--portfolio-ink);
 }
 
-.cv-framework {
+/* CV — résumé document */
+
+.cv-doc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 3rem 0;
   border-top: 1px solid var(--portfolio-ink);
 }
 
-.cv-framework h2 {
-  max-width: 14ch;
-  font-size: clamp(2.8rem, 6vw, 6rem);
-  line-height: 0.9;
+.cv-doc__meta {
+  display: flex;
+  width: min(100%, 60rem);
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.85rem;
+}
+
+.cv-doc__meta .route-label {
+  margin: 0;
+}
+
+.cv-doc__actions {
+  display: flex;
+  gap: 1.5rem;
+  font-family: var(--portfolio-mono);
+  font-size: 0.8rem;
+}
+
+.cv-doc__action {
+  border-bottom: 1px solid var(--portfolio-hairline-strong);
+  color: var(--portfolio-ink);
+  text-decoration: none;
   text-transform: uppercase;
 }
 
-.cv-framework__sections {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  margin-top: 4rem;
-  border-top: 1px solid var(--portfolio-ink);
-  border-left: 1px solid var(--portfolio-ink);
+.cv-doc__action:hover {
+  border-bottom-color: var(--portfolio-accent);
+  color: var(--portfolio-accent);
 }
 
-.cv-framework__sections span {
-  min-height: 150px;
-  padding: 1rem;
-  border-right: 1px solid var(--portfolio-ink);
-  border-bottom: 1px solid var(--portfolio-ink);
-  font-family: var(--portfolio-display);
-  font-size: 1.2rem;
-  text-transform: uppercase;
+.cv-doc__frame {
+  width: min(100%, 60rem);
+  height: min(88vh, 1000px);
+  border: 1px solid var(--portfolio-hairline);
+  border-radius: var(--portfolio-radius);
+  background: var(--portfolio-paper-deep);
+}
+
+.cv-doc__fallback {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+.cv-doc__fallback p {
+  margin: 0;
+  color: var(--portfolio-muted);
+  font-family: var(--portfolio-serif);
+  font-size: 1.05rem;
 }
 
 /* Footer */
@@ -1493,8 +1532,7 @@ button:focus-visible {
   }
 
   .capability-board__grid,
-  .field-note-grid,
-  .cv-framework__sections {
+  .field-note-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -1655,8 +1693,7 @@ button:focus-visible {
   .evidence-grid,
   .research-framework,
   .metric-strip,
-  .about-grid,
-  .cv-framework__sections {
+  .about-grid {
     grid-template-columns: 1fr;
   }
 
@@ -1870,7 +1907,7 @@ button:focus-visible {
 }
 .cs-breadcrumb a { color: var(--portfolio-muted); text-decoration: none; }
 .cs-breadcrumb a:hover { color: var(--portfolio-ink); }
-.cs-hero { padding: 2.4rem 0 2rem; }
+.cs-hero { padding: 2.4rem 0 1.3rem; }
 .cs-eyebrow {
   display: flex;
   flex-wrap: wrap;
@@ -1880,7 +1917,8 @@ button:focus-visible {
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--portfolio-accent);
+  /* accent-ink, not accent: 6.2:1 on paper vs 3.5:1 (WCAG AA needs 4.5:1) */
+  color: var(--portfolio-accent-ink);
 }
 .cs-eyebrow .cs-draft {
   color: var(--portfolio-muted);
@@ -1921,6 +1959,44 @@ button:focus-visible {
   color: var(--portfolio-muted);
 }
 .cs-meta dd { margin: 0; font-size: 0.95rem; font-weight: 500; }
+
+/* Shared experience chip (driven by _data/experience.yml via `experience:`) */
+.cs-experience {
+  margin: 1.75rem 0 0;
+  border: 1px solid var(--portfolio-hairline);
+  border-radius: 10px;
+  padding: 0.6rem 0.9rem;
+}
+.cs-experience__chip {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+}
+.cs-experience__chip::-webkit-details-marker { display: none; }
+.cs-experience__company { font-weight: 600; }
+.cs-experience__role,
+.cs-experience__when { color: var(--portfolio-muted); }
+.cs-experience__more {
+  margin-left: auto;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--portfolio-muted);
+}
+.cs-experience[open] .cs-experience__more { opacity: 0; }
+.cs-experience__body {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--portfolio-hairline);
+  font-size: 0.92rem;
+}
+.cs-experience__body p { margin: 0 0 0.5rem; }
+.cs-experience__body p:last-child { margin-bottom: 0; }
+.cs-experience__reporting { color: var(--portfolio-muted); }
 .cs-block {
   padding: 2.1rem 0;
   border-top: 1px solid var(--portfolio-hairline);
@@ -1945,8 +2021,7 @@ button:focus-visible {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 1rem;
-  border-top: 1px solid var(--portfolio-hairline);
-  padding-top: 2.1rem;
+  padding-top: 0.2rem;
 }
 .cs-metrics > div {
   background: var(--portfolio-surface);
@@ -2082,7 +2157,8 @@ button:focus-visible {
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--portfolio-concrete);
+  /* muted, not concrete: 5.6:1 on paper vs 2.1:1 (WCAG AA needs 4.5:1) */
+  color: var(--portfolio-muted);
 }
 .roadmap-rail ol { list-style: none; margin: 0; padding: 0; }
 .roadmap-rail li { margin: 0; }
@@ -2115,7 +2191,19 @@ button:focus-visible {
   border-color: var(--portfolio-accent);
   color: #fff;
 }
-.roadmap-body { max-width: 46rem; }
+/* The column stays wide enough for figures and embeds, but running prose is
+   capped near 70 characters — the comfortable measure. Previously the body ran
+   46rem wide, which pushed paragraphs to 80–90 characters per line. */
+.roadmap-body { max-width: 52rem; }
+.roadmap-body > p,
+.roadmap-body > ul,
+.roadmap-body > ol,
+.roadmap-body > blockquote,
+.roadmap-body > details,
+.roadmap-body > h3,
+.roadmap-body > h4 {
+  max-width: 38rem;
+}
 .roadmap-body > h2 {
   scroll-margin-top: 1.5rem;
   max-width: none;
@@ -2145,7 +2233,42 @@ button:focus-visible {
 .roadmap-body p, .roadmap-body li { font-size: 1rem; line-height: 1.65; }
 .roadmap-body p { margin: 0 0 1rem; }
 .roadmap-body ul { margin: 0 0 1.2rem; padding-left: 1.2rem; }
-.roadmap-body a { color: var(--portfolio-accent); }
+/* accent-ink, not accent: body links need 4.5:1 and plain accent only hits 3.5:1 */
+.roadmap-body a { color: var(--portfolio-accent-ink); }
+
+/* A paragraph that is nothing but bold text becomes the stage's takeaway line —
+   the one sentence a skimming reader should get before the supporting detail. */
+.roadmap-body > p:has(> strong:only-child) {
+  max-width: 34rem;
+  margin: 0 0 1.15rem;
+  font-size: 1.14rem;
+  line-height: 1.45;
+  letter-spacing: -0.005em;
+  color: var(--portfolio-ink);
+}
+.roadmap-body > p:has(> strong:only-child) > strong { font-weight: 600; }
+
+/* Evidence figures span the full column, wider than the prose measure. */
+.roadmap-body figure {
+  margin: 1.75rem 0 2rem;
+  max-width: none;
+}
+.roadmap-body figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--portfolio-hairline);
+  border-radius: var(--portfolio-radius);
+  background: var(--portfolio-surface);
+}
+.roadmap-body figure .caption,
+.roadmap-body figure figcaption {
+  margin-top: 0.7rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--portfolio-muted);
+  text-align: left;
+}
 
 /* Route flow (from arrow blockquotes, upgraded by JS) */
 .route-flow {

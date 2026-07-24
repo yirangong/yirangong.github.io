@@ -6,17 +6,27 @@ nav_label: CV
 nav: true
 nav_order: 5
 nav_index: "05"
-description: A concise record of education, research, applied AI work, and selected projects.
+description: Education, applied AI work, research, and selected projects — as a PDF.
+# Swap in the real résumé by replacing the file at this path (keep the filename
+# and the page needs no other change).
+cv_pdf: assets/pdf/resume.pdf
 ---
 
-<div class="cv-framework">
-  <p class="route-label">CV / FRAMEWORK</p>
-  <h2>The final résumé file and verified timeline will be added before publication.</h2>
-  <div class="cv-framework__sections">
-    <span>Education</span>
-    <span>Applied AI experience</span>
-    <span>Research</span>
-    <span>Selected projects</span>
-    <span>Skills</span>
+{% assign cv_url = page.cv_pdf | relative_url %}
+
+<div class="cv-doc">
+  <div class="cv-doc__meta">
+    <p class="route-label">CV / DOCUMENT</p>
+    <span class="cv-doc__actions">
+      <a class="cv-doc__action" href="{{ cv_url }}" target="_blank" rel="noopener">Open in new tab</a>
+      <a class="cv-doc__action" href="{{ cv_url }}" download>Download PDF</a>
+    </span>
   </div>
+
+  <object class="cv-doc__frame" data="{{ cv_url }}" type="application/pdf">
+    <div class="cv-doc__fallback">
+      <p>This browser cannot display PDFs inline.</p>
+      <a class="cv-doc__action" href="{{ cv_url }}" download>Download the PDF</a>
+    </div>
+  </object>
 </div>

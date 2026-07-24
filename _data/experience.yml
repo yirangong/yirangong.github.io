@@ -1,0 +1,19 @@
+# Canonical experience entries. Reference from a project's front matter with
+# `experience: <key>` instead of retyping company / role / timeframe.
+# Update once here and every case study that points to this key updates too.
+
+nauknauk:
+  company: NaukNauk
+  role: Applied AI — Product & Operations Intern
+  reporting: Reporting directly to the founders.
+  timeframe: Mar–Jul 2026
+  url: # company link to add
+  blurb: >
+    NaukNauk is a creative-technology platform that helps collectors turn
+    photographs of toys, figures, and miniatures into animated stories — and a
+    digital home where fans showcase their collections and connect through
+    shared interests.
+  scope: >
+    A zero-to-one, AI-native product-builder role spanning product strategy,
+    applied AI, analytics, engineering workflows, community growth, and
+    operations.

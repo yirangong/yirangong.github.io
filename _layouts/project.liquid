@@ -17,23 +17,36 @@ layout: default
     <h1>{{ page.title }}</h1>
     {% if page.summary %}<p class="cs-lede">{{ page.summary }}</p>{% endif %}
 
-    <dl class="cs-meta">
-      {% if page.role %}<div><dt>Role</dt><dd>{{ page.role }}</dd></div>{% endif %}
-      {% if page.company %}<div><dt>Company</dt><dd>{{ page.company }}</dd></div>{% endif %}
-      {% if page.timeframe %}<div><dt>When</dt><dd>{{ page.timeframe }}</dd></div>{% endif %}
-      {% if page.team %}<div><dt>Team</dt><dd>{{ page.team }}</dd></div>{% endif %}
-    </dl>
+    {% comment %} Resolve a shared experience entry if the project points at one. {% endcomment %}
+    {% assign exp = nil %}
+    {% if page.experience %}{% assign exp = site.data.experience[page.experience] %}{% endif %}
+
+    {% if exp %}
+      <details class="cs-experience">
+        <summary class="cs-experience__chip">
+          <span class="cs-experience__company">{{ exp.company }}</span>
+          {% if exp.role %}<span class="cs-experience__role">· {{ exp.role }}</span>{% endif %}
+          {% if exp.timeframe %}<span class="cs-experience__when">· {{ exp.timeframe }}</span>{% endif %}
+          <span class="cs-experience__more" aria-hidden="true">About the role ↓</span>
+        </summary>
+        <div class="cs-experience__body">
+          {% if exp.reporting %}<p class="cs-experience__reporting">{{ exp.reporting }}</p>{% endif %}
+          {% if exp.scope %}<p class="cs-experience__scope">{{ exp.scope }}</p>{% endif %}
+          {% if exp.blurb %}<p class="cs-experience__blurb">{{ exp.blurb }}</p>{% endif %}
+          {% if page.team %}<p class="cs-experience__team"><strong>Team:</strong> {{ page.team }}</p>{% endif %}
+        </div>
+      </details>
+    {% else %}
+      <dl class="cs-meta">
+        {% if page.role %}<div><dt>Role</dt><dd>{{ page.role }}</dd></div>{% endif %}
+        {% if page.company %}<div><dt>Company</dt><dd>{{ page.company }}</dd></div>{% endif %}
+        {% if page.timeframe %}<div><dt>When</dt><dd>{{ page.timeframe }}</dd></div>{% endif %}
+        {% if page.team %}<div><dt>Team</dt><dd>{{ page.team }}</dd></div>{% endif %}
+      </dl>
+    {% endif %}
   </header>
 
-  {% if page.skills %}
-    <section class="cs-block cs-skills" aria-label="Skills and stack">
-      <p class="cs-label">Skills &amp; stack</p>
-      <ul class="cs-chips">
-        {% for skill in page.skills %}<li>{{ skill }}</li>{% endfor %}
-      </ul>
-    </section>
-  {% endif %}
-
+  {% comment %} Outcomes lead: proof sits directly under the hero, on the first screen. {% endcomment %}
   {% if page.metrics %}
     <section class="cs-metrics" aria-label="Selected outcomes">
       {% for metric in page.metrics %}
@@ -98,6 +111,16 @@ layout: default
           {{ content }}
         </div>
       </div>
+    </section>
+  {% endif %}
+
+  {% comment %} Skills close the page as a factual index, not a lead-in. {% endcomment %}
+  {% if page.skills %}
+    <section class="cs-block cs-skills" aria-label="Skills and stack">
+      <p class="cs-label">Skills &amp; stack</p>
+      <ul class="cs-chips">
+        {% for skill in page.skills %}<li>{{ skill }}</li>{% endfor %}
+      </ul>
     </section>
   {% endif %}
 

@@ -54,8 +54,8 @@ ninja.data = [{
           description: "",
           section: "Projects",handler: () => {
               window.location.href = "/projects/community-growth-operations/";
-            },},{id: "projects-rebuilding-the-measurement-system-behind-ai-templates",
-          title: 'Rebuilding the measurement system behind AI templates',
+            },},{id: "projects-from-root-cause-to-dashboard-fixed-broken-ai-template-analytics",
+          title: 'From root-cause to dashboard: fixed broken AI-template analytics',
           description: "",
           section: "Projects",handler: () => {
               window.location.href = "/projects/product-analytics-infrastructure/";

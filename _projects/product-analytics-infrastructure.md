@@ -1,27 +1,24 @@
 ---
 layout: project
-title: Rebuilding the measurement system behind AI templates
+title: "From root-cause to dashboard: fixed broken AI-template analytics"
 pillar: build
-kind: Product Analytics Infrastructure
-summary: Investigated misleading template metrics and redesigned the analytics layer around more accurate workflow, model, generation, and fallback semantics.
+kind: Product analytics · Data infrastructure
+summary: Rebuilt a failure-measurement system that was confusing business outcome with AI model performance.
 experience: nauknauk
 featured: true
 importance: 2
 status: draft
 published: true
 skills:
-  - Metric definition & semantics
-  - Data modeling
+  - Metric design & semantics
   - Analytics infrastructure
-  - Dashboard design
-  - Role-based / stakeholder design
+  - Stakeholder-driven dashboard design
+  - Data integrity
 metrics:
+  - value: "Redefined"
+    label: what counts as a "failure" for AI templates around the user's outcome, and redesigned the analytics teams use to promote, fix, and retire them
   - value: "0 broken"
     label: metric definitions when the backend migrated to Step Functions
-  - value: "Daily"
-    label: Content Ops monitoring after each launch
-  - value: "Weekly"
-    label: Head of Product template-health review
 media_label: Before and after
 media:
   - type: image

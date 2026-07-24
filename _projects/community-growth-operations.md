@@ -7,7 +7,6 @@ summary: Combined community research, authentic participation, lightweight tooli
 experience: nauknauk
 featured: true
 importance: 3
-status: draft
 published: true
 skills:
   - "0-1"
@@ -36,15 +35,21 @@ Growing a community is a human problem before it is a tooling problem. I owned t
 
 ## 01 / The constraint
 
+**No API access meant every step stayed manual — and had to stay legible to a human.**
+
 We had no access to Reddit's API, so finding relevant users, preserving the context of their posts, and running personalized cold outreach all had to happen manually. That constraint set the terms for everything that followed: the work had to stay personal and legible to a human, never automated into something the community would read as spam.
 
 ## 02 / The groundwork
+
+**I studied the community across roughly 100 posts before building anything.**
 
 Before building anything, I did the research the growth depended on. I reviewed roughly 100 posts, ran toy-community and market research, studied individual user profiles, and established an organic operating cadence grounded in anti-spam principles — so growth would never come at the cost of the community's trust.
 
 [ADD: Screenshot — post research and user-profile mapping notes]
 
 ## 03 / What I built
+
+**One paste captures a prospect, and the source post stays one click away.**
 
 To make outreach scalable without making it robotic, I mapped the full workflow and used Codex to rapidly build and iterate a lightweight tracker. One copy-and-paste captured a user's handle, post, subreddit, and source link; pending prospects surfaced at the top; the source post stayed one click away for review; and CSV import/export let teammates prep prospect lists in Excel, import them, and share a single outreach database.
 
@@ -56,9 +61,9 @@ Live demo — paste a Reddit post into the *add user* tab and watch the fields a
 
 ## 04 / The decision that mattered
 
-My first version used AI to generate a unique DM for every user. I tested it, and the cost was clear: tokens, latency, and thin post context that often made the "personalized" output no better than a strong template. So I replaced it with a deterministic, field-based template populated from structured user and post data — faster, cheaper, and more reliable.
-
 **AI judgment, not AI maximalism.**
+
+My first version used AI to generate a unique DM for every user. I tested it, and the cost was clear: tokens, latency, and thin post context that often made the "personalized" output no better than a strong template. So I replaced it with a deterministic, field-based template populated from structured user and post data — faster, cheaper, and more reliable.
 
 {% details View what the template actually does %}
 
@@ -70,7 +75,11 @@ My first version used AI to generate a unique DM for every user. I tested it, an
 
 ## 05 / Results
 
+**Zero to 500+ members in four months, growing organically.**
+
 The system removed at least five clicks per outreach, supported tracking for more than 200 prospects, and — alongside the organic cadence — grew the community from zero to about 160 members in its first 30 days (Mar–Apr 2026), reaching 500+ and still growing organically by July 2026. The tracker kept being used by the team after I handed it off, rather than staying a one-off prototype.
+
+{% include figure.liquid path="assets/img/3-reddit-member.png" alt="Reddit community insights dashboard showing 543 members, up 132 from the previous 30 days, alongside 1.4k views, 42 published posts and a daily traffic chart." caption="Community insights, July 2026 — 543 members (135 joined, 3 left in the previous 30 days), 1.4k views and 42 published posts, still compounding two months after handoff." sizes="(min-width: 900px) 52rem, 95vw" zoomable=true %}
 
 ## Reflection
 

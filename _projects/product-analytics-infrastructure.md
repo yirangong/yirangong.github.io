@@ -7,7 +7,6 @@ summary: Rebuilt a failure-measurement system that was confusing business outcom
 experience: nauknauk
 featured: true
 importance: 2
-status: draft
 published: true
 skills:
   - Metric design & semantics

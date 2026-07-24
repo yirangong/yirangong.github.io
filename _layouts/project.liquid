@@ -46,15 +46,7 @@ layout: default
     {% endif %}
   </header>
 
-  {% if page.skills %}
-    <section class="cs-block cs-skills" aria-label="Skills and stack">
-      <p class="cs-label">Skills &amp; stack</p>
-      <ul class="cs-chips">
-        {% for skill in page.skills %}<li>{{ skill }}</li>{% endfor %}
-      </ul>
-    </section>
-  {% endif %}
-
+  {% comment %} Outcomes lead: proof sits directly under the hero, on the first screen. {% endcomment %}
   {% if page.metrics %}
     <section class="cs-metrics" aria-label="Selected outcomes">
       {% for metric in page.metrics %}
@@ -119,6 +111,16 @@ layout: default
           {{ content }}
         </div>
       </div>
+    </section>
+  {% endif %}
+
+  {% comment %} Skills close the page as a factual index, not a lead-in. {% endcomment %}
+  {% if page.skills %}
+    <section class="cs-block cs-skills" aria-label="Skills and stack">
+      <p class="cs-label">Skills &amp; stack</p>
+      <ul class="cs-chips">
+        {% for skill in page.skills %}<li>{{ skill }}</li>{% endfor %}
+      </ul>
     </section>
   {% endif %}
 

@@ -172,7 +172,37 @@ layout: default
       return text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
     }
 
-    // 1. Collect nav targets: each top-level section, plus the Process stage headings.
+    // 1. Promote trailing unnumbered process headings (e.g. "Reflection") into
+    //    their own top-level sections, so they read as peers of Process — not as
+    //    indented stage sub-items. Numbered "0N / ..." headings stay as stages.
+    var processSection = main.querySelector("#process");
+    var roadmap = processSection && processSection.querySelector(".roadmap-body");
+    if (roadmap) {
+      var h2s = Array.prototype.slice.call(roadmap.children).filter(function (el) {
+        return el.tagName === "H2";
+      });
+      var splitIdx = -1, seenNumbered = false;
+      h2s.forEach(function (h, i) {
+        if (/^\s*\d/.test(h.textContent.trim())) seenNumbered = true;
+        else if (seenNumbered && splitIdx === -1) splitIdx = i;
+      });
+      if (splitIdx !== -1) {
+        var startNode = h2s[splitIdx];
+        var moved = [], n = startNode;
+        while (n) { var next = n.nextElementSibling; moved.push(n); n = next; }
+        var wrap = document.createElement("div");
+        wrap.className = "roadmap-body";
+        moved.forEach(function (m) { wrap.appendChild(m); });
+        var sec = document.createElement("section");
+        sec.className = "cs-section cs-roadmap";
+        sec.id = startNode.id || slug(startNode.textContent) || "reflection";
+        sec.setAttribute("data-nav-label", startNode.textContent.trim());
+        sec.appendChild(wrap);
+        processSection.parentNode.insertBefore(sec, processSection.nextElementSibling);
+      }
+    }
+
+    // 2. Collect nav targets: each top-level section, plus the Process stage headings.
     var targets = [];
     var sections = Array.prototype.slice.call(main.querySelectorAll(":scope > .cs-section[id]"));
     sections.forEach(function (sec) {
@@ -190,7 +220,7 @@ layout: default
       }
     });
 
-    // 2. Build the rail — or hide it for thin pages with nothing to navigate.
+    // 3. Build the rail — or hide it for thin pages with nothing to navigate.
     if (targets.length < 2) {
       if (rail) rail.setAttribute("hidden", "");
       if (shell) shell.classList.add("cs__shell--norail");
@@ -214,24 +244,41 @@ layout: default
         links.push({ a: a, id: t.id });
       });
 
-      // Scroll-spy: highlight the topmost section currently in view.
-      if ("IntersectionObserver" in window) {
-        var seen = {};
-        var io = new IntersectionObserver(
-          function (entries) {
-            entries.forEach(function (e) { seen[e.target.id] = e.isIntersecting; });
-            var current = targets.filter(function (t) { return seen[t.id]; })[0] || targets[0];
-            links.forEach(function (l) {
-              l.a.classList.toggle("is-active", l.id === current.id);
-            });
-          },
-          { rootMargin: "-15% 0px -70% 0px", threshold: 0 }
-        );
-        targets.forEach(function (t) { io.observe(t.el); });
+      // Scroll-spy: the active item is the last target whose top has passed just
+      // below the sticky header. Position-based (not intersection-based) so stage
+      // headings inside Process win over the Process section that contains them,
+      // and each stage stays active until the next one arrives.
+      var HEADER_OFFSET = 96; // ~ sticky header + a little breathing room
+      var ticking = false;
+      function updateActive() {
+        ticking = false;
+        var line = window.pageYOffset + HEADER_OFFSET + 1;
+        var currentId = targets[0].id;
+        for (var i = 0; i < targets.length; i++) {
+          var top = targets[i].el.getBoundingClientRect().top + window.pageYOffset;
+          if (top <= line) currentId = targets[i].id;
+          else break;
+        }
+        // At the very bottom, short trailing sections can't reach the header line —
+        // pin the last target so it still highlights.
+        if (window.innerHeight + window.pageYOffset >= document.documentElement.scrollHeight - 2) {
+          currentId = targets[targets.length - 1].id;
+        }
+        links.forEach(function (l) {
+          l.a.classList.toggle("is-active", l.id === currentId);
+        });
       }
+      function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        window.requestAnimationFrame(updateActive);
+      }
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll);
+      updateActive();
     }
 
-    // 3. Content transforms inside the process body (unchanged behaviour).
+    // 4. Content transforms inside the process body (unchanged behaviour).
     var body = main.querySelector(".roadmap-body");
     if (!body) return;
 

@@ -5,6 +5,10 @@ pillar: understand
 index: U—02
 kind: Course research · Computational modeling
 summary: A framework for selected work from the Computational Models of Decision Making seminar.
+media:
+  - type: image
+    featured: true
+    caption: "Cover still — add a hero image"
 role: "[Course project role to add]"
 timeframe: "[Term to add]"
 team: "[Individual or collaborators to add]"

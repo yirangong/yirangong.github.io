@@ -2,179 +2,240 @@
 layout: default
 ---
 <main class="case-study cs cs--{{ page.pillar }}">
-  <nav class="cs-breadcrumb" aria-label="Breadcrumb">
-    <a href="{{ '/' | append: page.pillar | append: '/' | relative_url }}">{{ page.pillar | capitalize }}</a>
-    <span aria-hidden="true">/</span>
-    <span>{{ page.title }}</span>
-  </nav>
+  <div class="cs__shell">
 
-  <header class="cs-hero">
-    <p class="cs-eyebrow">
-      <span>{{ page.pillar | capitalize }}</span>
-      {% if page.kind %}<span>· {{ page.kind }}</span>{% endif %}
-      {% if page.status == 'draft' %}<span class="cs-draft">Draft</span>{% endif %}
-    </p>
-    <h1>{{ page.title }}</h1>
-    {% if page.summary %}<p class="cs-lede">{{ page.summary }}</p>{% endif %}
+    <!-- LEFT: sticky section nav (list filled by the script below) -->
+    <aside class="cs__rail" aria-label="Section navigation">
+      <a class="cs__back" href="{{ '/' | append: page.pillar | append: '/' | relative_url }}">
+        <span aria-hidden="true">&larr;</span> {{ page.pillar | capitalize }}
+      </a>
+      <nav class="cs__nav" aria-label="On this page"><ol></ol></nav>
+    </aside>
 
-    {% comment %} Resolve a shared experience entry if the project points at one. {% endcomment %}
-    {% assign exp = nil %}
-    {% if page.experience %}{% assign exp = site.data.experience[page.experience] %}{% endif %}
+    <!-- RIGHT: content -->
+    <div class="cs__main">
 
-    {% if exp %}
-      <details class="cs-experience">
-        <summary class="cs-experience__chip">
-          <span class="cs-experience__company">{{ exp.company }}</span>
-          {% if exp.role %}<span class="cs-experience__role">· {{ exp.role }}</span>{% endif %}
-          {% if exp.timeframe %}<span class="cs-experience__when">· {{ exp.timeframe }}</span>{% endif %}
-          <span class="cs-experience__more" aria-hidden="true">About the role ↓</span>
-        </summary>
-        <div class="cs-experience__body">
-          {% if exp.reporting %}<p class="cs-experience__reporting">{{ exp.reporting }}</p>{% endif %}
-          {% if exp.scope %}<p class="cs-experience__scope">{{ exp.scope }}</p>{% endif %}
-          {% if exp.blurb %}<p class="cs-experience__blurb">{{ exp.blurb }}</p>{% endif %}
-          {% if page.team %}<p class="cs-experience__team"><strong>Team:</strong> {{ page.team }}</p>{% endif %}
-        </div>
-      </details>
-    {% else %}
-      <dl class="cs-meta">
-        {% if page.role %}<div><dt>Role</dt><dd>{{ page.role }}</dd></div>{% endif %}
-        {% if page.company %}<div><dt>Company</dt><dd>{{ page.company }}</dd></div>{% endif %}
-        {% if page.timeframe %}<div><dt>When</dt><dd>{{ page.timeframe }}</dd></div>{% endif %}
-        {% if page.team %}<div><dt>Team</dt><dd>{{ page.team }}</dd></div>{% endif %}
-      </dl>
-    {% endif %}
-  </header>
+      {% comment %} Pull the featured media out for the hero, keep the rest for Highlights. {% endcomment %}
+      {% assign hero = nil %}
+      {% for item in page.media %}{% if item.featured and hero == nil %}{% assign hero = item %}{% endif %}{% endfor %}
+      {% assign extra_media = page.media | where_exp: "i", "i.featured != true" %}
 
-  {% comment %} Outcomes lead: proof sits directly under the hero, on the first screen. {% endcomment %}
-  {% if page.metrics %}
-    <section class="cs-metrics" aria-label="Selected outcomes">
-      {% for metric in page.metrics %}
-        <div>
-          <strong>{{ metric.value }}</strong>
-          <span>{{ metric.label }}</span>
-        </div>
-      {% endfor %}
-    </section>
-  {% endif %}
+      {% comment %} Resolve a shared experience entry if the project points at one. {% endcomment %}
+      {% assign exp = nil %}
+      {% if page.experience %}{% assign exp = site.data.experience[page.experience] %}{% endif %}
 
-  {% if page.links %}
-    <section class="cs-block cs-links" aria-label="Project links">
-      {% for link in page.links %}
-        <a href="{{ link.url }}"{% unless link.url contains site.url %} target="_blank" rel="noopener"{% endunless %} class="cs-button{% if forloop.first %} cs-button--primary{% endif %}">{{ link.label }} <span aria-hidden="true">↗</span></a>
-      {% endfor %}
-    </section>
-  {% endif %}
-
-  {% if page.media %}
-    <section class="cs-block cs-media" aria-label="Highlights">
-      <p class="cs-label">{{ page.media_label | default: 'Highlights' }}</p>
-      <div class="cs-media-grid">
-        {% for item in page.media %}
-          <figure class="cs-media-item{% if item.featured %} cs-media-item--featured{% endif %}">
-            {% if item.src == nil %}
-              <div class="cs-media-placeholder">{{ item.caption | default: 'Media to add' }}</div>
-            {% elsif item.type == 'video' %}
-              <video controls preload="metadata"{% if item.poster %} poster="{{ item.poster | relative_url }}"{% endif %}>
-                <source src="{{ item.src | relative_url }}" type="video/mp4">
+      <!-- OVERVIEW / HERO -->
+      <section id="overview" class="cs-section cs-section--hero" data-nav-label="Overview">
+        {% if hero %}
+          <figure class="cs-hero-media">
+            {% if hero.src == nil %}
+              <div class="cs-media-placeholder">{{ hero.caption | default: 'Media to add' }}</div>
+            {% elsif hero.type == 'video' %}
+              <video controls preload="metadata" playsinline{% if hero.poster %} poster="{{ hero.poster | relative_url }}"{% endif %}>
+                <source src="{{ hero.src | relative_url }}" type="video/mp4">
               </video>
-            {% elsif item.type == 'embed' %}
-              <div class="cs-media-embed"><iframe src="{{ item.src }}" title="{{ item.caption | default: page.title }}" allowfullscreen loading="lazy"></iframe></div>
+            {% elsif hero.type == 'embed' %}
+              <div class="cs-media-embed"><iframe src="{{ hero.src }}" title="{{ hero.caption | default: page.title }}" allowfullscreen loading="lazy"></iframe></div>
             {% else %}
-              <img src="{{ item.src | relative_url }}" alt="{{ item.caption | default: page.title }}" loading="lazy">
+              <img src="{{ hero.src | relative_url }}" alt="{{ hero.caption | default: page.title }}" loading="lazy">
             {% endif %}
-            {% if item.caption and item.src %}<figcaption>{{ item.caption }}</figcaption>{% endif %}
           </figure>
-        {% endfor %}
-      </div>
-    </section>
-  {% endif %}
+        {% endif %}
 
-  {% if page.problem or page.approach or page.impact %}
-    <section class="cs-block cs-summary" aria-label="At a glance">
-      {% if page.problem %}<div><h2>The problem</h2><p>{{ page.problem }}</p></div>{% endif %}
-      {% if page.approach %}<div><h2>What I did</h2><p>{{ page.approach }}</p></div>{% endif %}
-      {% if page.impact %}<div><h2>The impact</h2><p>{{ page.impact }}</p></div>{% endif %}
-    </section>
-  {% endif %}
+        <p class="cs-eyebrow">
+          <span>{{ page.pillar | capitalize }}</span>
+          {% if page.kind %}<span>&middot; {{ page.kind }}</span>{% endif %}
+          {% if page.status == 'draft' %}<span class="cs-draft">Draft</span>{% endif %}
+        </p>
+        <h1>{{ page.title }}</h1>
 
-  {% assign body = content | strip %}
-  {% if body != '' %}
-    <section class="cs-roadmap" aria-label="Process walkthrough">
-      {% if page.roadmap_label %}<p class="cs-label">{{ page.roadmap_label }}</p>{% endif %}
-      <div class="cs-roadmap__grid">
-        <nav class="roadmap-rail" aria-label="Process stages">
-          <p class="roadmap-rail__title">Process</p>
-          <ol></ol>
-        </nav>
-        <div class="roadmap-body">
-          {{ content }}
-        </div>
-      </div>
-    </section>
-  {% endif %}
+        {% if page.kind %}
+          <ul class="cs-tags" aria-label="Categories">
+            <li>{{ page.pillar | capitalize }}</li>
+            {% assign kinds = page.kind | split: '·' %}
+            {% for k in kinds %}<li>{{ k | strip }}</li>{% endfor %}
+          </ul>
+        {% endif %}
 
-  {% comment %} Skills close the page as a factual index, not a lead-in. {% endcomment %}
-  {% if page.skills %}
-    <section class="cs-block cs-skills" aria-label="Skills and stack">
-      <p class="cs-label">Skills &amp; stack</p>
-      <ul class="cs-chips">
-        {% for skill in page.skills %}<li>{{ skill }}</li>{% endfor %}
-      </ul>
-    </section>
-  {% endif %}
+        {% if page.summary %}
+          <div class="cs-tldr">
+            <p class="cs-label">TL;DR</p>
+            <p class="cs-lede">{{ page.summary }}</p>
+          </div>
+        {% endif %}
 
-  <nav class="cs-footer" aria-label="Case study navigation">
-    <a href="{{ '/' | append: page.pillar | append: '/' | relative_url }}">← Back to {{ page.pillar | capitalize }}</a>
-    <a href="{{ '/field-notes/' | relative_url }}">Field notes ↗</a>
-  </nav>
+        {% if exp %}
+          <details class="cs-experience">
+            <summary class="cs-experience__chip">
+              <span class="cs-experience__company">{{ exp.company }}</span>
+              {% if exp.role %}<span class="cs-experience__role">&middot; {{ exp.role }}</span>{% endif %}
+              {% if exp.timeframe %}<span class="cs-experience__when">&middot; {{ exp.timeframe }}</span>{% endif %}
+              <span class="cs-experience__more" aria-hidden="true">About the role &darr;</span>
+            </summary>
+            <div class="cs-experience__body">
+              {% if exp.reporting %}<p class="cs-experience__reporting">{{ exp.reporting }}</p>{% endif %}
+              {% if exp.scope %}<p class="cs-experience__scope">{{ exp.scope }}</p>{% endif %}
+              {% if exp.blurb %}<p class="cs-experience__blurb">{{ exp.blurb }}</p>{% endif %}
+              {% if page.team %}<p class="cs-experience__team"><strong>Team:</strong> {{ page.team }}</p>{% endif %}
+            </div>
+          </details>
+        {% else %}
+          <dl class="cs-meta">
+            {% if page.role %}<div><dt>Role</dt><dd>{{ page.role }}</dd></div>{% endif %}
+            {% if page.company %}<div><dt>Company</dt><dd>{{ page.company }}</dd></div>{% endif %}
+            {% if page.timeframe %}<div><dt>When</dt><dd>{{ page.timeframe }}</dd></div>{% endif %}
+            {% if page.team %}<div><dt>Team</dt><dd>{{ page.team }}</dd></div>{% endif %}
+          </dl>
+        {% endif %}
+
+        {% if page.skills %}
+          <div class="cs-skills">
+            <p class="cs-label">Skills &amp; stack</p>
+            <ul class="cs-chips">
+              {% for skill in page.skills %}<li>{{ skill }}</li>{% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+
+        {% if page.links %}
+          <div class="cs-links" aria-label="Project links">
+            {% for link in page.links %}
+              <a href="{{ link.url }}"{% unless link.url contains site.url %} target="_blank" rel="noopener"{% endunless %} class="cs-button{% if forloop.first %} cs-button--primary{% endif %}">{{ link.label }} <span aria-hidden="true">&#8599;</span></a>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </section>
+
+      {% if page.problem or page.approach or page.impact %}
+        <section id="at-a-glance" class="cs-section" data-nav-label="At a glance" aria-label="At a glance">
+          <p class="cs-label">At a glance</p>
+          <div class="cs-summary">
+            {% if page.problem %}<div><h2>The problem</h2><p>{{ page.problem }}</p></div>{% endif %}
+            {% if page.approach %}<div><h2>What I did</h2><p>{{ page.approach }}</p></div>{% endif %}
+            {% if page.impact %}<div><h2>The impact</h2><p>{{ page.impact }}</p></div>{% endif %}
+          </div>
+        </section>
+      {% endif %}
+
+      {% if extra_media and extra_media.size > 0 %}
+        <section id="highlights" class="cs-section" data-nav-label="Highlights" aria-label="Highlights">
+          <p class="cs-label">{{ page.media_label | default: 'Highlights' }}</p>
+          <div class="cs-media-grid">
+            {% for item in extra_media %}
+              <figure class="cs-media-item{% if item.wide %} cs-media-item--featured{% endif %}">
+                {% if item.src == nil %}
+                  <div class="cs-media-placeholder">{{ item.caption | default: 'Media to add' }}</div>
+                {% elsif item.type == 'video' %}
+                  <video controls preload="metadata" playsinline{% if item.poster %} poster="{{ item.poster | relative_url }}"{% endif %}>
+                    <source src="{{ item.src | relative_url }}" type="video/mp4">
+                  </video>
+                {% elsif item.type == 'embed' %}
+                  <div class="cs-media-embed"><iframe src="{{ item.src }}" title="{{ item.caption | default: page.title }}" allowfullscreen loading="lazy"></iframe></div>
+                {% else %}
+                  <img src="{{ item.src | relative_url }}" alt="{{ item.caption | default: page.title }}" loading="lazy">
+                {% endif %}
+                {% if item.caption and item.src %}<figcaption>{{ item.caption }}</figcaption>{% endif %}
+              </figure>
+            {% endfor %}
+          </div>
+        </section>
+      {% endif %}
+
+      {% assign body = content | strip %}
+      {% if body != '' %}
+        <section id="process" class="cs-section cs-roadmap" data-nav-label="Process" aria-label="Process walkthrough">
+          {% if page.roadmap_label %}<p class="cs-label">{{ page.roadmap_label }}</p>{% endif %}
+          <div class="roadmap-body">
+            {{ content }}
+          </div>
+        </section>
+      {% endif %}
+
+      <nav class="cs-footer" aria-label="Case study navigation">
+        <a href="{{ '/' | append: page.pillar | append: '/' | relative_url }}">&larr; Back to {{ page.pillar | capitalize }}</a>
+        <a href="{{ '/field-notes/' | relative_url }}">Field notes &#8599;</a>
+      </nav>
+
+    </div>
+  </div>
 </main>
 
 <script>
   (function () {
-    var body = document.querySelector(".roadmap-body");
-    if (!body) return;
+    var main = document.querySelector(".cs__main");
+    var shell = document.querySelector(".cs__shell");
+    var rail = document.querySelector(".cs__rail");
+    var railList = document.querySelector(".cs__nav ol");
+    if (!main || !railList) return;
 
     function slug(text) {
       return text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
     }
 
-    // 1. Build the sticky rail from the stage headings (h2) and enable scroll-spy.
-    var grid = document.querySelector(".cs-roadmap__grid");
-    var rail = document.querySelector(".roadmap-rail ol");
-    var headings = Array.prototype.slice.call(body.querySelectorAll(":scope > h2"));
-    var links = [];
-    if (rail && headings.length > 1) {
-      headings.forEach(function (h, i) {
-        if (!h.id) h.id = slug(h.textContent) || "stage-" + (i + 1);
-        var label = h.textContent.replace(/^\s*\d+\s*[\/.\-]?\s*/, "").trim();
-        var li = document.createElement("li");
-        var a = document.createElement("a");
-        a.href = "#" + h.id;
-        a.innerHTML = '<span class="roadmap-rail__num">' + (i + 1) + "</span><span>" + label + "</span>";
-        li.appendChild(a);
-        rail.appendChild(li);
-        links.push(a);
-      });
-      if (grid) grid.classList.add("has-rail");
+    // 1. Collect nav targets: each top-level section, plus the Process stage headings.
+    var targets = [];
+    var sections = Array.prototype.slice.call(main.querySelectorAll(":scope > .cs-section[id]"));
+    sections.forEach(function (sec) {
+      var label = sec.getAttribute("data-nav-label");
+      if (!label) return;
+      targets.push({ el: sec, id: sec.id, label: label, stage: false });
 
+      if (sec.id === "process") {
+        var headings = Array.prototype.slice.call(sec.querySelectorAll(".roadmap-body > h2"));
+        headings.forEach(function (h, i) {
+          if (!h.id) h.id = slug(h.textContent) || "stage-" + (i + 1);
+          var lab = h.textContent.replace(/^\s*\d+\s*[\/.\-]?\s*/, "").trim();
+          targets.push({ el: h, id: h.id, label: lab, stage: true });
+        });
+      }
+    });
+
+    // 2. Build the rail — or hide it for thin pages with nothing to navigate.
+    if (targets.length < 2) {
+      if (rail) rail.setAttribute("hidden", "");
+      if (shell) shell.classList.add("cs__shell--norail");
+    } else {
+      var links = [];
+      targets.forEach(function (t) {
+        var li = document.createElement("li");
+        if (t.stage) li.className = "is-stage";
+        var a = document.createElement("a");
+        a.href = "#" + t.id;
+        a.textContent = t.label;
+        a.addEventListener("click", function (e) {
+          var el = document.getElementById(t.id);
+          if (!el) return;
+          e.preventDefault();
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+          if (history.replaceState) history.replaceState(null, "", "#" + t.id);
+        });
+        li.appendChild(a);
+        railList.appendChild(li);
+        links.push({ a: a, id: t.id });
+      });
+
+      // Scroll-spy: highlight the topmost section currently in view.
       if ("IntersectionObserver" in window) {
         var seen = {};
         var io = new IntersectionObserver(
           function (entries) {
             entries.forEach(function (e) { seen[e.target.id] = e.isIntersecting; });
-            var current = headings.filter(function (h) { return seen[h.id]; })[0] || headings[0];
-            links.forEach(function (a) {
-              a.classList.toggle("is-active", a.getAttribute("href") === "#" + current.id);
+            var current = targets.filter(function (t) { return seen[t.id]; })[0] || targets[0];
+            links.forEach(function (l) {
+              l.a.classList.toggle("is-active", l.id === current.id);
             });
           },
-          { rootMargin: "-10% 0px -70% 0px", threshold: 0 }
+          { rootMargin: "-15% 0px -70% 0px", threshold: 0 }
         );
-        headings.forEach(function (h) { io.observe(h); });
+        targets.forEach(function (t) { io.observe(t.el); });
       }
     }
 
-    // 2. Turn [ADD: ...] paragraphs into tidy media slots.
+    // 3. Content transforms inside the process body (unchanged behaviour).
+    var body = main.querySelector(".roadmap-body");
+    if (!body) return;
+
+    // 3a. Turn [ADD: ...] paragraphs into tidy media slots.
     Array.prototype.slice.call(body.querySelectorAll("p")).forEach(function (p) {
       var t = p.textContent.trim();
       if (/^\[ADD:/i.test(t)) {
@@ -185,7 +246,7 @@ layout: default
       }
     });
 
-    // 3. Blockquotes with arrows -> horizontal route-flow chips.
+    // 3b. Blockquotes with arrows -> horizontal route-flow chips.
     Array.prototype.slice.call(body.querySelectorAll("blockquote")).forEach(function (bq) {
       if (bq.closest("details")) return; // prompts inside reveals handled below
       var raw = bq.textContent.replace(/\s+/g, " ").trim();
@@ -221,7 +282,7 @@ layout: default
       bq.parentNode.replaceChild(flow, bq);
     });
 
-    // 4. Blockquotes inside a reveal -> monospace prompt cards with a copy button.
+    // 3c. Blockquotes inside a reveal -> monospace prompt cards with a copy button.
     Array.prototype.slice.call(body.querySelectorAll("details blockquote")).forEach(function (bq) {
       bq.classList.add("prompt-card");
       var btn = document.createElement("button");

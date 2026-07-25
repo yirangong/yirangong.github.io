@@ -5,6 +5,10 @@ pillar: build
 index: B—02
 kind: Project · To be defined
 summary: A reserved framework for the senior-year project once its question, implementation, and evidence are ready.
+media:
+  - type: image
+    featured: true
+    caption: "Cover still — add a hero image"
 role: "[Role to add]"
 timeframe: "[Timeline to add]"
 team: "[Team to add]"

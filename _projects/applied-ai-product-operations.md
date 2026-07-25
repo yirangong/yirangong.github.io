@@ -25,9 +25,11 @@ metrics:
     label: Share of daily app generations (Dai Dai)
 media_label: Highlights
 media:
+  - type: image
+    featured: true
+    caption: "Cover still — replace with a hero image"
   - type: video
     src: /assets/video/knee-slide.mp4
-    featured: true
     caption: "FIFA · Knee Slide — ~800 first-week generations, ~70% publish conversion"
   - type: video
     src: /assets/video/dai-dai.mp4

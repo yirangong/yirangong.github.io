@@ -1897,6 +1897,136 @@ button:focus-visible {
   padding-bottom: clamp(4rem, 8vw, 7rem);
 }
 .cs :where(h1, h2, h3, h4, p, span, strong, li, dd, dt) { color: inherit; }
+
+/* --- Two-column shell: sticky section nav (left) + content (right) -------- */
+.cs__shell {
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: start;
+  padding-top: clamp(1.5rem, 4vw, 2.75rem);
+}
+.cs__shell--norail { grid-template-columns: minmax(0, 1fr); }
+
+.cs__rail {
+  position: sticky;
+  top: 5.5rem;
+  align-self: start;
+}
+.cs__rail[hidden] { display: none; }
+
+.cs__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 1.75rem;
+  padding: 0.4rem 0.95rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--portfolio-ink);
+  text-decoration: none;
+  border: 1px solid var(--portfolio-hairline-strong);
+  border-radius: 999px;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.cs__back:hover { color: var(--portfolio-ink); background: var(--portfolio-paper-deep); }
+
+.cs__nav ol { list-style: none; margin: 0; padding: 0; }
+.cs__nav li { margin: 0; }
+.cs__nav a {
+  display: block;
+  padding: 0.42rem 0 0.42rem 0.75rem;
+  border-left: 2px solid var(--portfolio-hairline);
+  font-family: var(--portfolio-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--portfolio-muted);
+  text-decoration: none;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.cs__nav a:hover { color: var(--portfolio-ink); }
+.cs__nav li.is-stage a {
+  padding-left: 1.4rem;
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  color: var(--portfolio-concrete);
+}
+.cs__nav a.is-active {
+  color: var(--portfolio-active);
+  border-left-color: var(--portfolio-active);
+  font-weight: 600;
+}
+.cs__nav li.is-stage a.is-active { color: var(--portfolio-active); }
+
+/* --- Section rhythm in the content column --------------------------------- */
+.cs-section {
+  scroll-margin-top: 5.5rem;
+  padding: clamp(2rem, 4vw, 3rem) 0;
+  border-top: 1px solid var(--portfolio-hairline);
+}
+.cs-section:first-child { border-top: 0; padding-top: 0; }
+.cs-section > .cs-label:first-child { margin-top: 0; }
+
+/* Featured hero media above the title — dissolves into the title below */
+.cs-hero-media {
+  position: relative;
+  margin: 0 0 0.6rem;
+}
+.cs-hero-media img,
+.cs-hero-media video {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 0;
+  border-radius: var(--portfolio-radius) var(--portfolio-radius) 0 0;
+  background: var(--portfolio-ink);
+  /* Fade the lower edge into the page background so the title emerges from it. */
+  -webkit-mask-image: linear-gradient(to bottom, #000 68%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 68%, transparent 100%);
+}
+.cs-hero-media figcaption { display: none; }
+/* Placeholder cover — still-image slot that also dissolves into the title. */
+.cs-hero-media .cs-media-placeholder {
+  aspect-ratio: 16 / 7;
+  border: 0;
+  border-radius: var(--portfolio-radius) var(--portfolio-radius) 0 0;
+  background: var(--portfolio-paper-deep);
+  -webkit-mask-image: linear-gradient(to bottom, #000 68%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 68%, transparent 100%);
+}
+
+/* TL;DR — summary block right under the title (reference-style label + text) */
+.cs-tldr { margin: 1.7rem 0 0; }
+.cs-tldr .cs-label { margin-bottom: 0.45rem; }
+.cs-tldr .cs-lede { margin-top: 0; }
+
+/* Category tag pills under the title */
+.cs-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 1.1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.cs-tags li {
+  font-family: var(--portfolio-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  background: var(--portfolio-surface);
+  border: 1px solid var(--portfolio-hairline);
+  border-radius: 999px;
+  padding: 5px 13px;
+}
+.cs-skills { margin-top: 1.9rem; }
+
+/* Collapse to a single column on narrow screens; drop the rail. */
+@media (max-width: 860px) {
+  .cs__shell { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .cs__rail { display: none; }
+}
+
 .cs-breadcrumb {
   display: flex;
   gap: 0.5rem;
@@ -1907,7 +2037,6 @@ button:focus-visible {
 }
 .cs-breadcrumb a { color: var(--portfolio-muted); text-decoration: none; }
 .cs-breadcrumb a:hover { color: var(--portfolio-ink); }
-.cs-hero { padding: 2.4rem 0 1.3rem; }
 .cs-eyebrow {
   display: flex;
   flex-wrap: wrap;
@@ -1926,14 +2055,14 @@ button:focus-visible {
   border-radius: 999px;
   padding: 1px 9px;
 }
-.cs-hero h1 {
-  max-width: 22ch;
-  margin: 0;
+.cs-section--hero h1 {
+  max-width: 20ch;
+  margin: 0.2rem 0 0;
   font-family: var(--portfolio-sans);
-  font-size: clamp(2.1rem, 4.5vw, 3.3rem);
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
   font-weight: 600;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
   text-transform: none;
 }
 .cs-lede {
@@ -2003,9 +2132,10 @@ button:focus-visible {
 }
 .cs-label {
   margin: 0 0 1rem;
+  font-family: var(--portfolio-mono);
   font-size: 0.72rem;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--portfolio-muted);
 }
@@ -2136,7 +2266,7 @@ button:focus-visible {
 }
 
 /* --- Roadmap (two-column scrollytelling) ---------------------------------- */
-.cs-roadmap { border-top: 1px solid var(--portfolio-hairline); padding-top: 2.1rem; }
+.cs-roadmap { border-top: 0; padding-top: 0; }
 .cs-roadmap__grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);

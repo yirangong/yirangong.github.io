@@ -5,6 +5,10 @@ pillar: understand
 index: U—01
 kind: NYU research · Social interaction
 summary: Investigating how communication influences collaborative planning in real time.
+media:
+  - type: image
+    featured: true
+    caption: "Cover still — add a hero image"
 role: "[Research role and individual contributions to add]"
 timeframe: "Since 2024 [end date or ongoing status to confirm]"
 team: "Weiji Ma Lab, NYU [collaborators to add]"

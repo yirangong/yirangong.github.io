@@ -23,6 +23,10 @@
   --portfolio-accent-ink: #8a441a; /* darker accent for text on tints */
   --portfolio-accent-soft: #f3ede5; /* accent tint background */
 
+  /* Active-state blue — case-study section nav (scroll-spy) */
+  --portfolio-active: #3b5bdb;
+  --portfolio-active-soft: rgba(59, 91, 219, 0.1);
+
   /* Borders */
   --portfolio-line: rgba(24, 24, 22, 0.28); /* original editorial hairline */
   --portfolio-line-light: rgba(241, 238, 230, 0.32);

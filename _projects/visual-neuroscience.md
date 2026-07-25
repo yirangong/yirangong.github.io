@@ -5,6 +5,10 @@ pillar: understand
 index: U—03
 kind: Senior-year seminar · Forthcoming
 summary: A reserved framework for work from the visual neuroscience seminar.
+media:
+  - type: image
+    featured: true
+    caption: "Cover still — add a hero image"
 role: "[Role to add]"
 timeframe: "[Term to add]"
 team: "[Individual or collaborators to add]"

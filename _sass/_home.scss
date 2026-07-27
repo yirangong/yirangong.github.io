@@ -93,7 +93,7 @@
     position: relative;
     min-height: 440px;
     border-left: none;
-    background: var(--portfolio-accent);
+    background: var(--portfolio-paper-deep);
     overflow: hidden;
   }
   .home-hero__portrait::after {
@@ -102,22 +102,8 @@
   .home-hero__portrait img {
     width: 100%;
     height: 100%;
-    filter: grayscale(1) contrast(1.04);
     object-fit: cover;
     object-position: center 20%;
-    mix-blend-mode: luminosity;
-    opacity: 0.92;
-  }
-  .home-hero__caption {
-    position: absolute;
-    bottom: 1.1rem;
-    left: 1.2rem;
-    z-index: 1;
-    color: var(--portfolio-paper);
-    font-family: var(--portfolio-mono);
-    font-size: 0.72rem;
-    letter-spacing: 0.06em;
-    text-shadow: 0 1px 8px rgba(20, 20, 18, 0.5);
   }
 
   /* --- Section headings + tick ------------------------------------------- */

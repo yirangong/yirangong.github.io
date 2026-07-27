@@ -5,39 +5,50 @@
  * spacing, and shape are all expressed as CSS custom properties, so any
  * editor (a person, Claude, or an MCP like Paper) can safely restyle the
  * site by editing this one file — no need to touch templates or components.
+ *
+ * Current system: "Pavilion" — eco-brutalist / Aalto Hansaviertel.
+ * Cool near-white ground, cerulean blue as the primary color, with ochre
+ * and oxblood as warm painted-tile touches. Type: Space Grotesk (display),
+ * Inter (text), IBM Plex Mono (labels), Fraunces italic (accent).
  ******************************************************************************/
 
 :root {
   /* --- Palette ------------------------------------------------------------ */
-  --portfolio-paper: #f1eee6; /* page background (warm off-white) */
-  --portfolio-paper-deep: #e4e0d6; /* subtle raised surface, chip fill */
-  --portfolio-surface: #fbfaf7; /* card background */
-  --portfolio-ink: #181816; /* primary text */
-  --portfolio-muted: #615e57; /* secondary text */
-  --portfolio-concrete: #aaa69d;
-  --portfolio-concrete-light: #d7d2c8;
-  --portfolio-signal: #f0d41f; /* legacy editorial highlight */
+  --portfolio-paper: #f3f3ee; /* page background (cool near-white) */
+  --portfolio-paper-deep: #ecece5; /* subtle raised surface / alt band */
+  --portfolio-surface: #f8f7f2; /* card background */
+  --portfolio-ink: #1e1e1a; /* primary text */
+  --portfolio-muted: #575344; /* secondary text */
+  --portfolio-concrete: #9a978c;
+  --portfolio-concrete-light: #d8d7ce;
+  --portfolio-signal: #1f6f9c; /* legacy editorial highlight (now blue) */
 
-  /* Accent — links, eyebrows, active states. Swap this to re-tint the site. */
-  --portfolio-accent: #c0662b;
-  --portfolio-accent-ink: #8a441a; /* darker accent for text on tints */
-  --portfolio-accent-soft: #f3ede5; /* accent tint background */
+  /* Accent — the primary color. Links, eyebrows, active states, key fields.
+     Swap this one value to re-tint the whole site. */
+  --portfolio-accent: #1f6f9c; /* cerulean blue */
+  --portfolio-accent-ink: #185f88; /* darker blue for text on tints */
+  --portfolio-accent-soft: #e7eef3; /* blue tint background */
+
+  /* Warm touches — used sparingly (painted-tile accents). */
+  --portfolio-ochre: #c58b2c; /* ochre — "Build" / making */
+  --portfolio-oxblood: #9c3b2c; /* oxblood — "Understand" / investigating */
+  --portfolio-steel: #54636b; /* cool shadow grey */
 
   /* Active-state blue — case-study section nav (scroll-spy) */
-  --portfolio-active: #3b5bdb;
-  --portfolio-active-soft: rgba(59, 91, 219, 0.1);
+  --portfolio-active: #1f6f9c;
+  --portfolio-active-soft: rgba(31, 111, 156, 0.1);
 
   /* Borders */
-  --portfolio-line: rgba(24, 24, 22, 0.28); /* original editorial hairline */
-  --portfolio-line-light: rgba(241, 238, 230, 0.32);
-  --portfolio-hairline: rgba(24, 24, 22, 0.13); /* soft hairline (clean UI) */
-  --portfolio-hairline-strong: rgba(24, 24, 22, 0.4);
+  --portfolio-line: rgba(30, 30, 26, 0.28); /* strong editorial hairline */
+  --portfolio-line-light: rgba(243, 243, 238, 0.32);
+  --portfolio-hairline: rgba(30, 30, 26, 0.13); /* soft hairline (clean UI) */
+  --portfolio-hairline-strong: rgba(30, 30, 26, 0.4);
 
   /* --- Type --------------------------------------------------------------- */
   --portfolio-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --portfolio-serif: "Source Serif 4", Georgia, serif;
-  --portfolio-display: "Barlow Condensed", "Arial Narrow", sans-serif;
-  --portfolio-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --portfolio-serif: "Fraunces", Georgia, serif; /* italic editorial accent */
+  --portfolio-display: "Space Grotesk", "Inter", sans-serif;
+  --portfolio-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
 
   /* --- Shape -------------------------------------------------------------- */
   --portfolio-radius: 12px;
@@ -47,8 +58,8 @@
   --global-bg-color: var(--portfolio-paper);
   --global-text-color: var(--portfolio-ink);
   --global-text-color-light: var(--portfolio-muted);
-  --global-theme-color: var(--portfolio-ink);
-  --global-hover-color: var(--portfolio-ink);
+  --global-theme-color: var(--portfolio-accent);
+  --global-hover-color: var(--portfolio-accent-ink);
   --global-hover-text-color: var(--portfolio-paper);
   --global-divider-color: var(--portfolio-line);
   --global-card-bg-color: transparent;

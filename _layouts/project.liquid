@@ -3,7 +3,6 @@ layout: default
 ---
 <main class="case-study cs cs--{{ page.pillar }}">
   <div class="cs__shell">
-
     <!-- LEFT: sticky section nav (list filled by the script below) -->
     <aside class="cs__rail" aria-label="Section navigation">
       <a class="cs__back" href="{{ '/' | append: page.pillar | append: '/' | relative_url }}">
@@ -14,28 +13,38 @@ layout: default
 
     <!-- RIGHT: content -->
     <div class="cs__main">
-
       {% comment %} Pull the featured media out for the hero, keep the rest for Highlights. {% endcomment %}
-      {% assign hero = nil %}
-      {% for item in page.media %}{% if item.featured and hero == nil %}{% assign hero = item %}{% endif %}{% endfor %}
-      {% assign extra_media = page.media | where_exp: "i", "i.featured != true" %}
+      {% assign hero = null %}
+      {% for item in page.media -%}
+        {%- if item.featured and hero == null %}{% assign hero = item %}{% endif -%}
+      {%- endfor %}
+      {% assign extra_media = page.media | where_exp: 'i', 'i.featured != true' %}
 
       {% comment %} Resolve a shared experience entry if the project points at one. {% endcomment %}
-      {% assign exp = nil %}
+      {% assign exp = null %}
       {% if page.experience %}{% assign exp = site.data.experience[page.experience] %}{% endif %}
 
       <!-- OVERVIEW / HERO -->
       <section id="overview" class="cs-section cs-section--hero" data-nav-label="Overview">
         {% if hero %}
           <figure class="cs-hero-media">
-            {% if hero.src == nil %}
+            {% if hero.src == null %}
               <div class="cs-media-placeholder">{{ hero.caption | default: 'Media to add' }}</div>
             {% elsif hero.type == 'video' %}
-              <video controls preload="metadata" playsinline{% if hero.poster %} poster="{{ hero.poster | relative_url }}"{% endif %}>
+              <video
+                controls
+                preload="metadata"
+                playsinline
+                {% if hero.poster %}
+                  poster="{{ hero.poster | relative_url }}"
+                {% endif %}
+              >
                 <source src="{{ hero.src | relative_url }}" type="video/mp4">
               </video>
             {% elsif hero.type == 'embed' %}
-              <div class="cs-media-embed"><iframe src="{{ hero.src }}" title="{{ hero.caption | default: page.title }}" allowfullscreen loading="lazy"></iframe></div>
+              <div class="cs-media-embed">
+                <iframe src="{{ hero.src }}" title="{{ hero.caption | default: page.title }}" allowfullscreen loading="lazy"></iframe>
+              </div>
             {% else %}
               <img src="{{ hero.src | relative_url }}" alt="{{ hero.caption | default: page.title }}" loading="lazy">
             {% endif %}
@@ -44,8 +53,12 @@ layout: default
 
         <p class="cs-eyebrow">
           <span>{{ page.pillar | capitalize }}</span>
-          {% if page.kind %}<span>&middot; {{ page.kind }}</span>{% endif %}
-          {% if page.status == 'draft' %}<span class="cs-draft">Draft</span>{% endif %}
+          {% if page.kind -%}
+            <span>&middot; {{ page.kind }}</span>
+          {%- endif %}
+          {% if page.status == 'draft' -%}
+            <span class="cs-draft">Draft</span>
+          {%- endif %}
         </p>
         <h1>{{ page.title }}</h1>
 
@@ -53,7 +66,9 @@ layout: default
           <ul class="cs-tags" aria-label="Categories">
             <li>{{ page.pillar | capitalize }}</li>
             {% assign kinds = page.kind | split: '·' %}
-            {% for k in kinds %}<li>{{ k | strip }}</li>{% endfor %}
+            {% for k in kinds %}
+              <li>{{ k | strip }}</li>
+            {% endfor %}
           </ul>
         {% endif %}
 
@@ -68,23 +83,55 @@ layout: default
           <details class="cs-experience">
             <summary class="cs-experience__chip">
               <span class="cs-experience__company">{{ exp.company }}</span>
-              {% if exp.role %}<span class="cs-experience__role">&middot; {{ exp.role }}</span>{% endif %}
-              {% if exp.timeframe %}<span class="cs-experience__when">&middot; {{ exp.timeframe }}</span>{% endif %}
+              {% if exp.role -%}
+                <span class="cs-experience__role">&middot; {{ exp.role }}</span>
+              {%- endif %}
+              {% if exp.timeframe -%}
+                <span class="cs-experience__when">&middot; {{ exp.timeframe }}</span>
+              {%- endif %}
               <span class="cs-experience__more" aria-hidden="true">About the role &darr;</span>
             </summary>
             <div class="cs-experience__body">
-              {% if exp.reporting %}<p class="cs-experience__reporting">{{ exp.reporting }}</p>{% endif %}
-              {% if exp.scope %}<p class="cs-experience__scope">{{ exp.scope }}</p>{% endif %}
-              {% if exp.blurb %}<p class="cs-experience__blurb">{{ exp.blurb }}</p>{% endif %}
-              {% if page.team %}<p class="cs-experience__team"><strong>Team:</strong> {{ page.team }}</p>{% endif %}
+              {% if exp.reporting %}
+                <p class="cs-experience__reporting">{{ exp.reporting }}</p>
+              {% endif %}
+              {% if exp.scope %}
+                <p class="cs-experience__scope">{{ exp.scope }}</p>
+              {% endif %}
+              {% if exp.blurb %}
+                <p class="cs-experience__blurb">{{ exp.blurb }}</p>
+              {% endif %}
+              {% if page.team %}
+                <p class="cs-experience__team"><strong>Team:</strong> {{ page.team }}</p>
+              {% endif %}
             </div>
           </details>
         {% else %}
           <dl class="cs-meta">
-            {% if page.role %}<div><dt>Role</dt><dd>{{ page.role }}</dd></div>{% endif %}
-            {% if page.company %}<div><dt>Company</dt><dd>{{ page.company }}</dd></div>{% endif %}
-            {% if page.timeframe %}<div><dt>When</dt><dd>{{ page.timeframe }}</dd></div>{% endif %}
-            {% if page.team %}<div><dt>Team</dt><dd>{{ page.team }}</dd></div>{% endif %}
+            {% if page.role %}
+              <div>
+                <dt>Role</dt>
+                <dd>{{ page.role }}</dd>
+              </div>
+            {% endif %}
+            {% if page.company %}
+              <div>
+                <dt>Company</dt>
+                <dd>{{ page.company }}</dd>
+              </div>
+            {% endif %}
+            {% if page.timeframe %}
+              <div>
+                <dt>When</dt>
+                <dd>{{ page.timeframe }}</dd>
+              </div>
+            {% endif %}
+            {% if page.team %}
+              <div>
+                <dt>Team</dt>
+                <dd>{{ page.team }}</dd>
+              </div>
+            {% endif %}
           </dl>
         {% endif %}
 
@@ -92,7 +139,9 @@ layout: default
           <div class="cs-skills">
             <p class="cs-label">Skills &amp; stack</p>
             <ul class="cs-chips">
-              {% for skill in page.skills %}<li>{{ skill }}</li>{% endfor %}
+              {% for skill in page.skills %}
+                <li>{{ skill }}</li>
+              {% endfor %}
             </ul>
           </div>
         {% endif %}
@@ -100,7 +149,16 @@ layout: default
         {% if page.links %}
           <div class="cs-links" aria-label="Project links">
             {% for link in page.links %}
-              <a href="{{ link.url }}"{% unless link.url contains site.url %} target="_blank" rel="noopener"{% endunless %} class="cs-button{% if forloop.first %} cs-button--primary{% endif %}">{{ link.label }} <span aria-hidden="true">&#8599;</span></a>
+              <a
+                href="{{ link.url }}"
+                {% unless link.url contains site.url %}
+                  target="_blank" rel="noopener"
+                {% endunless %}
+                class="cs-button{% if forloop.first %} cs-button--primary{% endif %}"
+              >
+                {{- link.label }}
+                <span aria-hidden="true">&#8599;</span></a
+              >
             {% endfor %}
           </div>
         {% endif %}
@@ -110,9 +168,24 @@ layout: default
         <section id="at-a-glance" class="cs-section" data-nav-label="At a glance" aria-label="At a glance">
           <p class="cs-label">At a glance</p>
           <div class="cs-summary">
-            {% if page.problem %}<div><h2>The problem</h2><p>{{ page.problem }}</p></div>{% endif %}
-            {% if page.approach %}<div><h2>What I did</h2><p>{{ page.approach }}</p></div>{% endif %}
-            {% if page.impact %}<div><h2>The impact</h2><p>{{ page.impact }}</p></div>{% endif %}
+            {% if page.problem %}
+              <div>
+                <h2>The problem</h2>
+                <p>{{ page.problem }}</p>
+              </div>
+            {% endif %}
+            {% if page.approach %}
+              <div>
+                <h2>What I did</h2>
+                <p>{{ page.approach }}</p>
+              </div>
+            {% endif %}
+            {% if page.impact %}
+              <div>
+                <h2>The impact</h2>
+                <p>{{ page.impact }}</p>
+              </div>
+            {% endif %}
           </div>
         </section>
       {% endif %}
@@ -123,18 +196,29 @@ layout: default
           <div class="cs-media-grid">
             {% for item in extra_media %}
               <figure class="cs-media-item{% if item.wide %} cs-media-item--featured{% endif %}">
-                {% if item.src == nil %}
+                {% if item.src == null %}
                   <div class="cs-media-placeholder">{{ item.caption | default: 'Media to add' }}</div>
                 {% elsif item.type == 'video' %}
-                  <video controls preload="metadata" playsinline{% if item.poster %} poster="{{ item.poster | relative_url }}"{% endif %}>
+                  <video
+                    controls
+                    preload="metadata"
+                    playsinline
+                    {% if item.poster %}
+                      poster="{{ item.poster | relative_url }}"
+                    {% endif %}
+                  >
                     <source src="{{ item.src | relative_url }}" type="video/mp4">
                   </video>
                 {% elsif item.type == 'embed' %}
-                  <div class="cs-media-embed"><iframe src="{{ item.src }}" title="{{ item.caption | default: page.title }}" allowfullscreen loading="lazy"></iframe></div>
+                  <div class="cs-media-embed">
+                    <iframe src="{{ item.src }}" title="{{ item.caption | default: page.title }}" allowfullscreen loading="lazy"></iframe>
+                  </div>
                 {% else %}
                   <img src="{{ item.src | relative_url }}" alt="{{ item.caption | default: page.title }}" loading="lazy">
                 {% endif %}
-                {% if item.caption and item.src %}<figcaption>{{ item.caption }}</figcaption>{% endif %}
+                {% if item.caption and item.src %}
+                  <figcaption>{{ item.caption }}</figcaption>
+                {% endif %}
               </figure>
             {% endfor %}
           </div>
@@ -144,7 +228,9 @@ layout: default
       {% assign body = content | strip %}
       {% if body != '' %}
         <section id="process" class="cs-section cs-roadmap" data-nav-label="Process" aria-label="Process walkthrough">
-          {% if page.roadmap_label %}<p class="cs-label">{{ page.roadmap_label }}</p>{% endif %}
+          {% if page.roadmap_label %}
+            <p class="cs-label">{{ page.roadmap_label }}</p>
+          {% endif %}
           <div class="roadmap-body">
             {{ content }}
           </div>
@@ -155,48 +241,58 @@ layout: default
         <a href="{{ '/' | append: page.pillar | append: '/' | relative_url }}">&larr; Back to {{ page.pillar | capitalize }}</a>
         <a href="{{ '/field-notes/' | relative_url }}">Field notes &#8599;</a>
       </nav>
-
     </div>
   </div>
 </main>
 
 <script>
   (function () {
-    var main = document.querySelector(".cs__main");
-    var shell = document.querySelector(".cs__shell");
-    var rail = document.querySelector(".cs__rail");
-    var railList = document.querySelector(".cs__nav ol");
+    var main = document.querySelector('.cs__main');
+    var shell = document.querySelector('.cs__shell');
+    var rail = document.querySelector('.cs__rail');
+    var railList = document.querySelector('.cs__nav ol');
     if (!main || !railList) return;
 
     function slug(text) {
-      return text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+      return text
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
     }
 
     // 1. Promote trailing unnumbered process headings (e.g. "Reflection") into
     //    their own top-level sections, so they read as peers of Process — not as
     //    indented stage sub-items. Numbered "0N / ..." headings stay as stages.
-    var processSection = main.querySelector("#process");
-    var roadmap = processSection && processSection.querySelector(".roadmap-body");
+    var processSection = main.querySelector('#process');
+    var roadmap = processSection && processSection.querySelector('.roadmap-body');
     if (roadmap) {
       var h2s = Array.prototype.slice.call(roadmap.children).filter(function (el) {
-        return el.tagName === "H2";
+        return el.tagName === 'H2';
       });
-      var splitIdx = -1, seenNumbered = false;
+      var splitIdx = -1,
+        seenNumbered = false;
       h2s.forEach(function (h, i) {
         if (/^\s*\d/.test(h.textContent.trim())) seenNumbered = true;
         else if (seenNumbered && splitIdx === -1) splitIdx = i;
       });
       if (splitIdx !== -1) {
         var startNode = h2s[splitIdx];
-        var moved = [], n = startNode;
-        while (n) { var next = n.nextElementSibling; moved.push(n); n = next; }
-        var wrap = document.createElement("div");
-        wrap.className = "roadmap-body";
-        moved.forEach(function (m) { wrap.appendChild(m); });
-        var sec = document.createElement("section");
-        sec.className = "cs-section cs-roadmap";
-        sec.id = startNode.id || slug(startNode.textContent) || "reflection";
-        sec.setAttribute("data-nav-label", startNode.textContent.trim());
+        var moved = [],
+          n = startNode;
+        while (n) {
+          var next = n.nextElementSibling;
+          moved.push(n);
+          n = next;
+        }
+        var wrap = document.createElement('div');
+        wrap.className = 'roadmap-body';
+        moved.forEach(function (m) {
+          wrap.appendChild(m);
+        });
+        var sec = document.createElement('section');
+        sec.className = 'cs-section cs-roadmap';
+        sec.id = startNode.id || slug(startNode.textContent) || 'reflection';
+        sec.setAttribute('data-nav-label', startNode.textContent.trim());
         sec.appendChild(wrap);
         processSection.parentNode.insertBefore(sec, processSection.nextElementSibling);
       }
@@ -204,17 +300,17 @@ layout: default
 
     // 2. Collect nav targets: each top-level section, plus the Process stage headings.
     var targets = [];
-    var sections = Array.prototype.slice.call(main.querySelectorAll(":scope > .cs-section[id]"));
+    var sections = Array.prototype.slice.call(main.querySelectorAll(':scope > .cs-section[id]'));
     sections.forEach(function (sec) {
-      var label = sec.getAttribute("data-nav-label");
+      var label = sec.getAttribute('data-nav-label');
       if (!label) return;
       targets.push({ el: sec, id: sec.id, label: label, stage: false });
 
-      if (sec.id === "process") {
-        var headings = Array.prototype.slice.call(sec.querySelectorAll(".roadmap-body > h2"));
+      if (sec.id === 'process') {
+        var headings = Array.prototype.slice.call(sec.querySelectorAll('.roadmap-body > h2'));
         headings.forEach(function (h, i) {
-          if (!h.id) h.id = slug(h.textContent) || "stage-" + (i + 1);
-          var lab = h.textContent.replace(/^\s*\d+\s*[\/.\-]?\s*/, "").trim();
+          if (!h.id) h.id = slug(h.textContent) || 'stage-' + (i + 1);
+          var lab = h.textContent.replace(/^\s*\d+\s*[\/.\-]?\s*/, '').trim();
           targets.push({ el: h, id: h.id, label: lab, stage: true });
         });
       }
@@ -222,22 +318,22 @@ layout: default
 
     // 3. Build the rail — or hide it for thin pages with nothing to navigate.
     if (targets.length < 2) {
-      if (rail) rail.setAttribute("hidden", "");
-      if (shell) shell.classList.add("cs__shell--norail");
+      if (rail) rail.setAttribute('hidden', '');
+      if (shell) shell.classList.add('cs__shell--norail');
     } else {
       var links = [];
       targets.forEach(function (t) {
-        var li = document.createElement("li");
-        if (t.stage) li.className = "is-stage";
-        var a = document.createElement("a");
-        a.href = "#" + t.id;
+        var li = document.createElement('li');
+        if (t.stage) li.className = 'is-stage';
+        var a = document.createElement('a');
+        a.href = '#' + t.id;
         a.textContent = t.label;
-        a.addEventListener("click", function (e) {
+        a.addEventListener('click', function (e) {
           var el = document.getElementById(t.id);
           if (!el) return;
           e.preventDefault();
-          el.scrollIntoView({ behavior: "smooth", block: "start" });
-          if (history.replaceState) history.replaceState(null, "", "#" + t.id);
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          if (history.replaceState) history.replaceState(null, '', '#' + t.id);
         });
         li.appendChild(a);
         railList.appendChild(li);
@@ -265,7 +361,7 @@ layout: default
           currentId = targets[targets.length - 1].id;
         }
         links.forEach(function (l) {
-          l.a.classList.toggle("is-active", l.id === currentId);
+          l.a.classList.toggle('is-active', l.id === currentId);
         });
       }
       function onScroll() {
@@ -273,56 +369,61 @@ layout: default
         ticking = true;
         window.requestAnimationFrame(updateActive);
       }
-      window.addEventListener("scroll", onScroll, { passive: true });
-      window.addEventListener("resize", onScroll);
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
       updateActive();
     }
 
     // 4. Content transforms inside the process body (unchanged behaviour).
-    var body = main.querySelector(".roadmap-body");
+    var body = main.querySelector('.roadmap-body');
     if (!body) return;
 
     // 3a. Turn [ADD: ...] paragraphs into tidy media slots.
-    Array.prototype.slice.call(body.querySelectorAll("p")).forEach(function (p) {
+    Array.prototype.slice.call(body.querySelectorAll('p')).forEach(function (p) {
       var t = p.textContent.trim();
       if (/^\[ADD:/i.test(t)) {
-        var slot = document.createElement("div");
-        slot.className = "media-slot";
-        slot.textContent = t.replace(/^\[ADD:\s*/i, "").replace(/\]\s*$/, "");
+        var slot = document.createElement('div');
+        slot.className = 'media-slot';
+        slot.textContent = t.replace(/^\[ADD:\s*/i, '').replace(/\]\s*$/, '');
         p.parentNode.replaceChild(slot, p);
       }
     });
 
     // 3b. Blockquotes with arrows -> horizontal route-flow chips.
-    Array.prototype.slice.call(body.querySelectorAll("blockquote")).forEach(function (bq) {
-      if (bq.closest("details")) return; // prompts inside reveals handled below
-      var raw = bq.textContent.replace(/\s+/g, " ").trim();
-      if (raw.indexOf("->") === -1 && raw.indexOf("→") === -1) return;
-      var label = "";
-      var strong = bq.querySelector("strong");
-      if (strong && strong.textContent.indexOf("->") === -1) {
+    Array.prototype.slice.call(body.querySelectorAll('blockquote')).forEach(function (bq) {
+      if (bq.closest('details')) return; // prompts inside reveals handled below
+      var raw = bq.textContent.replace(/\s+/g, ' ').trim();
+      if (raw.indexOf('->') === -1 && raw.indexOf('→') === -1) return;
+      var label = '';
+      var strong = bq.querySelector('strong');
+      if (strong && strong.textContent.indexOf('->') === -1) {
         label = strong.textContent.trim();
-        raw = raw.replace(label, "").trim();
+        raw = raw.replace(label, '').trim();
       }
-      var parts = raw.split(/->|→/).map(function (s) { return s.trim(); }).filter(Boolean);
+      var parts = raw
+        .split(/->|→/)
+        .map(function (s) {
+          return s.trim();
+        })
+        .filter(Boolean);
       if (parts.length < 2) return;
-      var flow = document.createElement("div");
-      flow.className = "route-flow";
+      var flow = document.createElement('div');
+      flow.className = 'route-flow';
       if (label) {
-        var l = document.createElement("span");
-        l.className = "route-flow__label";
+        var l = document.createElement('span');
+        l.className = 'route-flow__label';
         l.textContent = label;
         flow.appendChild(l);
       }
       parts.forEach(function (part, i) {
-        var step = document.createElement("span");
-        step.className = "route-flow__step";
+        var step = document.createElement('span');
+        step.className = 'route-flow__step';
         step.textContent = part;
         flow.appendChild(step);
         if (i < parts.length - 1) {
-          var arr = document.createElement("span");
-          arr.className = "route-flow__arrow";
-          arr.textContent = "→";
+          var arr = document.createElement('span');
+          arr.className = 'route-flow__arrow';
+          arr.textContent = '→';
           flow.appendChild(arr);
         }
       });
@@ -330,17 +431,19 @@ layout: default
     });
 
     // 3c. Blockquotes inside a reveal -> monospace prompt cards with a copy button.
-    Array.prototype.slice.call(body.querySelectorAll("details blockquote")).forEach(function (bq) {
-      bq.classList.add("prompt-card");
-      var btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "prompt-card__copy";
-      btn.textContent = "Copy";
-      btn.addEventListener("click", function () {
-        var text = bq.textContent.replace("Copy", "").trim();
+    Array.prototype.slice.call(body.querySelectorAll('details blockquote')).forEach(function (bq) {
+      bq.classList.add('prompt-card');
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'prompt-card__copy';
+      btn.textContent = 'Copy';
+      btn.addEventListener('click', function () {
+        var text = bq.textContent.replace('Copy', '').trim();
         if (navigator.clipboard) navigator.clipboard.writeText(text);
-        btn.textContent = "Copied";
-        setTimeout(function () { btn.textContent = "Copy"; }, 1500);
+        btn.textContent = 'Copied';
+        setTimeout(function () {
+          btn.textContent = 'Copy';
+        }, 1500);
       });
       bq.appendChild(btn);
     });

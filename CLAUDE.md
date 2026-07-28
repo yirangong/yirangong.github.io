@@ -18,7 +18,7 @@ and has a cognitive-science background (NYU, Weiji Ma Lab). Tone: thoughtful,
 substantive, human-centered — not buzzword-heavy. Lead with judgment and
 outcomes, not just tech stack.
 
-Tagline: *Build · Understand · Observe*.
+Tagline: _Build · Understand · Observe_.
 
 ## The pillar framework (most important thing to know)
 
@@ -38,6 +38,7 @@ Field Notes (3), CV (5). Keep nav coherent if adding pages.
 ## Repo map (custom vs. theme)
 
 Custom / personal (edit freely, this is the real content):
+
 - `_pages/build.md`, `understand.md`, `field-notes.md` — use `layout: pillar`.
 - `_layouts/pillar.liquid`, `_layouts/project.liquid`,
   `_layouts/field-note.liquid` — custom layouts. `project.liquid` renders the
@@ -49,6 +50,7 @@ Custom / personal (edit freely, this is the real content):
 - `_config.yml` — site identity already set (title, description, keywords).
 
 Leftover al-folio demo content (safe to delete/replace, do NOT treat as real):
+
 - `_projects/1_project.md` … `9_project.md` — placeholder demos.
 - `_pages/about_einstein.md`, `food.md`, `dropdown.md`, `profiles.md` — demo pages.
 - Most `_posts/*` are theme feature demos (images, math, chartjs, etc.), not
@@ -63,21 +65,22 @@ Real projects use `layout: project` and this shape (see
 ---
 layout: project
 title: Descriptive outcome-focused title
-pillar: build            # build | understand | observe
-kind: Generative AI · Product operations   # short "type" line
+pillar: build # build | understand | observe
+kind: Generative AI · Product operations # short "type" line
 summary: One-sentence description shown as the lede.
-experience: nauknauk     # preferred: pull company/role/dates from _data/experience.yml
+experience: nauknauk # preferred: pull company/role/dates from _data/experience.yml
 team: "Weiji Ma Lab, NYU"
 skills:
   - Prompt design
   - Model evaluation
 featured: true
-importance: 1            # lower = higher priority
-status: draft            # omit or set to published when ready
+importance: 1 # lower = higher priority
+status: draft # omit or set to published when ready
 ---
 ```
 
 Conventions:
+
 - **Bracketed values** like `"[Company]"` or `"[Term to add]"` are
   intentional placeholders. Don't invent real values — flag them to Yiran and
   ask, or leave bracketed.
@@ -98,9 +101,9 @@ nauknauk:
   role: Applied AI — Product & Operations Intern
   reporting: Reporting directly to the founders.
   timeframe: Mar–Jul 2026
-  url:              # company link to add
-  blurb: >          # what the company/platform does
-  scope: >          # the shape of the role
+  url: # company link to add
+  blurb: > # what the company/platform does
+  scope: > # the shape of the role
 ```
 
 A project opts in with `experience: nauknauk` **instead of** inline

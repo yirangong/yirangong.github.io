@@ -51,5 +51,6 @@ description: Working across applied AI, cognitive science, and human behavior.
         <a class="route-button route-button--dark" href="{{ '/cv/' | relative_url }}">Read the CV <span>↗</span></a>
       </div>
     </section>
+
   </div>
 </div>

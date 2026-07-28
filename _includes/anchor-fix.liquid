@@ -1,0 +1,90 @@
+<!-- Head-anchoring failure vs ground-anchoring fix — 03 / Implement & iterate.
+     The user's plush is the input; the two panels show why head-position
+     mapping broke on this anatomy and what the fix changed. Flat shapes and
+     live text, colors from the Pavilion tokens.
+     Styles: ".rs-anchor" in _sass/_portfolio.scss. -->
+<figure class="rs-anchor">
+
+  <div class="rs-anchor__input">
+    <img src="{{ '/assets/projects/applied-ai-product-operations/plush-input.jpg' | relative_url }}"
+         alt="The user's plush toy: a round white body with a blue striped cap, black eyes and yellow side tufts, with no legs." />
+    <div>
+      <p class="rs-anchor__eyebrow">The input</p>
+      <p>A round plush with no legs &mdash; the anatomy that head-position mapping cannot survive.</p>
+    </div>
+  </div>
+
+  <div class="rs-anchor__pair">
+
+    <div class="rs-anchor__panel">
+      <p class="rs-anchor__title">Head-anchored <span class="rs-anchor__fail">&middot; failure &#10005;</span></p>
+      <svg viewBox="0 0 300 226" role="img" aria-label="The plush's head is mapped to the reference fighter's head, so its legs stretch down to reach the ground.">
+
+        <!-- annotation: both head tops forced onto one line -->
+        <line class="rs-anchor__ann-line" x1="24" y1="37" x2="292" y2="37" />
+        <text class="rs-anchor__ann" x="292" y="29" text-anchor="end">heads aligned</text>
+
+        <!-- reference fighter -->
+        <g class="rs-anchor__ref">
+          <circle cx="92" cy="52" r="15" />
+          <rect x="80" y="68" width="24" height="128" rx="12" />
+        </g>
+
+        <!-- plush, stretched to keep its head on the line -->
+        <g>
+          <rect class="rs-anchor__part" x="196" y="97" width="7" height="99" />
+          <rect class="rs-anchor__part" x="207" y="97" width="7" height="99" />
+          <ellipse class="rs-anchor__part" cx="199" cy="196" rx="9" ry="4" />
+          <ellipse class="rs-anchor__part" cx="211" cy="196" rx="9" ry="4" />
+          <ellipse class="rs-anchor__part" cx="173" cy="71" rx="8" ry="6" />
+          <ellipse class="rs-anchor__part" cx="237" cy="71" rx="8" ry="6" />
+          <circle class="rs-anchor__body" cx="205" cy="69" r="32" />
+          <path class="rs-anchor__cap" d="M173,69 A32,32 0 0 1 237,69 Z" />
+          <path class="rs-anchor__stripe" d="M180,55 Q205,47 230,55" />
+          <circle class="rs-anchor__eye" cx="195" cy="75" r="4" />
+          <circle class="rs-anchor__eye" cx="215" cy="75" r="4" />
+        </g>
+
+        <line class="rs-anchor__ground" x1="24" y1="196" x2="276" y2="196" />
+        <text class="rs-anchor__tick" x="92" y="216" text-anchor="middle">reference</text>
+        <text class="rs-anchor__tick" x="205" y="216" text-anchor="middle">plush (stretched)</text>
+      </svg>
+      <p class="rs-anchor__note">Head mapped to the fighter's head, so the plush's legs stretch to reach the ground.</p>
+    </div>
+
+    <div class="rs-anchor__panel">
+      <p class="rs-anchor__title">Ground-anchored <span class="rs-anchor__pass">&middot; fix &#10003;</span></p>
+      <svg viewBox="0 0 300 226" role="img" aria-label="The plush is anchored to the ground by its feet and scaled to 40 to 60 percent of the reference fighter's height.">
+
+        <!-- reference fighter -->
+        <g class="rs-anchor__ref">
+          <circle cx="92" cy="52" r="15" />
+          <rect x="80" y="68" width="24" height="128" rx="12" />
+        </g>
+
+        <!-- plush, sitting on the ground at its own scale -->
+        <g>
+          <ellipse class="rs-anchor__part" cx="194" cy="196" rx="9" ry="4" />
+          <ellipse class="rs-anchor__part" cx="206" cy="196" rx="9" ry="4" />
+          <ellipse class="rs-anchor__part" cx="170" cy="168" rx="8" ry="6" />
+          <ellipse class="rs-anchor__part" cx="230" cy="168" rx="8" ry="6" />
+          <circle class="rs-anchor__body" cx="200" cy="166" r="30" />
+          <path class="rs-anchor__cap" d="M170,166 A30,30 0 0 1 230,166 Z" />
+          <path class="rs-anchor__stripe" d="M177,153 Q200,145 223,153" />
+          <circle class="rs-anchor__eye" cx="191" cy="172" r="4" />
+          <circle class="rs-anchor__eye" cx="209" cy="172" r="4" />
+        </g>
+
+        <!-- annotation: the intended scale -->
+        <path class="rs-anchor__ann-line" d="M244,136 H252 M248,136 V196 M244,196 H252" />
+        <text class="rs-anchor__ann" x="256" y="170">40&ndash;60%</text>
+
+        <line class="rs-anchor__ground" x1="24" y1="196" x2="276" y2="196" />
+        <text class="rs-anchor__tick" x="92" y="216" text-anchor="middle">reference</text>
+        <text class="rs-anchor__tick" x="200" y="216" text-anchor="middle">plush (grounded)</text>
+      </svg>
+      <p class="rs-anchor__note">Feet anchored to the ground, body scaled to 40&ndash;60% of the fighter.</p>
+    </div>
+
+  </div>
+</figure>

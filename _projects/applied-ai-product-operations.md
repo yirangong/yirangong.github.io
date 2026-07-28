@@ -29,13 +29,13 @@ media:
     featured: true
     caption: "Cover still — replace with a hero image"
   - type: video
-    src: /assets/video/knee-slide.mp4
+    src: /assets/projects/applied-ai-product-operations/knee-slide.mp4
     caption: "FIFA · Knee Slide — ~800 first-week generations, ~70% publish conversion"
   - type: video
-    src: /assets/video/dai-dai.mp4
+    src: /assets/projects/applied-ai-product-operations/dai-dai.mp4
     caption: "FIFA · Dai Dai — built in an afternoon, ~8% of daily generations"
   - type: video
-    src: /assets/video/kaiju-fight.mp4
+    src: /assets/projects/applied-ai-product-operations/kaiju-fight.mp4
     caption: "Kaiju Fight — reusable jersey-personalization infrastructure"
 roadmap_label: How I built it
 problem: The community wanted AI video templates, but turning a toy-community idea into a product feature meant handling messy user images, very different character shapes, coherent motion transfer, model restrictions, and reliable product integration.
@@ -111,7 +111,7 @@ Similar diagnosis shaped the rest of the workflow:
 - Evaluate different character anatomies with different failure gates.
 - Treat configuration and monitoring as part of the AI product itself.
 
-[ADD: long-leg or takeoff failure beside the grounded result]
+{% include anchor-fix.liquid %}
 
 {% details View the reference-model head-anchoring fix %}
 

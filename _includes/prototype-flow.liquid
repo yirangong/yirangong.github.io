@@ -1,0 +1,63 @@
+<!-- Kaiju Fight model pipeline — 02 / Prototype.
+     Traced from the shipped workflow definition: one reference-to-video model
+     on the primary route, and a two-model fallback in a different model family
+     that rejoins before delivery. Public-safe — model names, roles and output
+     params only; no prompts, asset URLs, handler paths or secret names.
+
+     A CSS grid, not an image: live text, token-driven colors. Row 3 is the
+     primary route, row 5 the fallback, row 4 the connectors between them.
+     Styles: ".rs-flow" in _sass/_portfolio.scss. -->
+<figure class="rs-flow">
+  <div class="rs-flow__scroll">
+    <div class="rs-flow__grid">
+
+      <p class="rs-flow__eyebrow">Workflow &middot; Kaiju Fight</p>
+
+      <span class="rs-flow__lane rs-flow__lane--video">Reference &rarr; video</span>
+      <span class="rs-flow__lane rs-flow__lane--post">Delivery</span>
+
+      <!-- ---- primary route ---- -->
+      <div class="rs-flow__node rs-flow__node--terminal">
+        <b>User photo</b><span>uploaded figure</span>
+      </div>
+      <i class="rs-flow__link" aria-hidden="true"></i>
+
+      <div class="rs-flow__node rs-flow__node--key">
+        <b>Seedance 2.0 Mini</b><span>Reference-to-video &middot; 3:4 &middot; 720p &middot; 5s</span>
+      </div>
+      <i class="rs-flow__link" aria-hidden="true"></i>
+
+      <div class="rs-flow__node">
+        <b>Fetch to CDN</b><span>Stable URL, not the vendor's</span>
+      </div>
+      <i class="rs-flow__link" aria-hidden="true"></i>
+
+      <div class="rs-flow__node">
+        <b>Notify backend</b><span>Callback with the result</span>
+      </div>
+      <i class="rs-flow__link" aria-hidden="true"></i>
+
+      <div class="rs-flow__node rs-flow__node--terminal rs-flow__node--end">
+        <b>Final video</b><span>delivered</span>
+      </div>
+
+      <!-- ---- branch connectors ---- -->
+      <div class="rs-flow__branch rs-flow__branch--drop"><span>on failure</span></div>
+      <div class="rs-flow__branch rs-flow__branch--rise"><span>rejoins</span></div>
+
+      <!-- ---- fallback route ---- -->
+      <span class="rs-flow__lane rs-flow__lane--fallback">Fallback route</span>
+
+      <div class="rs-flow__node rs-flow__node--alt rs-flow__node--alt-prep">
+        <b>FLUX 2 Klein 9B Edit</b><span>Normalize the figure to an upright solo portrait</span>
+      </div>
+      <i class="rs-flow__link rs-flow__link--alt" aria-hidden="true"></i>
+
+      <div class="rs-flow__node rs-flow__node--alt rs-flow__node--alt-video">
+        <b>Kling O3 Pro</b><span>Video-to-video against a pinned reference clip</span>
+      </div>
+
+    </div>
+  </div>
+  <figcaption>One model carries the primary route. When it fails, the fallback switches model family rather than model tier &mdash; normalizing the figure first, then re-running the shot on Kling &mdash; and rejoins before delivery. Failures past that point are reported back to the product.</figcaption>
+</figure>

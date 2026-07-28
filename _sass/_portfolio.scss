@@ -2896,3 +2896,116 @@ button:focus-visible {
   line-height: 1.5;
   color: var(--portfolio-muted);
 }
+
+/* ---- 03 / Implement — head-anchoring failure vs ground-anchoring fix ------ */
+.rs-anchor {
+  margin: 1.75rem 0 2rem;
+}
+
+/* The real input sits above the diagram — the anatomy is the whole reason
+   head-anchoring failed. */
+.rs-anchor__input {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 2vw, 20px);
+  margin-bottom: 1rem;
+  padding: 0.85rem;
+  border: 1px solid var(--portfolio-hairline);
+  border-radius: var(--portfolio-radius);
+  background: var(--portfolio-surface);
+}
+.rs-anchor__input img {
+  flex: 0 0 auto;
+  width: clamp(84px, 16vw, 116px);
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: var(--portfolio-radius-sm);
+  background: var(--portfolio-paper-deep);
+}
+.rs-anchor__input p {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--portfolio-muted);
+}
+.rs-anchor__eyebrow {
+  margin-bottom: 0.3rem !important;
+  font-family: var(--portfolio-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--portfolio-concrete);
+}
+
+.rs-anchor__pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(12px, 2vw, 20px);
+}
+.rs-anchor__panel {
+  padding: 0.9rem 0.95rem 1rem;
+  border: 1px solid var(--portfolio-hairline);
+  border-radius: var(--portfolio-radius);
+  background: var(--portfolio-surface);
+}
+.rs-anchor__title {
+  margin: 0 0 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--portfolio-ink);
+}
+.rs-anchor__fail { color: var(--portfolio-oxblood); font-weight: 500; }
+.rs-anchor__pass { color: var(--portfolio-accent); font-weight: 500; }
+
+.rs-anchor__panel svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.rs-anchor__note {
+  margin: 0.5rem 0 0;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--portfolio-muted);
+}
+
+/* --- diagram parts --- */
+.rs-anchor__ref { fill: var(--portfolio-concrete); }
+.rs-anchor__ground {
+  stroke: var(--portfolio-ink);
+  stroke-width: 2;
+}
+.rs-anchor__body {
+  fill: var(--portfolio-paper);
+  stroke: var(--portfolio-accent);
+  stroke-width: 1;
+}
+/* The plush's own blue and yellow, dialled to sit inside the palette. */
+.rs-anchor__cap { fill: var(--portfolio-accent); opacity: 0.42; }
+.rs-anchor__stripe { fill: none; stroke: var(--portfolio-paper); stroke-width: 2; }
+.rs-anchor__part { fill: var(--portfolio-ochre); }
+.rs-anchor__eye { fill: var(--portfolio-ink); }
+
+/* Annotations carry the accent, so measurement reads apart from the drawing. */
+.rs-anchor__ann-line {
+  fill: none;
+  stroke: var(--portfolio-accent);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
+}
+.rs-anchor__panel:last-child .rs-anchor__ann-line { stroke-dasharray: none; }
+.rs-anchor__ann {
+  font-family: var(--portfolio-sans);
+  font-size: 12px;
+  font-weight: 600;
+  fill: var(--portfolio-accent);
+}
+.rs-anchor__tick {
+  font-family: var(--portfolio-sans);
+  font-size: 11px;
+  fill: var(--portfolio-muted);
+}
+
+@media (max-width: 620px) {
+  .rs-anchor__pair { grid-template-columns: minmax(0, 1fr); }
+}

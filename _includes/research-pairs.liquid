@@ -1,0 +1,92 @@
+<!-- Source → shipped pairs — 01 / Research.
+     Static markup: each .rs-pair holds a source frame, an arrow, a product
+     frame, two captions and an optional meta strip. Nothing autoplays; clips
+     play on hover, focus or click. Styles: ".rs-pairs" in _sass/_portfolio.scss.
+     To add another pair, copy one .rs-pair block and swap the four paths. -->
+<div class="rs-pairs">
+
+  <div class="rs-pair">
+    <div class="rs-frame rs-frame--source" tabindex="0" role="button" aria-label="Play the Reddit reference clip">
+      <video src="{{ '/assets/video/research/kaiju-inspo.mp4' | relative_url }}"
+             poster="{{ '/assets/video/research/kaiju-inspo.jpg' | relative_url }}"
+             muted loop playsinline preload="none"></video>
+      <span class="rs-cue">Hover to play</span>
+    </div>
+
+    <div class="rs-arrow" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"
+           stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15M13 6l6 6-6 6" /></svg>
+    </div>
+
+    <div class="rs-frame rs-frame--product" tabindex="0" role="button" aria-label="Play the shipped Kaiju Fight template">
+      <video src="{{ '/assets/video/kaiju-fight.mp4' | relative_url }}"
+             poster="{{ '/assets/video/research/kaiju-fight.jpg' | relative_url }}"
+             muted loop playsinline preload="none"></video>
+      <span class="rs-cue">Hover to play</span>
+    </div>
+
+    <div class="rs-cap rs-cap--source">
+      <div class="rs-origin">Found on Reddit</div>
+      <div class="rs-label"><b>The reference</b></div>
+    </div>
+
+    <div class="rs-cap rs-cap--product">
+      <div class="rs-origin">Shipped</div>
+      <div class="rs-label"><b>Kaiju Fight:</b> user's own toy is substituted in.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  (function () {
+    var frames = document.querySelectorAll(".rs-frame");
+    if (!frames.length) return;
+
+    frames.forEach(function (frame) {
+      var video = frame.querySelector("video");
+      if (!video) return;
+
+      function play() {
+        frame.classList.add("is-playing");
+        var p = video.play();
+        if (p && p.catch) p.catch(function () {});
+      }
+      function stop() {
+        frame.classList.remove("is-playing");
+        video.pause();
+        video.currentTime = 0;
+      }
+
+      frame.addEventListener("mouseenter", play);
+      frame.addEventListener("mouseleave", stop);
+      frame.addEventListener("focus", play);
+      frame.addEventListener("blur", stop);
+      frame.addEventListener("click", function () {
+        video.paused ? play() : stop();
+      });
+      frame.addEventListener("keydown", function (e) {
+        if (e.key !== "Enter" && e.key !== " ") return;
+        e.preventDefault();
+        video.paused ? play() : stop();
+      });
+    });
+
+    // Stop anything scrolled out of view so nothing plays off-screen.
+    if (!("IntersectionObserver" in window)) return;
+    var io = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) return;
+          entry.target.classList.remove("is-playing");
+          var v = entry.target.querySelector("video");
+          if (v) v.pause();
+        });
+      },
+      { threshold: 0.1 }
+    );
+    frames.forEach(function (frame) {
+      io.observe(frame);
+    });
+  })();
+</script>

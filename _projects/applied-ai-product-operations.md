@@ -51,7 +51,17 @@ Using Kaiju Fight as the running example, this is the lifecycle I followed: rese
 
 ## 01 / Research
 
-[ADD: Reddit inspiration video and link]
+Research here did not mean a survey. It meant deciding what was worth building at all.
+
+Candidates could be: a clip climbing a subreddit, a scene people quote from a movie, a joke only insiders get, sometimes a hallucinated video that came straight out of prompting.
+
+This is where agency and real human judgment comes in!
+
+{% include research-funnel.liquid %}
+
+"Kaiju Fight" template example:
+
+{% include research-pairs.liquid %}
 
 ## 02 / Prototype
 
@@ -59,11 +69,7 @@ Using Kaiju Fight as the running example, this is the lifecycle I followed: rese
 
 The first question was not simply, "Which video model is best?" It was, "What sequence of models gives the video model a solvable input?"
 
-I separated those jobs:
-
-> **Messy user image** -> **image preparation** with Grok, Flux 9B Klein, or Seedream -> **reference-to-video** with Seedance or Kling -> **fallback if the main route fails**
-
-[ADD: simplified pipeline diagram or public-safe fal workflow screenshot]
+{% include prototype-flow.liquid %}
 
 {% details View model and fallback decisions %}
 

@@ -2552,3 +2552,347 @@ button:focus-visible {
   }
   .roadmap-rail ol { display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; }
 }
+
+/*******************************************************************************
+ * 01 / RESEARCH — inspiration funnel + source-to-shipped pairs
+ *
+ * Two components used inside .roadmap-body on the case-study pages. Both are
+ * token-driven, so they re-tint with the rest of the site from _tokens.scss.
+ * Markup: _includes/research-funnel.liquid, _includes/research-pairs.liquid
+ ******************************************************************************/
+
+/* ---- funnel diagram ------------------------------------------------------ */
+.rs-funnel {
+  margin: 1.75rem 0 2rem;
+  max-width: 620px;
+}
+.rs-funnel svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  padding: 0.5rem;
+  border: 1px solid var(--portfolio-hairline);
+  border-radius: var(--portfolio-radius);
+  background: var(--portfolio-surface);
+}
+
+.rs-funnel__note {
+  font-family: var(--portfolio-mono);
+  font-size: 10px;
+  letter-spacing: 0.11em;
+  fill: var(--portfolio-concrete);
+}
+.rs-funnel__paths path {
+  fill: none;
+  stroke: var(--portfolio-concrete-light);
+  stroke-width: 1.25;
+}
+.rs-funnel__chips rect {
+  fill: var(--portfolio-paper-deep);
+  stroke: var(--portfolio-hairline);
+}
+.rs-funnel__label {
+  font-family: var(--portfolio-sans);
+  font-size: 13px;
+  fill: var(--portfolio-ink);
+}
+/* The gate is the point of the diagram — it carries the one accent. */
+.rs-funnel__gate {
+  fill: var(--portfolio-accent);
+}
+.rs-funnel__arrow path {
+  fill: none;
+  stroke: var(--portfolio-ink);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---- source → shipped pairs ---------------------------------------------- */
+.rs-pairs {
+  --rs-ratio: 3 / 4; /* both clips are 3:4, so one ratio governs both frames */
+  --rs-frame-w: clamp(150px, 30vw, 260px);
+  --rs-gap: clamp(14px, 2.5vw, 28px);
+
+  display: flex;
+  flex-direction: column;
+  gap: clamp(36px, 6vw, 64px);
+  margin: 1.75rem 0 2rem;
+}
+
+/* Explicit areas so the arrow centers on the FRAMES, not on the frame+caption
+   stack — the two captions differ in length. */
+.rs-pair {
+  display: grid;
+  grid-template-columns: var(--rs-frame-w) auto var(--rs-frame-w);
+  grid-template-areas:
+    "sf ar pf"
+    "sc .  pc"
+    "mt mt mt";
+  gap: 10px var(--rs-gap);
+  justify-content: start;
+}
+.rs-frame--source { grid-area: sf; }
+.rs-frame--product { grid-area: pf; }
+.rs-cap--source { grid-area: sc; }
+.rs-cap--product { grid-area: pc; }
+.rs-arrow { grid-area: ar; align-self: center; }
+.rs-meta { grid-area: mt; }
+
+.rs-frame {
+  position: relative;
+  aspect-ratio: var(--rs-ratio);
+  overflow: hidden;
+  border-radius: var(--portfolio-radius-sm);
+  background: var(--portfolio-paper-deep);
+  cursor: pointer;
+  outline: none;
+}
+.rs-frame:focus-visible { box-shadow: 0 0 0 2px var(--portfolio-accent); }
+.rs-frame video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* Both clips share a ratio, so "reference vs shipped" is carried by a hairline
+   on the source rather than by a letterbox. */
+.rs-frame--source { border: 1px solid var(--portfolio-hairline-strong); }
+
+.rs-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(30, 30, 26, 0.07);
+  opacity: 1;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+.rs-frame.is-playing::after { opacity: 0; }
+
+.rs-cue {
+  position: absolute;
+  left: 9px;
+  bottom: 9px;
+  padding: 3px 7px;
+  border-radius: 4px;
+  font-family: var(--portfolio-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--portfolio-paper);
+  background: rgba(30, 30, 26, 0.62);
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+.rs-frame.is-playing .rs-cue { opacity: 0; }
+
+.rs-origin {
+  margin-bottom: 5px;
+  font-family: var(--portfolio-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--portfolio-concrete);
+}
+.rs-label {
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--portfolio-muted);
+}
+.rs-label b {
+  color: var(--portfolio-ink);
+  font-weight: 600;
+}
+
+/* Ghosted so it does not compete with two moving clips. */
+.rs-arrow { color: var(--portfolio-concrete); }
+.rs-arrow svg { display: block; width: 22px; height: 22px; }
+
+.rs-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--portfolio-hairline);
+  font-family: var(--portfolio-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: var(--portfolio-muted);
+}
+.rs-meta span::before { content: "— "; color: var(--portfolio-concrete); }
+
+@media (max-width: 620px) {
+  .rs-pair {
+    grid-template-columns: min(78vw, var(--rs-frame-w));
+    grid-template-areas: "sf" "sc" "ar" "pf" "pc" "mt";
+    justify-content: center;
+  }
+  .rs-arrow {
+    justify-self: center;
+    margin: 6px 0;
+    transform: rotate(90deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rs-frame::after,
+  .rs-cue { transition: none; }
+}
+
+/* ---- 02 / Prototype — Kaiju Fight model pipeline ------------------------- */
+.rs-flow {
+  margin: 1.75rem 0 2rem;
+}
+/* Preserve the lane structure on narrow screens by scrolling rather than
+   stacking — the columns are the diagram. */
+.rs-flow__scroll {
+  overflow-x: auto;
+  padding: 1.25rem 1.1rem 1.4rem;
+  border: 1px solid var(--portfolio-hairline);
+  border-radius: var(--portfolio-radius);
+  background: var(--portfolio-surface);
+}
+/* 9 columns: terminal, link, model, link, node, link, node, link, terminal.
+   Row 1 eyebrow / 2 lanes / 3 primary route / 4 branch / 5 fallback route. */
+.rs-flow__grid {
+  display: grid;
+  grid-template-columns:
+    minmax(104px, 1fr) 16px minmax(0, 1.3fr) 16px minmax(0, 1.15fr) 16px
+    minmax(0, 1.15fr) 16px minmax(104px, 1fr);
+  row-gap: 0.85rem;
+  min-width: 720px;
+}
+
+.rs-flow__eyebrow {
+  grid-row: 1;
+  grid-column: 1 / -1;
+  margin: 0 0 0.35rem;
+  font-family: var(--portfolio-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--portfolio-concrete);
+}
+
+/* Lane labels size to their text and center over their group, bleeding into
+   the thin connector columns rather than wrapping. */
+.rs-flow__lane {
+  grid-row: 2;
+  align-self: center;
+  justify-self: center;
+  width: max-content;
+  padding: 0.3rem 0.55rem;
+  border-radius: var(--portfolio-radius-sm);
+  background: var(--portfolio-paper-deep);
+  font-family: var(--portfolio-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--portfolio-muted);
+}
+.rs-flow__lane--video { grid-column: 3; }
+.rs-flow__lane--post { grid-column: 5 / 8; }
+.rs-flow__lane--fallback { grid-row: 5; grid-column: 1; }
+
+.rs-flow__node {
+  grid-row: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.95rem 0.75rem;
+  border: 1px solid var(--portfolio-hairline);
+  border-radius: var(--portfolio-radius-sm);
+  background: var(--portfolio-paper);
+  text-align: center;
+}
+.rs-flow__node b {
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--portfolio-ink);
+}
+.rs-flow__node span {
+  font-size: 0.68rem;
+  line-height: 1.35;
+  color: var(--portfolio-muted);
+}
+
+/* Terminals are pills and sit shorter than the model boxes. */
+.rs-flow__node--terminal {
+  align-self: center;
+  padding: 0.7rem 0.6rem;
+  border-radius: 999px;
+  background: var(--portfolio-surface);
+}
+.rs-flow__node--end {
+  border-color: var(--portfolio-accent);
+}
+/* The model doing the actual work — the one accented node. */
+.rs-flow__node--key {
+  border-color: var(--portfolio-accent);
+  background: var(--portfolio-accent-soft);
+}
+.rs-flow__node--key b,
+.rs-flow__node--key span { color: var(--portfolio-accent-ink); }
+
+/* Fallback nodes only run when the primary route fails — dashed to say so. */
+.rs-flow__node--alt {
+  grid-row: 5;
+  border-style: dashed;
+  border-color: var(--portfolio-concrete);
+  background: transparent;
+}
+.rs-flow__node--alt b { color: var(--portfolio-muted); }
+/* Pinned to the columns they hang below — otherwise auto-placement drops them
+   into the 16px connector columns. */
+.rs-flow__node--alt-prep { grid-column: 3; }
+.rs-flow__node--alt-video { grid-column: 5; }
+
+.rs-flow__link {
+  grid-row: 3;
+  align-self: center;
+  height: 1px;
+  background: var(--portfolio-concrete);
+}
+.rs-flow__link--alt { grid-row: 5; grid-column: 4; }
+
+/* Vertical connectors: down out of the failing model, back up into delivery. */
+.rs-flow__branch {
+  grid-row: 4;
+  position: relative;
+  height: 30px;
+}
+.rs-flow__branch::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: var(--portfolio-concrete);
+}
+.rs-flow__branch span {
+  position: absolute;
+  top: 50%;
+  left: calc(50% + 7px);
+  transform: translateY(-50%);
+  font-family: var(--portfolio-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--portfolio-concrete);
+}
+.rs-flow__branch--drop { grid-column: 3; }
+.rs-flow__branch--rise { grid-column: 5; }
+
+.rs-flow figcaption {
+  margin-top: 0.7rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--portfolio-muted);
+}

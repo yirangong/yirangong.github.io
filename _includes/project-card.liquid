@@ -3,20 +3,28 @@
   <a class="project-card__link" href="{{ project.url | relative_url }}" aria-label="Read {{ project.title }}">
     <div class="project-card__top">
       <span class="project-card__kind">{{ project.kind }}</span>
-      {% if project.status == 'draft' %}<span class="project-card__flag">Draft</span>{% endif %}
+      {% if project.status == 'draft' -%}
+        <span class="project-card__flag">Draft</span>
+      {%- endif %}
     </div>
 
     <h3>{{ project.title }}</h3>
     <p class="project-card__summary">{{ project.summary }}</p>
 
     {% if project.metrics and project.metrics.first %}
-      <p class="project-card__metric"><strong>{{ project.metrics.first.value }}</strong> {{ project.metrics.first.label }}</p>
+      <p class="project-card__metric">
+        <strong>{{ project.metrics.first.value }}</strong> {{ project.metrics.first.label }}
+      </p>
     {% endif %}
 
     {% if project.skills %}
       <ul class="project-card__chips">
-        {% for skill in project.skills limit: 4 %}<li>{{ skill }}</li>{% endfor %}
-        {% if project.skills.size > 4 %}<li class="project-card__chips-more">+{{ project.skills.size | minus: 4 }}</li>{% endif %}
+        {% for skill in project.skills limit: 4 %}
+          <li>{{ skill }}</li>
+        {% endfor %}
+        {% if project.skills.size > 4 %}
+          <li class="project-card__chips-more">+{{ project.skills.size | minus: 4 }}</li>
+        {% endif %}
       </ul>
     {% endif %}
 

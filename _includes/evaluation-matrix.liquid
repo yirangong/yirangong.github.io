@@ -1,0 +1,52 @@
+<!-- Fidelity evaluation matrix — 03 / Implement & iterate.
+     A standalone artifact, not a reveal: the whole argument of the evaluation
+     is that the gates differ by anatomy, and that only reads when the three
+     columns are visible side by side. Gating cells carry the accent.
+     Styles: ".rs-matrix" in _sass/_portfolio.scss. -->
+<figure class="rs-matrix">
+  <div class="rs-matrix__scroll">
+    <table>
+      <caption class="rs-matrix__eyebrow">5 &times; 3 matrix</caption>
+      <thead>
+        <tr>
+          <th scope="col">Metric</th>
+          <th scope="col"><span class="rs-matrix__key">A</span> Humanoid</th>
+          <th scope="col"><span class="rs-matrix__key">B</span> Semi-humanoid</th>
+          <th scope="col"><span class="rs-matrix__key">C</span> Limbless</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="is-key">
+          <th scope="row">Character fidelity</th>
+          <td><b>High</b></td>
+          <td><b>High</b> &mdash; shape + color + markings, not face proportions</td>
+          <td><b>High</b> &mdash; silhouette + color is the whole identity</td>
+        </tr>
+        <tr>
+          <th scope="row">Skeleton / rig sanity</th>
+          <td><b>High</b></td>
+          <td class="is-gate"><b>Gating</b> &mdash; hallucinated limbs = instant fail (most fragile metric for type B)</td>
+          <td><b>Replace with:</b> no phantom limbs added</td>
+        </tr>
+        <tr>
+          <th scope="row">Motion quality</th>
+          <td><b>High</b></td>
+          <td><b>Mid</b> &mdash; creative locomotion is ok if coherent</td>
+          <td><b>Mid</b> &mdash; sliding or floating should feel intentional</td>
+        </tr>
+        <tr>
+          <th scope="row">Prompt adherence</th>
+          <td><b>High</b></td>
+          <td><b>Mid</b> &mdash; credit partial adherence if limbs cannot physically do the move</td>
+          <td><b>Low</b> &mdash; score intent, not literal execution</td>
+        </tr>
+        <tr>
+          <th scope="row">BG / style consistency</th>
+          <td><b>Mid</b></td>
+          <td><b>Mid</b></td>
+          <td><b>Mid</b> &mdash; scene-level metric, same weight across all</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</figure>

@@ -7,9 +7,8 @@ layout: default
     <div class="home-hero__copy">
       <h1 id="home-title" class="home-hero__title">
         Hi <span class="wave" aria-hidden="true">👋</span>, I&rsquo;m <span class="hl-accent">Yiran</span> &mdash; a
-        <span class="hl-marker">product</span> <span class="amp">&amp;</span>
-        <span class="hl-knock">AI</span> <span class="hl-underline">builder</span>
-        with a background in <span class="hl-accent">cognitive science,</span>
+        <span class="hl-marker">product</span> <span class="amp">&amp;</span> <span class="hl-knock">AI</span>
+        <span class="hl-underline">builder</span> with a background in <span class="hl-accent">cognitive science,</span>
         building thoughtful technology for deeply
         <span class="serif">human contexts.</span>
       </h1>
@@ -63,29 +62,42 @@ layout: default
     <div class="capability-rows">
       <div class="cap-row cap-row--build">
         <div class="cap-row__head">
-          <div class="cap-row__title"><span class="cap-row__num">01</span><h3>Making</h3></div>
+          <div class="cap-row__title">
+            <span class="cap-row__num">01</span>
+            <h3>Making</h3>
+          </div>
           <p class="cap-row__desc">Shipping AI products end-to-end — from model choice to instrumentation.</p>
           <p class="cap-row__evidence"><span>DEMONSTRATED IN</span> <a href="{{ '/build/' | relative_url }}">Gen-AI video · Analytics ↗</a></p>
         </div>
         <div class="cap-row__tags">
-          <span>AI workflows</span><span>Product operations</span><span>Model evaluation</span><span>Prompt design</span><span>Testing &amp; deployment</span><span>Instrumentation</span>
+          <span>AI workflows</span><span>Product operations</span><span>Model evaluation</span><span>Prompt design</span
+          ><span>Testing &amp; deployment</span><span>Instrumentation</span>
         </div>
       </div>
 
       <div class="cap-row cap-row--understand">
         <div class="cap-row__head">
-          <div class="cap-row__title"><span class="cap-row__num">02</span><h3>Investigating</h3></div>
+          <div class="cap-row__title">
+            <span class="cap-row__num">02</span>
+            <h3>Investigating</h3>
+          </div>
           <p class="cap-row__desc">Formal study of how people think, decide, and interact.</p>
-          <p class="cap-row__evidence"><span>DEMONSTRATED IN</span> <a href="{{ '/understand/' | relative_url }}">Cognitive-science research ↗</a></p>
+          <p class="cap-row__evidence">
+            <span>DEMONSTRATED IN</span> <a href="{{ '/understand/' | relative_url }}">Cognitive-science research ↗</a>
+          </p>
         </div>
         <div class="cap-row__tags">
-          <span>Human collaboration</span><span>Computational modeling</span><span>Reinforcement learning</span><span>Bayesian models</span><span>Evaluation</span>
+          <span>Human collaboration</span><span>Computational modeling</span><span>Reinforcement learning</span><span>Bayesian models</span
+          ><span>Evaluation</span>
         </div>
       </div>
 
       <div class="cap-row cap-row--connect">
         <div class="cap-row__head">
-          <div class="cap-row__title"><span class="cap-row__num">03</span><h3>Connecting</h3></div>
+          <div class="cap-row__title">
+            <span class="cap-row__num">03</span>
+            <h3>Connecting</h3>
+          </div>
           <p class="cap-row__desc">Growing trust and translating between people and systems.</p>
           <p class="cap-row__evidence"><span>DEMONSTRATED IN</span> <a href="{{ '/build/' | relative_url }}">Community growth 0→500+ ↗</a></p>
         </div>
@@ -101,7 +113,9 @@ layout: default
       <span class="home-contact__eyebrow">CONTACT</span>
       <h2 id="home-contact-title">I work where technical systems meet <span class="serif">human behavior.</span></h2>
       <div class="route-actions">
-        {% if site.email %}<a class="route-button route-button--light" href="mailto:{{ site.email }}">Get in touch <span>↗</span></a>{% endif %}
+        {% if site.email -%}
+          <a class="route-button route-button--light" href="mailto:{{ site.email }}">Get in touch <span>↗</span></a>
+        {%- endif %}
         <a class="route-button route-button--ghost" href="{{ '/cv/' | relative_url }}">Curriculum vitae <span>↗</span></a>
       </div>
     </div>

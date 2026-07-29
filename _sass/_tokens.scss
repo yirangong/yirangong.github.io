@@ -6,53 +6,63 @@
  * editor (a person, Claude, or an MCP like Paper) can safely restyle the
  * site by editing this one file — no need to touch templates or components.
  *
- * Current system: "Pavilion" — eco-brutalist / Aalto Hansaviertel.
- * Cool near-white ground, cerulean blue as the primary color, with ochre
- * and oxblood as warm painted-tile touches. Type: Space Grotesk (display),
- * Inter (text), IBM Plex Mono (labels), Fraunces italic (accent).
+ * Current system: "Kettle" — the Paper case-study system, ported 1:1.
+ * White gallery ground, cerulean blue as the primary, oxblood as the section
+ * marker, pale sage as the only fill. Everything is square: no rounded
+ * corners anywhere, so the page reads as ruled print rather than as UI.
+ * Type: Jost throughout — Medium for display and labels, Regular for text.
  ******************************************************************************/
 
 :root {
   /* --- Palette ------------------------------------------------------------ */
-  --portfolio-paper: #f3f3ee; /* page background (cool near-white) */
-  --portfolio-paper-deep: #ecece5; /* subtle raised surface / alt band */
-  --portfolio-surface: #f8f7f2; /* card background */
-  --portfolio-ink: #1e1e1a; /* primary text */
-  --portfolio-muted: #575344; /* secondary text */
-  --portfolio-concrete: #9a978c;
-  --portfolio-concrete-light: #d8d7ce;
-  --portfolio-signal: #1f6f9c; /* legacy editorial highlight (now blue) */
+  --portfolio-paper: #ffffff; /* page background — pure white gallery wall */
+  --portfolio-paper-deep: #e3e7de; /* pale sage — chips, tint blocks, cards */
+  --portfolio-surface: #f7f5f0; /* warm off-white — full-bleed bands */
+  --portfolio-ink: #1d211d; /* primary text (near-black, faint green cast) */
+  --portfolio-muted: #485256; /* body copy / secondary text (slate) */
+  --portfolio-concrete: #6e767a; /* labels, captions, arrows */
+  --portfolio-concrete-light: #cfd6c9; /* rules and dashed placeholders */
+  --portfolio-signal: #0e74b8; /* legacy editorial highlight (now blue) */
 
-  /* Accent — the primary color. Links, eyebrows, active states, key fields.
+  /* Accent — the primary color. Links, eyebrows, metrics, active states.
      Swap this one value to re-tint the whole site. */
-  --portfolio-accent: #1f6f9c; /* cerulean blue */
-  --portfolio-accent-ink: #185f88; /* darker blue for text on tints */
-  --portfolio-accent-soft: #e7eef3; /* blue tint background */
+  --portfolio-accent: #0e74b8; /* cerulean blue */
+  --portfolio-accent-ink: #0b5c93; /* darker blue for text on tints */
+  --portfolio-accent-soft: #e3e7de; /* the sage tint carries chips */
 
-  /* Warm touches — used sparingly (painted-tile accents). */
-  --portfolio-ochre: #c58b2c; /* ochre — "Build" / making */
-  --portfolio-oxblood: #9c3b2c; /* oxblood — "Understand" / investigating */
-  --portfolio-steel: #54636b; /* cool shadow grey */
+  /* Warm touches — the section marker and the reveal rows. */
+  --portfolio-ochre: #f8efbd; /* pale straw — the TL;DR plate */
+  --portfolio-oxblood: #a1200e; /* oxblood — section labels, stage numbers */
+  --portfolio-oxblood-soft: #f6e9e4; /* pale clay — reveal header rows */
+  --portfolio-reveal-body: #fcfaf9; /* the plate an opened reveal sits on */
+  --portfolio-steel: #485256; /* cool shadow grey */
 
   /* Active-state blue — case-study section nav (scroll-spy) */
-  --portfolio-active: #1f6f9c;
-  --portfolio-active-soft: rgba(31, 111, 156, 0.1);
+  --portfolio-active: #a1200e;
+  --portfolio-active-soft: rgba(161, 32, 14, 0.08);
 
   /* Borders */
-  --portfolio-line: rgba(30, 30, 26, 0.28); /* strong editorial hairline */
-  --portfolio-line-light: rgba(243, 243, 238, 0.32);
-  --portfolio-hairline: rgba(30, 30, 26, 0.13); /* soft hairline (clean UI) */
-  --portfolio-hairline-strong: rgba(30, 30, 26, 0.4);
+  --portfolio-line: #cfd6c9; /* strong editorial hairline */
+  --portfolio-line-light: rgba(255, 255, 255, 0.32);
+  --portfolio-hairline: #d6dbd0; /* soft hairline (clean UI) */
+  --portfolio-hairline-strong: #b9c2b3;
 
   /* --- Type --------------------------------------------------------------- */
-  --portfolio-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --portfolio-serif: "Fraunces", Georgia, serif; /* italic editorial accent */
-  --portfolio-display: "Space Grotesk", "Inter", sans-serif;
-  --portfolio-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+  /* One family does everything. Weight and tracking carry the hierarchy:
+     Medium + wide tracking for labels, Medium + tight for display, Regular
+     for running text. */
+  --portfolio-sans: "Jost", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --portfolio-serif: "Jost", system-ui, sans-serif;
+  --portfolio-display: "Jost", system-ui, sans-serif;
+  --portfolio-mono: "Jost", system-ui, sans-serif; /* labels are Jost, not mono */
+  --portfolio-code: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
 
   /* --- Shape -------------------------------------------------------------- */
-  --portfolio-radius: 12px;
-  --portfolio-radius-sm: 8px;
+  /* Square, with one exception: the reveal blocks are softened so a closed row
+     reads as a control rather than as another ruled band. */
+  --portfolio-radius: 0px;
+  --portfolio-radius-sm: 0px;
+  --portfolio-radius-reveal: 10px;
 
   /* --- al-folio globals mapped to the palette (keeps the theme in sync) --- */
   --global-bg-color: var(--portfolio-paper);

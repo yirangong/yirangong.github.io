@@ -25,7 +25,7 @@ layout: default
       {% if page.experience %}{% assign exp = site.data.experience[page.experience] %}{% endif %}
 
       <!-- OVERVIEW / HERO -->
-      <section id="overview" class="cs-section cs-section--hero" data-nav-label="Overview">
+      <section id="overview" class="cs-section cs-section--hero" data-nav-label="TL;DR">
         {% if hero %}
           <figure class="cs-hero-media">
             {% if hero.src == null %}
@@ -62,22 +62,28 @@ layout: default
         </p>
         <h1>{{ page.title }}</h1>
 
-        {% if page.kind %}
-          <ul class="cs-tags" aria-label="Categories">
-            <li>{{ page.pillar | capitalize }}</li>
-            {% assign kinds = page.kind | split: '·' %}
-            {% for k in kinds %}
-              <li>{{ k | strip }}</li>
-            {% endfor %}
-          </ul>
-        {% endif %}
+        {% comment %} The TL;DR plate and the numbered stack sit side by side. {% endcomment %}
+        <div class="cs-hero-grid">
+          {% if page.summary %}
+            <div class="cs-tldr">
+              <p class="cs-label cs-label--mark">TL;DR</p>
+              <p class="cs-lede">{{ page.summary }}</p>
+            </div>
+          {% endif %}
 
-        {% if page.summary %}
-          <div class="cs-tldr">
-            <p class="cs-label">TL;DR</p>
-            <p class="cs-lede">{{ page.summary }}</p>
-          </div>
-        {% endif %}
+          {% if page.skills %}
+            <div class="cs-skills">
+              <p class="cs-label cs-label--sub">Skills &amp; stack</p>
+              <ol class="cs-stack">
+                {% for skill in page.skills %}
+                  <li>
+                    <span class="cs-stack__n">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span><span class="cs-stack__name">{{ skill }}</span>
+                  </li>
+                {% endfor %}
+              </ol>
+            </div>
+          {% endif %}
+        </div>
 
         {% if exp %}
           <details class="cs-experience">
@@ -106,7 +112,11 @@ layout: default
               {% endif %}
             </div>
           </details>
-        {% else %}
+        {% elsif page.role or page.company or page.timeframe or page.team %}
+          {% comment %}
+            Guarded: with none of these set the <dl> still rendered,
+            contributing its top margin as dead space under the hero.
+          {% endcomment %}
           <dl class="cs-meta">
             {% if page.role %}
               <div>
@@ -135,17 +145,6 @@ layout: default
           </dl>
         {% endif %}
 
-        {% if page.skills %}
-          <div class="cs-skills">
-            <p class="cs-label">Skills &amp; stack</p>
-            <ul class="cs-chips">
-              {% for skill in page.skills %}
-                <li>{{ skill }}</li>
-              {% endfor %}
-            </ul>
-          </div>
-        {% endif %}
-
         {% if page.links %}
           <div class="cs-links" aria-label="Project links">
             {% for link in page.links %}
@@ -164,72 +163,153 @@ layout: default
         {% endif %}
       </section>
 
-      {% if page.problem or page.approach or page.impact %}
-        <section id="at-a-glance" class="cs-section" data-nav-label="At a glance" aria-label="At a glance">
-          <p class="cs-label">At a glance</p>
-          <div class="cs-summary">
-            {% if page.problem %}
-              <div>
-                <h2>The problem</h2>
-                <p>{{ page.problem }}</p>
-              </div>
-            {% endif %}
-            {% if page.approach %}
-              <div>
-                <h2>What I did</h2>
-                <p>{{ page.approach }}</p>
-              </div>
-            {% endif %}
+      {% comment %} IMPACT — the claim, the numbers, then the named work that backs them up. {% endcomment %}
+      {% assign has_media = false %}
+      {% if extra_media and extra_media.size > 0 %}{% assign has_media = true %}{% endif %}
+      {% if page.impact or page.metrics or page.impact_examples or has_media %}
+        <section id="impact" class="cs-section" data-nav-label="Impact" aria-label="Impact">
+          <p class="cs-label cs-label--mark">Impact</p>
+
+          <div class="cs-impact-head">
             {% if page.impact %}
-              <div>
-                <h2>The impact</h2>
-                <p>{{ page.impact }}</p>
+              <p class="cs-impact-lede">{{ page.impact }}</p>
+            {% endif %}
+            {% if page.metrics %}
+              <dl class="cs-metrics">
+                {% for m in page.metrics %}
+                  <div>
+                    <dt>{{ m.value }}</dt>
+                    <dd>{{ m.label }}</dd>
+                  </div>
+                {% endfor %}
+              </dl>
+            {% endif %}
+          </div>
+
+          <div class="cs-impact-groups">
+            {% if page.impact_examples %}
+              <div class="cs-impact-group">
+                <p class="cs-group-label">{{ page.impact_examples_label | default: 'Selected work' }}</p>
+                <ul class="cs-impact-list">
+                  {% for ex in page.impact_examples %}
+                    <li class="cs-impact-item">
+                      {% if ex.src %}
+                        <video
+                          class="cs-media-hoverplay"
+                          controls
+                          muted
+                          loop
+                          preload="metadata"
+                          playsinline
+                          {% if ex.poster %}
+                            poster="{{ ex.poster | relative_url }}"
+                          {% endif -%}
+                          {% if ex.ratio %}
+                            style="aspect-ratio: {{ ex.ratio }}"
+                          {% endif %}
+                        >
+                          <source src="{{ ex.src | relative_url }}" type="video/mp4">
+                        </video>
+                      {% endif %}
+                      <p class="cs-impact-item__text">
+                        <strong class="cs-media-title">{{ ex.title }}</strong>
+                        {% if ex.note -%}
+                          <span class="cs-media-note">{{ ex.note }}</span>
+                        {%- endif %}
+                      </p>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endif %}
+
+            {% if has_media %}
+              <div class="cs-impact-group">
+                <p class="cs-group-label cs-group-label--warm">{{ page.media_label | default: 'Highlights' }}</p>
+                <div class="cs-media-grid">
+                  {% for item in extra_media %}
+                    <figure class="cs-media-item{% if item.wide %} cs-media-item--featured{% endif %}">
+                      {% if item.src == null %}
+                        <div class="cs-media-placeholder">{{ item.caption | default: 'Media to add' }}</div>
+                      {% elsif item.type == 'video' %}
+                        <video
+                          class="cs-media-hoverplay"
+                          controls
+                          muted
+                          loop
+                          preload="metadata"
+                          playsinline
+                          {% if item.poster %}
+                            poster="{{ item.poster | relative_url }}"
+                          {% endif -%}
+                          {% if item.ratio %}
+                            style="aspect-ratio: {{ item.ratio }}"
+                          {% endif %}
+                        >
+                          <source src="{{ item.src | relative_url }}" type="video/mp4">
+                        </video>
+                      {% elsif item.type == 'embed' %}
+                        <div class="cs-media-embed">
+                          <iframe src="{{ item.src }}" title="{{ item.caption | default: page.title }}" allowfullscreen loading="lazy"></iframe>
+                        </div>
+                      {% else %}
+                        <img src="{{ item.src | relative_url }}" alt="{{ item.caption | default: page.title }}" loading="lazy">
+                      {% endif %}
+                      {% if item.src %}
+                        {% if item.title or item.caption %}
+                          <figcaption>
+                            {% if item.title -%}
+                              <strong class="cs-media-title">{{ item.title }}</strong>
+                            {%- endif %}
+                            {% if item.caption -%}
+                              <span class="cs-media-note">{{ item.caption }}</span>
+                            {%- endif %}
+                          </figcaption>
+                        {% endif %}
+                      {% endif %}
+                    </figure>
+                  {% endfor %}
+                </div>
               </div>
             {% endif %}
           </div>
         </section>
       {% endif %}
 
-      {% if extra_media and extra_media.size > 0 %}
-        <section id="highlights" class="cs-section" data-nav-label="Highlights" aria-label="Highlights">
-          <p class="cs-label">{{ page.media_label | default: 'Highlights' }}</p>
-          <div class="cs-media-grid">
-            {% for item in extra_media %}
-              <figure class="cs-media-item{% if item.wide %} cs-media-item--featured{% endif %}">
-                {% if item.src == null %}
-                  <div class="cs-media-placeholder">{{ item.caption | default: 'Media to add' }}</div>
-                {% elsif item.type == 'video' %}
-                  <video
-                    controls
-                    preload="metadata"
-                    playsinline
-                    {% if item.poster %}
-                      poster="{{ item.poster | relative_url }}"
-                    {% endif %}
-                  >
-                    <source src="{{ item.src | relative_url }}" type="video/mp4">
-                  </video>
-                {% elsif item.type == 'embed' %}
-                  <div class="cs-media-embed">
-                    <iframe src="{{ item.src }}" title="{{ item.caption | default: page.title }}" allowfullscreen loading="lazy"></iframe>
-                  </div>
-                {% else %}
-                  <img src="{{ item.src | relative_url }}" alt="{{ item.caption | default: page.title }}" loading="lazy">
-                {% endif %}
-                {% if item.caption and item.src %}
-                  <figcaption>{{ item.caption }}</figcaption>
-                {% endif %}
-              </figure>
-            {% endfor %}
+      {% comment %} BACKGROUND — the setup: what the problem was and what I did about it. {% endcomment %}
+      {% if page.problem or page.approach %}
+        <section id="background" class="cs-section cs-section--band" data-nav-label="Background" aria-label="Background">
+          <p class="cs-label cs-label--mark">Background</p>
+          <div class="cs-summary">
+            {% if page.problem %}
+              <div>
+                <h2 class="cs-label cs-label--sub">The problem</h2>
+                <p>{{ page.problem }}</p>
+              </div>
+            {% endif %}
+            {% if page.approach %}
+              <div>
+                <h2 class="cs-label cs-label--accent">What I did</h2>
+                <p>{{ page.approach }}</p>
+              </div>
+            {% endif %}
           </div>
         </section>
       {% endif %}
 
       {% assign body = content | strip %}
       {% if body != '' %}
-        <section id="process" class="cs-section cs-roadmap" data-nav-label="Process" aria-label="Process walkthrough">
+        <section
+          id="process"
+          class="cs-section cs-roadmap"
+          data-nav-label="{{ page.roadmap_label | default: 'Process' }}"
+          aria-label="Process walkthrough"
+        >
           {% if page.roadmap_label %}
-            <p class="cs-label">{{ page.roadmap_label }}</p>
+            <p class="cs-label cs-label--mark">{{ page.roadmap_label }}</p>
+          {% endif %}
+          {% if page.roadmap_headline %}
+            <h2 class="cs-roadmap-headline">{{ page.roadmap_headline }}</h2>
           {% endif %}
           <div class="roadmap-body">
             {{ content }}
@@ -290,12 +370,61 @@ layout: default
           wrap.appendChild(m);
         });
         var sec = document.createElement('section');
-        sec.className = 'cs-section cs-roadmap';
+        sec.className = 'cs-section cs-roadmap cs-roadmap--reflection';
         sec.id = startNode.id || slug(startNode.textContent) || 'reflection';
         sec.setAttribute('data-nav-label', startNode.textContent.trim());
         sec.appendChild(wrap);
         processSection.parentNode.insertBefore(sec, processSection.nextElementSibling);
+
+        // Group each label-led run ("What I learned", "What failed") into its
+        // own column, so the two read side by side instead of stacking.
+        var isLabel = function (el) {
+          return (
+            el.tagName === 'P' &&
+            el.children.length === 1 &&
+            el.firstElementChild.tagName === 'STRONG' &&
+            el.textContent.trim() === el.firstElementChild.textContent.trim()
+          );
+        };
+        var kids = Array.prototype.slice.call(wrap.children);
+        var firstLabel = kids.filter(isLabel)[0];
+        if (firstLabel) {
+          var grid = document.createElement('div');
+          grid.className = 'cs-reflect';
+          wrap.insertBefore(grid, firstLabel);
+          var col = null,
+            colIndex = 0;
+          kids.slice(kids.indexOf(firstLabel)).forEach(function (el) {
+            if (isLabel(el)) {
+              col = document.createElement('div');
+              col.className = 'cs-reflect__col ' + (colIndex === 0 ? 'cs-reflect__col--learned' : 'cs-reflect__col--failed');
+              colIndex++;
+              grid.appendChild(col);
+            }
+            if (col) col.appendChild(el);
+          });
+        }
       }
+    }
+
+    // 1b. Split "0N / Name" stage headings into a big number and a quiet name.
+    //     Runs before the rail is built; textContent is preserved, so the label
+    //     regex below still strips the number cleanly.
+    if (roadmap) {
+      Array.prototype.slice.call(roadmap.querySelectorAll(':scope > h2')).forEach(function (h) {
+        var m = h.textContent.trim().match(/^(\d+)\s*[\/.\-]\s*(.+)$/);
+        if (!m) return;
+        h.textContent = '';
+        var n = document.createElement('span');
+        n.className = 'stage-n';
+        n.textContent = m[1];
+        var name = document.createElement('span');
+        name.className = 'stage-name';
+        name.textContent = m[2];
+        h.appendChild(n);
+        h.appendChild(document.createTextNode(' '));
+        h.appendChild(name);
+      });
     }
 
     // 2. Collect nav targets: each top-level section, plus the Process stage headings.
@@ -446,6 +575,39 @@ layout: default
         }, 1500);
       });
       bq.appendChild(btn);
+    });
+  })();
+
+  // Highlights grid: hover to play. Pointer devices only — on touch the videos
+  // keep their normal tap-to-play controls, since there is no hover to leave.
+  (function () {
+    if (!window.matchMedia || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    var vids = Array.prototype.slice.call(document.querySelectorAll('.cs-media-hoverplay'));
+    if (!vids.length) return;
+
+    vids.forEach(function (v) {
+      var card = v.closest('.cs-media-item, .cs-impact-item') || v;
+      // Set once the visitor touches the native controls: from then until the
+      // pointer leaves the card, the video is theirs and hover stops driving it.
+      var manual = false;
+
+      v.addEventListener('click', function () {
+        manual = true;
+      });
+
+      card.addEventListener('mouseenter', function () {
+        if (manual) return;
+        var p = v.play();
+        if (p && p.catch) p.catch(function () {});
+      });
+
+      card.addEventListener('mouseleave', function () {
+        // Going fullscreen pulls the pointer off the card — don't kill playback.
+        if (document.fullscreenElement || document.webkitFullscreenElement) return;
+        manual = false;
+        v.pause();
+        v.currentTime = 0;
+      });
     });
   })();
 </script>

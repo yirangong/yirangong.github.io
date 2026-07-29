@@ -44,8 +44,8 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "projects-from-model-evaluation-to-shipped-ai-video-workflows",
-          title: 'From model evaluation to shipped AI video workflows',
+        },{id: "projects-making-toys-move-what-it-takes-to-ship-generative-video-as-a-product",
+          title: 'Making toys move: what it takes to ship generative video as a product...',
           description: "",
           section: "Projects",handler: () => {
               window.location.href = "/projects/applied-ai-product-operations/";

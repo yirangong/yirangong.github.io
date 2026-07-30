@@ -264,6 +264,17 @@
       // pointer leaves the card, the video is theirs and hover stops driving it.
       var manual = false;
 
+      // Drive the cue off the video's own state rather than off the hover
+      // handlers, so it also clears when playback starts from the controls.
+      v.addEventListener('play', function () {
+        card.classList.add('is-playing');
+      });
+      ['pause', 'ended'].forEach(function (evt) {
+        v.addEventListener(evt, function () {
+          card.classList.remove('is-playing');
+        });
+      });
+
       v.addEventListener('click', function () {
         manual = true;
       });

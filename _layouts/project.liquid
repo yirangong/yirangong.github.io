@@ -196,11 +196,11 @@ layout: default
                       {% if ex.src %}
                         <video
                           class="cs-media-hoverplay"
-                          controls
                           muted
                           loop
                           preload="metadata"
                           playsinline
+                          aria-label="Play the {{ ex.title }} clip"
                           {% if ex.poster %}
                             poster="{{ ex.poster | relative_url }}"
                           {% endif -%}
@@ -235,11 +235,11 @@ layout: default
                       {% elsif item.type == 'video' %}
                         <video
                           class="cs-media-hoverplay"
-                          controls
                           muted
                           loop
                           preload="metadata"
                           playsinline
+                          aria-label="Play the {{ item.title | default: item.caption | default: 'highlight' }} clip"
                           {% if item.poster %}
                             poster="{{ item.poster | relative_url }}"
                           {% endif -%}
@@ -583,18 +583,24 @@ layout: default
   // Highlights grid: hover to play. Pointer devices only — on touch the videos
   // keep their normal tap-to-play controls, since there is no hover to leave.
   (function () {
-    if (!window.matchMedia || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
     var vids = Array.prototype.slice.call(document.querySelectorAll('.cs-media-hoverplay'));
     if (!vids.length) return;
+    var canHover = !!window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
     vids.forEach(function (v) {
       var card = v.closest('.cs-media-item, .cs-impact-item') || v;
-      // Set once the visitor touches the native controls: from then until the
-      // pointer leaves the card, the video is theirs and hover stops driving it.
-      var manual = false;
 
-      // Drive the cue off the video's own state rather than off the hover
-      // handlers, so it also clears when playback starts from the controls.
+      function play() {
+        var p = v.play();
+        if (p && p.catch) p.catch(function () {});
+      }
+      function stop() {
+        v.pause();
+        v.currentTime = 0;
+      }
+
+      // Cue state rides on the video's own events, so it clears however
+      // playback started — hover, click, or keyboard.
       v.addEventListener('play', function () {
         card.classList.add('is-playing');
       });
@@ -604,22 +610,30 @@ layout: default
         });
       });
 
+      // These clips carry no control bar, so click and keyboard are the ways in
+      // that do not depend on a pointer. Focusable for the keyboard path.
+      v.setAttribute('tabindex', '0');
       v.addEventListener('click', function () {
-        manual = true;
+        v.paused ? play() : stop();
+      });
+      v.addEventListener('keydown', function (e) {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        e.preventDefault();
+        v.paused ? play() : stop();
       });
 
-      card.addEventListener('mouseenter', function () {
-        if (manual) return;
-        var p = v.play();
-        if (p && p.catch) p.catch(function () {});
-      });
+      // Without hover there is nothing to drive playback implicitly, so give
+      // those visitors the native controls back rather than a dead poster.
+      if (!canHover) {
+        v.setAttribute('controls', '');
+        return;
+      }
 
+      card.addEventListener('mouseenter', play);
       card.addEventListener('mouseleave', function () {
         // Going fullscreen pulls the pointer off the card — don't kill playback.
         if (document.fullscreenElement || document.webkitFullscreenElement) return;
-        manual = false;
-        v.pause();
-        v.currentTime = 0;
+        stop();
       });
     });
   })();

@@ -4,6 +4,7 @@ title: "From root-cause to dashboard: fixed broken AI-template analytics"
 pillar: build
 kind: Product analytics · Data infrastructure
 summary: Rebuilt a failure-measurement system that was confusing business outcome with AI model performance.
+description: "A template's failure rate was counting engineering events as product failures, so healthy AI templates looked broken. How I redefined the metric around user outcome and rebuilt the analytics layer to survive a backend migration."
 experience: nauknauk
 featured: true
 importance: 2
@@ -14,10 +15,10 @@ skills:
   - Stakeholder-driven dashboard design
   - Data integrity
 metrics:
-  - value: "Redefined"
-    label: what counts as a "failure" for AI templates around the user's outcome, and redesigned the analytics teams use to promote, fix, and retire them
   - value: "0 broken"
-    label: metric definitions when the backend migrated to Step Functions
+    label: metric definitions when the backend migrated to Step Functions — they described generations, not endpoints
+  - value: "4 views"
+    label: replaced one overloaded dashboard — pulse, working table, drill-down, comparison
 media_label: Before and after
 media:
   - type: image
@@ -40,22 +41,18 @@ media:
     src:
     caption: "After — comparison view for weighing templates against each other"
 roadmap_label: How I rebuilt it
-problem: A template's "failure rate" was measuring an engineering event but being read as a product one. Fallback-rescued generations — where the user got their video and never knew anything went wrong — were counted as failures, so healthy templates looked broken.
-approach: I redefined failure around what the user ends up with, rebuilt the data layer to describe generations rather than endpoints, and split one overloaded dashboard into surfaces matched to how each team actually works.
-impact: The new definitions survived a full backend migration to Step Functions, and the analytics layer is now monitored daily by Content Ops through launches and weekly by the head of product to watch template health.
+problem: The single number behind every promote / fix / retire decision on the template library was measuring an engineering event, not a product outcome — and no one reading it knew that.
+approach: Redefine failure around what the user ends up with, rebuild the data layer at the generation level, and split one overloaded dashboard into surfaces matched to how each team actually works.
+impact: The new definitions survived a full backend migration to Step Functions. Content Ops now monitors the analytics layer daily through launches; the head of product reviews template health weekly.
 ---
 
-Templates are the content supply for an AI feature. PMs and Content Ops decide which to promote, fix, or retire based on failure rate — so that number has to mean what they think it means. It didn't.
+Templates are the content supply for an AI feature. PMs and Content Ops decide which to promote, fix, or retire based on failure rate — so that number has to mean what they think it means. Before I built anything on top of it, I checked whether it represented reality. It didn't.
 
 > **Route** Endpoint logs → generation-level semantics → outcome-based failure → role-specific surfaces
 
-## The stakes
-
-Every promote / fix / retire decision on the template library was being made against a single number. Before I could trust any dashboard built on top of it, I had to check whether the number represented reality.
-
 ## The number was lying
 
-That number was measuring an engineering event and being read as a product one. Every template has a fallback engine; when the main engine fails and the fallback succeeds, the user gets their video and never knows anything went wrong. Those generations were counted as failures. Templates looked broken when they weren't.
+Every template has a fallback engine. When the main engine fails and the fallback succeeds, the user gets their video and never knows anything went wrong — but the logs still record an error. Those rescued generations were being counted as failures. So a template whose fallback was quietly doing its job registered the same as one that was actually failing users, and the library got pruned on the difference.
 
 [ADD: before/after — the mislabeled failure spike next to the true outcome rate]
 

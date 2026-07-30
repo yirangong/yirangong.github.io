@@ -2509,6 +2509,36 @@ button:focus-visible {
   max-width: 26ch;
   margin: 0.55rem 0 0;
 }
+/* Carries the "hover to play" cue over the clip — the same affordance the
+   research pairs use. Sits top-left so it clears the native control bar. */
+/* "Hover to play" over the clip — the same affordance the research pairs use.
+   The item is the positioning context rather than a wrapper box: the clips size
+   from their own aspect ratio against a fixed height, so an extra box would
+   have no intrinsic width to resolve against and would collapse to zero.
+   Anchored top-left, clear of the native control bar. */
+.cs-impact-item,
+.cs-media-item {
+  position: relative;
+}
+.cs-impact-item > .rs-cue,
+.cs-media-item > .rs-cue {
+  top: 9px;
+  bottom: auto;
+  line-height: 1.4;
+  opacity: 1;
+}
+.cs-impact-item.is-playing > .rs-cue,
+.cs-media-item.is-playing > .rs-cue {
+  opacity: 0;
+}
+/* No hover, no cue: on touch the native controls are the whole story. */
+@media (hover: none), (pointer: coarse) {
+  .cs-impact-item > .rs-cue,
+  .cs-media-item > .rs-cue {
+    display: none;
+  }
+}
+
 .cs-media-title {
   display: block;
   font-size: 0.94rem;

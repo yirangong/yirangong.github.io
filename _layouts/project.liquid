@@ -210,6 +210,7 @@ layout: default
                         >
                           <source src="{{ ex.src | relative_url }}" type="video/mp4">
                         </video>
+                        <span class="rs-cue">Hover to play</span>
                       {% endif %}
                       <p class="cs-impact-item__text">
                         <strong class="cs-media-title">{{ ex.title }}</strong>
@@ -248,6 +249,7 @@ layout: default
                         >
                           <source src="{{ item.src | relative_url }}" type="video/mp4">
                         </video>
+                        <span class="rs-cue">Hover to play</span>
                       {% elsif item.type == 'embed' %}
                         <div class="cs-media-embed">
                           <iframe src="{{ item.src }}" title="{{ item.caption | default: page.title }}" allowfullscreen loading="lazy"></iframe>
@@ -590,6 +592,17 @@ layout: default
       // Set once the visitor touches the native controls: from then until the
       // pointer leaves the card, the video is theirs and hover stops driving it.
       var manual = false;
+
+      // Drive the cue off the video's own state rather than off the hover
+      // handlers, so it also clears when playback starts from the controls.
+      v.addEventListener('play', function () {
+        card.classList.add('is-playing');
+      });
+      ['pause', 'ended'].forEach(function (evt) {
+        v.addEventListener(evt, function () {
+          card.classList.remove('is-playing');
+        });
+      });
 
       v.addEventListener('click', function () {
         manual = true;

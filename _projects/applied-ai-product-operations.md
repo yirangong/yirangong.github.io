@@ -136,15 +136,13 @@ I used the product dashboard to connect model testing with workflow behaviour �
 
 **What I learned**
 
-A cleaner input can matter more than another round of prompt tuning, and a fallback from another model family beats a more expensive version of the same model.
-
-- The strongest decisions were about what reached the model, not what happened inside it.
-- Evaluation built around real toy anatomy caught failures a generic quality score would have passed.
-- Configuration and monitoring were part of the feature, not work that came after it.
+- The strongest AI product decisions often happen around the model rather than inside it.
+- A cleaner input can matter more than another round of prompt tuning.
+- A fallback from another model family can be more useful than a more expensive version of the same model.
+- An evaluation system designed around real toy anatomy reveals failures that a generic quality score would miss.
 
 **What failed**
 
-The workflow depended fully on vendor availability. When a vendor hit very high latency or CDN errors, we needed to switch vendors flexibly — a lesson that fed straight back into the fallback design.
-
-- A model that looked strong in selected demos still behaved differently at real usage levels.
+- The workflow depended fully on vendor availability. When a vendor hit very high latency or CDN errors, we needed to switch vendors flexibly — a lesson that led to switching some of our workflows onto AWS Step Functions.
 - Surface-level prompt tuning delayed the real fix on head-anchoring by several rounds.
+

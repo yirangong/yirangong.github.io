@@ -10,8 +10,7 @@ html {
 }
 
 body {
-  background: linear-gradient(rgba(24, 24, 22, 0.025) 1px, transparent 1px), var(--portfolio-paper);
-  background-size: 100% 8px;
+  background: var(--portfolio-paper);
   color: var(--portfolio-ink);
   font-family: var(--portfolio-sans);
   font-size: 17px;
@@ -105,8 +104,8 @@ button:focus-visible {
 
 .site-header .navbar {
   min-height: 78px;
-  background: rgba(241, 238, 230, 0.96);
-  border-bottom: 1px solid var(--portfolio-ink);
+  background: rgba(255, 255, 255, 0.96);
+  border-bottom: 1px solid var(--portfolio-hairline);
   opacity: 1;
   padding: 0;
   backdrop-filter: blur(12px);
@@ -116,16 +115,17 @@ button:focus-visible {
   min-height: 78px;
 }
 
+/* Wordmark only — set in the page's own voice, no badge. */
 .portfolio-brand {
   display: inline-flex;
   align-items: center;
   color: var(--portfolio-ink);
   font-family: var(--portfolio-display);
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  font-size: 1.125rem;
+  font-weight: 500;
+  letter-spacing: 0;
   text-decoration: none;
-  text-transform: uppercase;
+  text-transform: none;
 }
 
 .portfolio-brand:hover {
@@ -133,13 +133,7 @@ button:focus-visible {
 }
 
 .portfolio-brand__mark {
-  display: grid;
-  width: 42px;
-  height: 42px;
-  margin-right: 0.8rem;
-  place-items: center;
-  background: var(--portfolio-signal);
-  border: 1px solid var(--portfolio-ink);
+  display: none;
 }
 
 .portfolio-brand__name {
@@ -160,18 +154,19 @@ button:focus-visible {
   display: flex;
   gap: 0.4rem;
   align-items: center;
-  color: var(--portfolio-ink) !important;
-  font-size: 0.9rem;
+  color: var(--portfolio-concrete) !important;
+  font-size: 0.75rem;
   font-weight: 500;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.2em;
   padding: 1rem 0.75rem !important;
   text-transform: uppercase;
 }
 
+/* The current section is the only blue item in the bar — no filled tabs. */
 .navbar .nav-link:hover,
 .navbar .nav-item.active .nav-link {
-  background: var(--portfolio-ink);
-  color: var(--portfolio-paper) !important;
+  background: transparent;
+  color: var(--portfolio-accent) !important;
   text-decoration: none;
 }
 
@@ -1798,7 +1793,9 @@ button:focus-visible {
   border: 1px solid var(--portfolio-hairline);
   border-radius: var(--portfolio-radius);
   overflow: hidden;
-  transition: border-color 0.18s ease, transform 0.18s ease;
+  transition:
+    border-color 0.18s ease,
+    transform 0.18s ease;
 }
 .project-card:hover {
   border-color: var(--portfolio-hairline-strong);
@@ -1818,7 +1815,9 @@ button:focus-visible {
   color: var(--portfolio-ink);
   text-decoration: none;
 }
-.project-card__link:hover { color: var(--portfolio-ink); }
+.project-card__link:hover {
+  color: var(--portfolio-ink);
+}
 .project-card__top {
   display: flex;
   align-items: center;
@@ -1840,7 +1839,7 @@ button:focus-visible {
   text-transform: uppercase;
   color: var(--portfolio-muted);
   border: 1px solid var(--portfolio-hairline);
-  border-radius: 999px;
+  border-radius: var(--portfolio-radius);
   padding: 2px 9px;
 }
 .project-card h3 {
@@ -1865,7 +1864,9 @@ button:focus-visible {
   font-size: 0.9rem;
   color: var(--portfolio-ink);
 }
-.project-card__metric strong { font-weight: 600; }
+.project-card__metric strong {
+  font-weight: 600;
+}
 .project-card__chips {
   display: flex;
   flex-wrap: wrap;
@@ -1878,11 +1879,14 @@ button:focus-visible {
   font-family: var(--portfolio-sans);
   font-size: 0.72rem;
   background: var(--portfolio-paper-deep);
-  border-radius: 999px;
+  border-radius: var(--portfolio-radius);
   padding: 3px 10px;
   color: var(--portfolio-ink);
 }
-.project-card__chips-more { background: transparent; color: var(--portfolio-muted); }
+.project-card__chips-more {
+  background: transparent;
+  color: var(--portfolio-muted);
+}
 .project-card__cta {
   margin-top: 0.4rem;
   font-family: var(--portfolio-sans);
@@ -1896,7 +1900,9 @@ button:focus-visible {
   font-family: var(--portfolio-sans);
   padding-bottom: clamp(4rem, 8vw, 7rem);
 }
-.cs :where(h1, h2, h3, h4, p, span, strong, li, dd, dt) { color: inherit; }
+.cs :where(h1, h2, h3, h4, p, span, strong, li, dd, dt) {
+  color: inherit;
+}
 
 /* --- Two-column shell: sticky section nav (left) + content (right) -------- */
 .cs__shell {
@@ -1906,14 +1912,18 @@ button:focus-visible {
   align-items: start;
   padding-top: clamp(1.5rem, 4vw, 2.75rem);
 }
-.cs__shell--norail { grid-template-columns: minmax(0, 1fr); }
+.cs__shell--norail {
+  grid-template-columns: minmax(0, 1fr);
+}
 
 .cs__rail {
   position: sticky;
   top: 5.5rem;
   align-self: start;
 }
-.cs__rail[hidden] { display: none; }
+.cs__rail[hidden] {
+  display: none;
+}
 
 .cs__back {
   display: inline-flex;
@@ -1926,13 +1936,20 @@ button:focus-visible {
   color: var(--portfolio-ink);
   text-decoration: none;
   border: 1px solid var(--portfolio-hairline-strong);
-  border-radius: 999px;
-  transition: background 0.15s ease, border-color 0.15s ease;
+  border-radius: var(--portfolio-radius);
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
 }
-.cs__back:hover { color: var(--portfolio-ink); background: var(--portfolio-paper-deep); }
 
-.cs__nav ol { list-style: none; margin: 0; padding: 0; }
-.cs__nav li { margin: 0; }
+.cs__nav ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.cs__nav li {
+  margin: 0;
+}
 .cs__nav a {
   display: block;
   padding: 0.42rem 0 0.42rem 0.75rem;
@@ -1943,9 +1960,13 @@ button:focus-visible {
   text-transform: uppercase;
   color: var(--portfolio-muted);
   text-decoration: none;
-  transition: color 0.15s ease, border-color 0.15s ease;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease;
 }
-.cs__nav a:hover { color: var(--portfolio-ink); }
+.cs__nav a:hover {
+  color: var(--portfolio-ink);
+}
 .cs__nav li.is-stage a {
   padding-left: 1.4rem;
   font-size: 0.66rem;
@@ -1957,7 +1978,9 @@ button:focus-visible {
   border-left-color: var(--portfolio-active);
   font-weight: 600;
 }
-.cs__nav li.is-stage a.is-active { color: var(--portfolio-active); }
+.cs__nav li.is-stage a.is-active {
+  color: var(--portfolio-active);
+}
 
 /* --- Section rhythm in the content column --------------------------------- */
 .cs-section {
@@ -1965,8 +1988,13 @@ button:focus-visible {
   padding: clamp(2rem, 4vw, 3rem) 0;
   border-top: 1px solid var(--portfolio-hairline);
 }
-.cs-section:first-child { border-top: 0; padding-top: 0; }
-.cs-section > .cs-label:first-child { margin-top: 0; }
+.cs-section:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+.cs-section > .cs-label:first-child {
+  margin-top: 0;
+}
 
 /* Featured hero media above the title — dissolves into the title below */
 .cs-hero-media {
@@ -1985,7 +2013,9 @@ button:focus-visible {
   -webkit-mask-image: linear-gradient(to bottom, #000 68%, transparent 100%);
   mask-image: linear-gradient(to bottom, #000 68%, transparent 100%);
 }
-.cs-hero-media figcaption { display: none; }
+.cs-hero-media figcaption {
+  display: none;
+}
 /* Placeholder cover — still-image slot that also dissolves into the title. */
 .cs-hero-media .cs-media-placeholder {
   aspect-ratio: 16 / 7;
@@ -1996,35 +2026,81 @@ button:focus-visible {
   mask-image: linear-gradient(to bottom, #000 68%, transparent 100%);
 }
 
-/* TL;DR — summary block right under the title (reference-style label + text) */
-.cs-tldr { margin: 1.7rem 0 0; }
-.cs-tldr .cs-label { margin-bottom: 0.45rem; }
-.cs-tldr .cs-lede { margin-top: 0; }
-
-/* Category tag pills under the title */
-.cs-tags {
+/* Hero pair: the TL;DR plate on the left, the numbered stack on the right. */
+.cs-hero-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin: 1.1rem 0 0;
+  align-items: flex-start;
+  gap: 2.25rem;
+  margin: 2.1rem 0 0;
+}
+
+/* TL;DR — a straw-tinted plate with an oxblood rule down its left edge. The
+   one warm moment on the page, and the only thing above the fold with fill. */
+.cs-tldr {
+  flex: 1 1 24rem;
+  display: flex;
+  gap: 1.25rem;
+  padding: 1.5rem 1.6rem;
+  background: rgba(248, 239, 189, 0.49);
+}
+.cs-tldr::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 2px;
+  align-self: stretch;
+  background: var(--portfolio-oxblood);
+}
+.cs-tldr .cs-label {
+  margin-bottom: 0.55rem;
+}
+.cs-tldr .cs-lede {
+  max-width: none;
+  margin: 0;
+  color: var(--portfolio-ink);
+}
+
+/* Skills read as an ordered stack, not as loose pills — numbered so they scan
+   as "the five things this project is made of". */
+.cs-skills {
+  flex: 0 1 17rem;
+}
+.cs-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin: 0;
   padding: 0;
   list-style: none;
 }
-.cs-tags li {
-  font-family: var(--portfolio-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.04em;
-  background: var(--portfolio-surface);
-  border: 1px solid var(--portfolio-hairline);
-  border-radius: 999px;
-  padding: 5px 13px;
+.cs-stack li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.65rem;
+  padding: 9px 13px;
+  background: var(--portfolio-paper-deep);
 }
-.cs-skills { margin-top: 1.9rem; }
+.cs-stack__n {
+  flex: 0 0 1.35rem;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--portfolio-oxblood);
+}
+.cs-stack__name {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: var(--portfolio-ink);
+}
 
 /* Collapse to a single column on narrow screens; drop the rail. */
 @media (max-width: 860px) {
-  .cs__shell { grid-template-columns: minmax(0, 1fr); gap: 0; }
-  .cs__rail { display: none; }
+  .cs__shell {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+  .cs__rail {
+    display: none;
+  }
 }
 
 .cs-breadcrumb {
@@ -2035,16 +2111,21 @@ button:focus-visible {
   font-size: 0.8rem;
   color: var(--portfolio-muted);
 }
-.cs-breadcrumb a { color: var(--portfolio-muted); text-decoration: none; }
-.cs-breadcrumb a:hover { color: var(--portfolio-ink); }
+.cs-breadcrumb a {
+  color: var(--portfolio-muted);
+  text-decoration: none;
+}
+.cs-breadcrumb a:hover {
+  color: var(--portfolio-ink);
+}
 .cs-eyebrow {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
-  margin: 0 0 1rem;
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
+  margin: 0 0 1.4rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   /* accent-ink, not accent: 6.2:1 on paper vs 3.5:1 (WCAG AA needs 4.5:1) */
   color: var(--portfolio-accent-ink);
@@ -2052,24 +2133,30 @@ button:focus-visible {
 .cs-eyebrow .cs-draft {
   color: var(--portfolio-muted);
   border: 1px solid var(--portfolio-hairline);
-  border-radius: 999px;
+  border-radius: var(--portfolio-radius);
   padding: 1px 9px;
 }
+/* The hero ends on two closed blocks (the TL;DR plate and the numbered stack),
+   which already carry their own edges — they need less trailing air than open
+   prose would. */
+.cs-section--hero {
+  padding-bottom: 2rem;
+}
 .cs-section--hero h1 {
-  max-width: 20ch;
+  max-width: 24ch;
   margin: 0.2rem 0 0;
-  font-family: var(--portfolio-sans);
-  font-size: clamp(2.4rem, 5vw, 3.6rem);
-  font-weight: 600;
-  line-height: 1.05;
+  font-family: var(--portfolio-display);
+  font-size: clamp(2.3rem, 4.4vw, 3.25rem);
+  font-weight: 500;
+  line-height: 1.08;
   letter-spacing: -0.025em;
   text-transform: none;
 }
 .cs-lede {
   max-width: 62ch;
   margin: 1.1rem 0 0;
-  font-size: clamp(1.05rem, 2vw, 1.3rem);
-  line-height: 1.5;
+  font-size: 1.125rem;
+  line-height: 1.62;
   color: var(--portfolio-muted);
 }
 .cs-meta {
@@ -2078,7 +2165,9 @@ button:focus-visible {
   gap: 1.25rem 2.5rem;
   margin: 1.75rem 0 0;
 }
-.cs-meta div { margin: 0; }
+.cs-meta div {
+  margin: 0;
+}
 .cs-meta dt {
   margin: 0 0 0.25rem;
   font-size: 0.7rem;
@@ -2087,13 +2176,17 @@ button:focus-visible {
   text-transform: uppercase;
   color: var(--portfolio-muted);
 }
-.cs-meta dd { margin: 0; font-size: 0.95rem; font-weight: 500; }
+.cs-meta dd {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
 
 /* Shared experience chip (driven by _data/experience.yml via `experience:`) */
 .cs-experience {
   margin: 1.75rem 0 0;
   border: 1px solid var(--portfolio-hairline);
-  border-radius: 10px;
+  border-radius: var(--portfolio-radius);
   padding: 0.6rem 0.9rem;
 }
 .cs-experience__chip {
@@ -2105,10 +2198,16 @@ button:focus-visible {
   gap: 0.4rem;
   font-size: 0.9rem;
 }
-.cs-experience__chip::-webkit-details-marker { display: none; }
-.cs-experience__company { font-weight: 600; }
+.cs-experience__chip::-webkit-details-marker {
+  display: none;
+}
+.cs-experience__company {
+  font-weight: 600;
+}
 .cs-experience__role,
-.cs-experience__when { color: var(--portfolio-muted); }
+.cs-experience__when {
+  color: var(--portfolio-muted);
+}
 .cs-experience__more {
   margin-left: auto;
   font-size: 0.72rem;
@@ -2116,65 +2215,97 @@ button:focus-visible {
   text-transform: uppercase;
   color: var(--portfolio-muted);
 }
-.cs-experience[open] .cs-experience__more { opacity: 0; }
+.cs-experience[open] .cs-experience__more {
+  opacity: 0;
+}
 .cs-experience__body {
   margin-top: 0.75rem;
   padding-top: 0.75rem;
   border-top: 1px solid var(--portfolio-hairline);
   font-size: 0.92rem;
 }
-.cs-experience__body p { margin: 0 0 0.5rem; }
-.cs-experience__body p:last-child { margin-bottom: 0; }
-.cs-experience__reporting { color: var(--portfolio-muted); }
+.cs-experience__body p {
+  margin: 0 0 0.5rem;
+}
+.cs-experience__body p:last-child {
+  margin-bottom: 0;
+}
+.cs-experience__reporting {
+  color: var(--portfolio-muted);
+}
 .cs-block {
   padding: 2.1rem 0;
   border-top: 1px solid var(--portfolio-hairline);
 }
+/* Labels carry the whole hierarchy in this system. Three registers:
+   --mark  section markers, oxblood, one notch larger
+   --sub   field labels inside a section, grey
+   --accent the one blue label per pair, so the eye pairs it with the metrics */
 .cs-label {
   margin: 0 0 1rem;
   font-family: var(--portfolio-mono);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--portfolio-muted);
+  color: var(--portfolio-concrete);
 }
-.cs-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.cs-label--mark {
+  font-size: 0.84rem;
+  color: var(--portfolio-oxblood);
+}
+.cs-label--sub {
+  color: var(--portfolio-concrete);
+}
+.cs-label--accent {
+  color: var(--portfolio-accent);
+}
+.cs-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
 .cs-chips li {
   font-size: 0.85rem;
   background: var(--portfolio-paper-deep);
   border: 1px solid var(--portfolio-hairline);
-  border-radius: 999px;
+  border-radius: var(--portfolio-radius);
   padding: 5px 14px;
 }
+/* Impact numbers. Bare figures, no cards — the size does the work, and the
+   accent keeps them tied to the rest of the blue system. */
 .cs-metrics {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.75rem;
+  margin: 0;
   padding-top: 0.2rem;
 }
 .cs-metrics > div {
-  background: var(--portfolio-surface);
-  border: 1px solid var(--portfolio-hairline);
-  border-radius: var(--portfolio-radius);
-  padding: 1.25rem 1.4rem;
+  margin: 0;
 }
-.cs-metrics strong {
-  display: block;
-  font-family: var(--portfolio-sans);
-  font-size: clamp(1.8rem, 4vw, 2.4rem);
+.cs-metrics dt {
+  font-family: var(--portfolio-display);
+  font-size: clamp(2rem, 4vw, 2.9rem);
   font-weight: 600;
   letter-spacing: -0.02em;
-  line-height: 1;
+  line-height: 1.05;
+  color: var(--portfolio-accent);
 }
-.cs-metrics span {
-  display: block;
-  margin-top: 0.5rem;
+.cs-metrics dd {
+  margin: 0.35rem 0 0;
   font-size: 0.85rem;
   line-height: 1.4;
   color: var(--portfolio-muted);
 }
-.cs-links { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.cs-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
 .cs-button {
   display: inline-flex;
   align-items: center;
@@ -2187,15 +2318,23 @@ button:focus-visible {
   border-radius: var(--portfolio-radius-sm);
   color: var(--portfolio-ink);
   text-decoration: none;
-  transition: background 0.15s ease, border-color 0.15s ease;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
 }
-.cs-button:hover { color: var(--portfolio-ink); background: var(--portfolio-paper-deep); }
+.cs-button:hover {
+  color: var(--portfolio-ink);
+  background: var(--portfolio-paper-deep);
+}
 .cs-button--primary {
   background: var(--portfolio-ink);
   color: var(--portfolio-paper);
   border-color: var(--portfolio-ink);
 }
-.cs-button--primary:hover { background: #000; color: var(--portfolio-paper); }
+.cs-button--primary:hover {
+  background: #000;
+  color: var(--portfolio-paper);
+}
 
 /* --- Highlights / media --------------------------------------------------- */
 .cs-media-grid {
@@ -2203,8 +2342,12 @@ button:focus-visible {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1rem;
 }
-.cs-media-item { margin: 0; }
-.cs-media-item--featured { grid-column: 1 / -1; }
+.cs-media-item {
+  margin: 0;
+}
+.cs-media-item--featured {
+  grid-column: 1 / -1;
+}
 .cs-media-item img,
 .cs-media-item video {
   width: 100%;
@@ -2214,6 +2357,26 @@ button:focus-visible {
   border: 1px solid var(--portfolio-hairline);
   background: var(--portfolio-paper-deep);
 }
+/* Hover-to-play cards: a quiet cue that the tile is live. */
+.cs-media-item .cs-media-hoverplay {
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .cs-media-item:hover .cs-media-hoverplay {
+    border-color: var(--portfolio-ink);
+    transform: translateY(-2px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cs-media-item .cs-media-hoverplay {
+    transition: none;
+  }
+  .cs-media-item:hover .cs-media-hoverplay {
+    transform: none;
+  }
+}
 .cs-media-embed {
   position: relative;
   padding-top: 56.25%;
@@ -2221,7 +2384,13 @@ button:focus-visible {
   overflow: hidden;
   border: 1px solid var(--portfolio-hairline);
 }
-.cs-media-embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.cs-media-embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
 .cs-media-placeholder {
   display: flex;
   align-items: center;
@@ -2235,46 +2404,306 @@ button:focus-visible {
   text-align: center;
   padding: 1rem;
 }
+/* Highlights captions carry the point of the clip, not a file label — sized to
+   read as a statement rather than metadata. */
 .cs-media-item figcaption {
-  margin-top: 0.5rem;
-  font-size: 0.8rem;
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
   color: var(--portfolio-muted);
+}
+.cs-media-item figcaption .cs-media-title {
+  display: block;
+  font-family: var(--portfolio-sans);
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--portfolio-ink);
+}
+.cs-media-item figcaption .cs-media-note {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* --- Background band ------------------------------------------------------ */
+/* The setup reads as a quiet warm plate so the Impact numbers that follow
+   land on open white. */
+/* A discrete plate, so it needs air on both sides — the section that follows
+   may open flush (the process column has no top padding of its own). Matches
+   the 56px the Reflection band carries above it. */
+.cs-section--band {
+  background: var(--portfolio-surface);
+  border-top: 0;
+  margin: 1.25rem 0 3.5rem;
+  padding: 2.4rem 2.5rem 2.6rem;
+}
+
+/* --- Impact --------------------------------------------------------------- */
+.cs-impact-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem 3rem;
+}
+.cs-impact-lede {
+  flex: 1 1 22rem;
+  max-width: 34rem;
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--portfolio-muted);
+}
+/* The two groups sit side by side on one row, and the clips inside each group
+   sit side by side too. Everything is pinned to one media height, so a portrait
+   and a landscape clip read as the same object at different crops — the widths
+   are what differ, which is also what sets the two group widths. */
+.cs-impact-groups {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 1.25rem;
+  margin-top: 2.25rem;
+}
+.cs-impact-group {
+  flex: 1 1 20rem;
+  min-width: 0;
+  background: var(--portfolio-paper-deep);
+  border-radius: var(--portfolio-radius);
+  padding: 1.25rem 1.35rem 1.4rem;
+}
+/* The motion group carries a landscape clip, so it needs the wider share. */
+.cs-impact-group:first-child {
+  flex-grow: 1.5;
+}
+
+.cs-impact-group .cs-impact-list,
+.cs-impact-group .cs-media-grid {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  gap: 0.95rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+}
+.cs-impact-group .cs-impact-item,
+.cs-impact-group .cs-media-item {
+  flex: 0 1 auto;
+  min-width: 0;
+  margin: 0;
+}
+.cs-impact-group .cs-impact-item video,
+.cs-impact-group .cs-media-item video,
+.cs-impact-group .cs-media-item img {
+  height: clamp(200px, 22vw, 282px);
+  width: auto;
+  max-width: 100%;
+  border-radius: 0;
+  border: 0;
+}
+.cs-impact-group .cs-impact-item__text,
+.cs-impact-group .cs-media-item figcaption {
+  max-width: 26ch;
+  margin: 0.55rem 0 0;
+}
+/* Carries the "hover to play" cue over the clip — the same affordance the
+   research pairs use. Sits top-left so it clears the native control bar. */
+/* "Hover to play" over the clip — the same affordance the research pairs use.
+   The item is the positioning context rather than a wrapper box: the clips size
+   from their own aspect ratio against a fixed height, so an extra box would
+   have no intrinsic width to resolve against and would collapse to zero.
+   Anchored top-left, clear of the native control bar. */
+.cs-impact-item,
+.cs-media-item {
+  position: relative;
+}
+.cs-impact-item > .rs-cue,
+.cs-media-item > .rs-cue {
+  top: 9px;
+  bottom: auto;
+  line-height: 1.4;
+  opacity: 1;
+}
+.cs-impact-item.is-playing > .rs-cue,
+.cs-media-item.is-playing > .rs-cue {
+  opacity: 0;
+}
+/* No hover, no cue: on touch the native controls are the whole story. */
+@media (hover: none), (pointer: coarse) {
+  .cs-impact-item > .rs-cue,
+  .cs-media-item > .rs-cue {
+    display: none;
+  }
+}
+
+.cs-media-title {
+  display: block;
+  font-size: 0.94rem;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--portfolio-ink);
+}
+.cs-media-note {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--portfolio-muted);
+}
+
+/* Below the two-group width, let each group take the full row but keep its
+   own clips side by side. */
+@media (max-width: 62rem) {
+  .cs-impact-group,
+  .cs-impact-group:first-child {
+    flex: 1 1 100%;
+  }
+}
+/* Group tab — a short accent rule, then the name. Blue by default, ochre for
+   the second group so the two read as different families at a glance. */
+.cs-group-label {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0 0 0.9rem;
+  font-family: var(--portfolio-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--portfolio-muted);
+}
+.cs-group-label::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 2px;
+  height: 0.95em;
+  background: var(--portfolio-steel);
+}
+.cs-group-label--warm::before {
+  background: var(--portfolio-oxblood);
+}
+
+.cs-impact-group .cs-impact-list,
+.cs-impact-group .cs-media-grid {
+  margin-top: 0;
 }
 
 /* --- At-a-glance summary -------------------------------------------------- */
 .cs-summary {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2.9rem;
 }
 .cs-summary h2 {
-  max-width: none;
-  margin: 0 0 0.5rem;
-  font-family: var(--portfolio-sans);
-  font-size: 1.1rem;
-  font-weight: 600;
-  line-height: 1.3;
-  letter-spacing: 0;
-  text-transform: none;
+  margin-bottom: 0.6rem;
 }
 .cs-summary p {
   max-width: none;
   margin: 0;
-  font-size: 0.95rem;
-  line-height: 1.55;
+  font-size: 1.125rem;
+  line-height: 1.62;
   color: var(--portfolio-muted);
+}
+/* Named examples backing the impact claim. Sits below the three columns so the
+   clips get full content width instead of a ~1/3 column. The pair mixes one
+   portrait and one landscape clip, so they are normalised on HEIGHT rather than
+   width — equal widths would leave the portrait towering over the landscape. */
+.cs-impact-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 1.75rem;
+  margin: 1.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.cs-impact-item {
+  flex: 1 1 100%;
+  margin: 0;
+}
+.cs-impact-item__text {
+  max-width: 34ch;
+  min-width: 12rem;
+  margin: 0.6rem 0 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--portfolio-muted);
+}
+.cs-impact-item__text strong {
+  color: var(--portfolio-ink);
+}
+.cs-impact-item video {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--portfolio-radius);
+  border: 1px solid var(--portfolio-hairline);
+  background: var(--portfolio-paper-deep);
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+/* Wide enough for the pair to sit side by side: pin both clips to one height
+   and let each take whatever width its own aspect ratio needs. */
+@media (min-width: 46rem) {
+  .cs-impact-item {
+    flex: 0 1 auto;
+  }
+  .cs-impact-item video {
+    height: 300px;
+    width: auto;
+    max-width: 100%;
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  .cs-impact-item:hover video {
+    border-color: var(--portfolio-ink);
+    transform: translateY(-2px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cs-impact-item video {
+    transition: none;
+  }
+  .cs-impact-item:hover video {
+    transform: none;
+  }
 }
 
 /* --- Roadmap (two-column scrollytelling) ---------------------------------- */
-.cs-roadmap { border-top: 0; padding-top: 0; }
+.cs-roadmap {
+  border-top: 0;
+  padding-top: 0;
+}
+/* Section headline above the stages. Sits outside .roadmap-body on purpose so
+   the rail script does not read it as a stage. */
+.cs-roadmap-headline {
+  max-width: none; /* runs the full column so it sets on one line, as in Paper */
+  margin: 0 0 1.4rem;
+  font-family: var(--portfolio-display);
+  font-size: clamp(1.7rem, 3.2vw, 2.15rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  text-transform: none;
+  color: var(--portfolio-ink);
+}
 .cs-roadmap__grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: clamp(1.5rem, 4vw, 3.5rem);
   align-items: start;
 }
-.cs-roadmap__grid.has-rail { grid-template-columns: 210px minmax(0, 1fr); }
-.roadmap-rail { display: none; }
+.cs-roadmap__grid.has-rail {
+  grid-template-columns: 210px minmax(0, 1fr);
+}
+.roadmap-rail {
+  display: none;
+}
 .cs-roadmap__grid.has-rail .roadmap-rail {
   display: block;
   position: sticky;
@@ -2290,8 +2719,14 @@ button:focus-visible {
   /* muted, not concrete: 5.6:1 on paper vs 2.1:1 (WCAG AA needs 4.5:1) */
   color: var(--portfolio-muted);
 }
-.roadmap-rail ol { list-style: none; margin: 0; padding: 0; }
-.roadmap-rail li { margin: 0; }
+.roadmap-rail ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.roadmap-rail li {
+  margin: 0;
+}
 .roadmap-rail a {
   display: flex;
   gap: 0.6rem;
@@ -2302,7 +2737,9 @@ button:focus-visible {
   text-decoration: none;
   transition: color 0.15s ease;
 }
-.roadmap-rail a:hover { color: var(--portfolio-ink); }
+.roadmap-rail a:hover {
+  color: var(--portfolio-ink);
+}
 .roadmap-rail__num {
   flex: none;
   width: 24px;
@@ -2315,7 +2752,10 @@ button:focus-visible {
   border-radius: 50%;
   transition: all 0.15s ease;
 }
-.roadmap-rail a.is-active { color: var(--portfolio-ink); font-weight: 600; }
+.roadmap-rail a.is-active {
+  color: var(--portfolio-ink);
+  font-weight: 600;
+}
 .roadmap-rail a.is-active .roadmap-rail__num {
   background: var(--portfolio-accent);
   border-color: var(--portfolio-accent);
@@ -2324,59 +2764,161 @@ button:focus-visible {
 /* The column stays wide enough for figures and embeds, but running prose is
    capped near 70 characters — the comfortable measure. Previously the body ran
    46rem wide, which pushed paragraphs to 80–90 characters per line. */
-.roadmap-body { max-width: 52rem; }
+/* The stage column runs the full content width, so its rules, route chips and
+   reveal rows line up with the Background band and the Impact groups above.
+   Only the running prose keeps a reading measure. */
+.roadmap-body {
+  max-width: none;
+}
 .roadmap-body > p,
 .roadmap-body > ul,
 .roadmap-body > ol,
 .roadmap-body > blockquote,
-.roadmap-body > details,
 .roadmap-body > h3,
 .roadmap-body > h4 {
-  max-width: 38rem;
+  max-width: 44rem;
 }
+/* The section intro is a standfirst, not body copy: it takes the full column
+   so each of its two authored lines stays on one line. */
+.roadmap-body > p:first-child {
+  max-width: none;
+}
+/* Stage heading — a ruled break, then an oversized oxblood number sitting on
+   the same baseline as the stage name. The number is the landmark; the name is
+   deliberately quiet next to it. */
 .roadmap-body > h2 {
   scroll-margin-top: 5.5rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.8rem;
   max-width: none;
-  margin: 3.5rem 0 1rem;
-  font-family: var(--portfolio-sans);
-  font-size: clamp(1.5rem, 2.5vw, 1.9rem);
-  font-weight: 600;
+  margin: 3.4rem 0 1.3rem;
+  padding-top: 2.1rem;
+  border-top: 1px solid var(--portfolio-line);
+  font-family: var(--portfolio-display);
+  font-weight: 500;
   line-height: 1.2;
-  letter-spacing: -0.01em;
   text-transform: none;
 }
-.roadmap-body > h2:first-child { margin-top: 0; }
-.roadmap-body h3 {
-  margin: 2rem 0 0.6rem;
-  font-family: var(--portfolio-sans);
-  font-size: 1.15rem;
-  font-weight: 600;
-  text-transform: none;
+.roadmap-body > h2:first-child {
+  margin-top: 0;
 }
-.roadmap-body h4 {
-  margin: 1.75rem 0 0.5rem;
-  font-family: var(--portfolio-sans);
-  font-size: 1rem;
-  font-weight: 600;
+.stage-n {
+  font-size: clamp(1.7rem, 3vw, 2.05rem);
+  letter-spacing: -0.02em;
+  color: var(--portfolio-oxblood);
+}
+.stage-name {
+  font-size: 1.125rem;
   color: var(--portfolio-ink);
 }
-.roadmap-body p, .roadmap-body li { font-size: 1rem; line-height: 1.65; }
-.roadmap-body p { margin: 0 0 1rem; }
-.roadmap-body ul { margin: 0 0 1.2rem; padding-left: 1.2rem; }
-/* accent-ink, not accent: body links need 4.5:1 and plain accent only hits 3.5:1 */
-.roadmap-body a { color: var(--portfolio-accent-ink); }
+/* Unnumbered h2s (e.g. Reflection's own headline) keep a plain display look. */
+.roadmap-body > h2:not(:has(.stage-n)) {
+  display: block;
+  font-size: clamp(1.6rem, 3vw, 2.05rem);
+  letter-spacing: -0.02em;
+}
 
-/* A paragraph that is nothing but bold text becomes the stage's takeaway line —
-   the one sentence a skimming reader should get before the supporting detail. */
+/* Sub-headings are labels, not headlines — the same grey caps used everywhere
+   else in the system, so the only display type per stage is the number. */
+.roadmap-body h3,
+.roadmap-body h4 {
+  margin: 2.1rem 0 0.75rem;
+  font-family: var(--portfolio-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--portfolio-concrete);
+}
+.roadmap-body p,
+.roadmap-body li {
+  font-size: 1.125rem;
+  line-height: 1.62;
+  color: var(--portfolio-muted);
+}
+.roadmap-body p {
+  margin: 0 0 1rem;
+}
+.roadmap-body ul {
+  margin: 0 0 1.2rem;
+  padding-left: 1.2rem;
+}
+/* accent-ink, not accent: body links need 4.5:1 and plain accent only hits 3.5:1 */
+.roadmap-body a {
+  color: var(--portfolio-accent-ink);
+}
+
+/* A paragraph that is nothing but bold text becomes a field label — the same
+   grey caps used for every other label, so Reflection's two columns read as a
+   pair rather than as two headings. */
 .roadmap-body > p:has(> strong:only-child) {
   max-width: 34rem;
-  margin: 0 0 1.15rem;
-  font-size: 1.14rem;
-  line-height: 1.45;
-  letter-spacing: -0.005em;
+  margin: 0 0 0.7rem;
+  font-family: var(--portfolio-mono);
+  font-size: 0.75rem;
+  line-height: 1.4;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--portfolio-concrete);
+}
+.roadmap-body > p:has(> strong:only-child) > strong {
+  font-weight: 500;
+}
+
+/* --- Reflection ------------------------------------------------------------
+   Closes the page the way Background opened it: a warm plate, an oxblood
+   marker, one display line, then the two honest columns side by side. */
+.cs-roadmap--reflection {
+  margin-top: 3.5rem;
+  padding: 2.4rem 2.5rem 2.6rem;
+  background: var(--portfolio-surface);
+}
+.cs-roadmap--reflection .roadmap-body {
+  max-width: none;
+}
+.cs-roadmap--reflection .roadmap-body > h2 {
+  margin: 0 0 0.55rem;
+  padding-top: 0;
+  border-top: 0;
+  font-family: var(--portfolio-mono);
+  font-size: 0.84rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--portfolio-oxblood);
+}
+.cs-roadmap--reflection .roadmap-body > h3 {
+  margin: 0 0 1.9rem;
+  max-width: 28ch;
+  font-family: var(--portfolio-display);
+  font-size: clamp(1.6rem, 3vw, 2.05rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  text-transform: none;
   color: var(--portfolio-ink);
 }
-.roadmap-body > p:has(> strong:only-child) > strong { font-weight: 600; }
+.cs-reflect {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2.2rem 2.9rem;
+}
+.cs-reflect__col > *:last-child {
+  margin-bottom: 0;
+}
+.cs-reflect__col > p,
+.cs-reflect__col > ul {
+  max-width: none;
+}
+/* Learned reads forward in the accent; failed reads back in oxblood. */
+.cs-reflect__col--learned > p:first-child {
+  color: var(--portfolio-accent);
+}
+.cs-reflect__col--failed > p:first-child {
+  color: var(--portfolio-oxblood);
+}
 
 /* Evidence figures span the full column, wider than the prose measure. */
 .roadmap-body figure {
@@ -2412,69 +2954,309 @@ button:focus-visible {
 }
 .route-flow__label {
   width: 100%;
-  margin: 0 0 0.4rem;
-  font-size: 0.7rem;
-  font-weight: 600;
+  margin: 0 0 0.55rem;
+  font-family: var(--portfolio-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--portfolio-concrete);
+}
+/* Flat sage tiles, no border, no radius — square blocks on white. */
+.route-flow__step {
+  font-size: 0.72rem;
+  font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--portfolio-muted);
-}
-.route-flow__step {
-  font-size: 0.82rem;
-  background: var(--portfolio-accent-soft);
-  border: 1px solid var(--portfolio-hairline);
-  border-radius: var(--portfolio-radius-sm);
-  padding: 5px 11px;
+  background: var(--portfolio-paper-deep);
+  border: 0;
+  border-radius: 0;
+  padding: 7px 12px;
   color: var(--portfolio-accent-ink);
 }
-.route-flow__arrow { color: var(--portfolio-accent); font-size: 0.85rem; }
-
-/* Reveals */
-.roadmap-body details, .cs details {
-  margin: 1.25rem 0;
-  border: 1px solid var(--portfolio-hairline);
-  border-radius: var(--portfolio-radius);
-  background: var(--portfolio-surface);
-  overflow: hidden;
+.route-flow__arrow {
+  color: var(--portfolio-concrete);
+  font-size: 0.85rem;
 }
-.roadmap-body summary, .cs summary {
+
+/* Reveals — pale clay rows, full content width. The oxblood "+" leads, so a
+   closed reveal reads as an invitation rather than as a disabled panel. */
+.roadmap-body details,
+.cs details {
+  margin: 0.85rem 0;
+  max-width: none;
+  border: 0;
+  border-radius: var(--portfolio-radius-reveal);
+  /* The clay row is the header; opening it reveals a near-white plate below. */
+  background: var(--portfolio-reveal-body);
+  overflow: hidden; /* clips the clay header into the rounded corners */
+}
+.roadmap-body summary,
+.cs summary {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.9rem 1.1rem;
-  font-size: 0.92rem;
-  font-weight: 500;
+  gap: 0.9rem;
+  padding: 1.05rem 1.25rem;
+  background: var(--portfolio-oxblood-soft);
+  font-size: 1.05rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--portfolio-ink);
   cursor: pointer;
   list-style: none;
 }
-.roadmap-body summary::-webkit-details-marker, .cs summary::-webkit-details-marker { display: none; }
-.roadmap-body summary::after, .cs summary::after { content: "+"; color: var(--portfolio-muted); font-size: 1.1rem; }
-.roadmap-body details[open] summary::after, .cs details[open] summary::after { content: "\2013"; }
-.roadmap-body details > *:not(summary), .cs details > *:not(summary) { margin-left: 1.1rem; margin-right: 1.1rem; }
-.roadmap-body details > *:last-child, .cs details > *:last-child { margin-bottom: 1.1rem; }
-.roadmap-body details ul { margin-top: 0; }
+.roadmap-body summary::-webkit-details-marker,
+.cs summary::-webkit-details-marker {
+  display: none;
+}
+/* Fixed, centred lane: "+" and "–" have different advance widths, so without
+   a reserved slot the title would jump sideways on every toggle. */
+.roadmap-body summary::before,
+.cs summary::before {
+  content: "+";
+  flex: 0 0 1rem;
+  width: 1rem;
+  align-self: flex-start;
+  margin-top: 0.15rem;
+  font-size: 1.3rem;
+  font-weight: 500;
+  line-height: 1;
+  text-align: center;
+  color: var(--portfolio-oxblood);
+}
+.roadmap-body details[open] summary::before,
+.cs details[open] summary::before {
+  content: "\2013";
+}
+/* Uniform generous inset: 24 all round on the opened plate. */
+.roadmap-body details > *:not(summary),
+.cs details > *:not(summary) {
+  margin-left: 24px;
+  margin-right: 24px;
+}
+/* Reveal bodies run at the subtitle size — they are supporting detail, so they
+   should not out-typeset the row that introduces them. */
+.roadmap-body details p,
+.cs details p {
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+.roadmap-body details > summary + *,
+.cs details > summary + * {
+  margin-top: 24px;
+}
+.roadmap-body details > *:last-child,
+.cs details > *:last-child {
+  margin-bottom: 24px;
+}
+
+/* Steps inside a reveal read as a numbered ledger, not as a bullet list: a
+   fixed number lane keeps 01–08 in one column however long the lines run. */
+.roadmap-body details ol,
+.cs details ol {
+  counter-reset: step;
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+.roadmap-body details ol > li,
+.cs details ol > li {
+  display: grid;
+  grid-template-columns: 2.75rem minmax(0, 1fr);
+  align-items: baseline;
+  counter-increment: step;
+  margin: 0 0 0.35rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--portfolio-ink);
+}
+.roadmap-body details ol > li::before,
+.cs details ol > li::before {
+  content: counter(step, decimal-leading-zero);
+  font-weight: 500;
+  color: var(--portfolio-ink);
+}
+.roadmap-body details ol > li:last-child,
+.cs details ol > li:last-child {
+  margin-bottom: 0;
+}
+
+/* Unordered lists get the same lane, marked rather than numbered. */
+.roadmap-body details ul,
+.cs details ul {
+  list-style: none;
+  padding-left: 0;
+}
+.roadmap-body details ul > li,
+.cs details ul > li {
+  display: grid;
+  grid-template-columns: 2.75rem minmax(0, 1fr);
+  align-items: baseline;
+  margin: 0 0 0.35rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+.roadmap-body details ul > li::before,
+.cs details ul > li::before {
+  content: "\2014";
+  color: var(--portfolio-concrete);
+}
+.roadmap-body details ul > li:last-child,
+.cs details ul > li:last-child {
+  margin-bottom: 0;
+}
+
+/* Grouped steps — label lane, number lane, step. Rules separate the groups so
+   the eight items read as four decisions. */
+/* No margin shorthand here — the generic reveal rule supplies the 24px inset.
+   One counter for the whole checklist, reset once at the top, so numbering runs
+   01–08 straight through the four groups. It cannot ride on the built-in
+   `list-item` counter: the rows are `display: grid`, not `display: list-item`,
+   so nothing would increment it. */
+.roadmap-body details .rs-steps,
+.rs-steps {
+  list-style: none;
+  padding: 0;
+  counter-reset: step;
+}
+.roadmap-body details .rs-steps > li,
+.rs-steps > .rs-steps__group {
+  display: grid;
+  grid-template-columns: 9rem minmax(0, 1fr);
+  align-items: start;
+  gap: 0 0.5rem;
+  margin: 0;
+  padding: 1.15rem 0;
+  border-top: 1px solid rgba(29, 33, 29, 0.14);
+}
+.rs-steps > .rs-steps__group:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+.rs-steps > .rs-steps__group:last-child {
+  padding-bottom: 0;
+}
+/* Groups are containers, not steps: no marker, and they must not advance the
+   counter that the rows inside them share. */
+.roadmap-body details .rs-steps > .rs-steps__group,
+.rs-steps > .rs-steps__group {
+  counter-increment: none;
+}
+.roadmap-body details .rs-steps > .rs-steps__group::before,
+.rs-steps > .rs-steps__group::before {
+  content: none;
+}
+.roadmap-body details .rs-steps__label,
+.rs-steps__label {
+  margin: 0;
+  font-family: var(--portfolio-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  line-height: 1.9;
+  text-transform: uppercase;
+  color: var(--portfolio-muted);
+}
+/* counter-reset: none — the generic `details ol` rule would otherwise restart
+   the count inside every group, giving 01,02 / 01 / 01,02,03. */
+.roadmap-body details .rs-steps__items,
+.rs-steps__items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: none;
+}
+.roadmap-body details .rs-steps__items > li,
+.rs-steps__items > li {
+  display: grid;
+  grid-template-columns: 2.75rem minmax(0, 1fr);
+  align-items: baseline;
+  counter-increment: step;
+  margin: 0 0 0.35rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--portfolio-ink);
+}
+.roadmap-body details .rs-steps__items > li::before,
+.rs-steps__items > li::before {
+  content: counter(step, decimal-leading-zero);
+  font-weight: 500;
+  color: var(--portfolio-ink);
+}
+.roadmap-body details .rs-steps__items > li:last-child,
+.rs-steps__items > li:last-child {
+  margin-bottom: 0;
+}
+
+/* Closed rows still say what they hold: title, one explaining line, and a tag
+   for the shape of what is inside ("8 steps", "5 × 3 matrix"). */
+.reveal__text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.reveal__title {
+  font-size: 1.05rem;
+  line-height: 1.35;
+  color: var(--portfolio-ink);
+}
+.reveal__sub {
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--portfolio-muted);
+}
+.reveal__meta {
+  flex: 0 0 auto;
+  align-self: center;
+  font-family: var(--portfolio-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--portfolio-muted);
+}
+@media (max-width: 34rem) {
+  .reveal__meta {
+    display: none;
+  }
+}
 
 /* Prompt cards (blockquotes inside a reveal) */
+/* An actual prompt, set like one: real monospace, so the reader can see it is
+   text that was typed at a model rather than prose about the model.
+   --portfolio-mono is Jost in this system, so this must use --portfolio-code. */
 .prompt-card {
   position: relative;
-  margin: 0.5rem 1.1rem 1.1rem !important;
-  padding: 1rem 1.1rem;
+  margin: 0.75rem 24px 24px !important;
+  padding: 2.6rem 1.25rem 1.25rem;
   background: var(--portfolio-ink);
   color: var(--portfolio-paper);
   border-radius: var(--portfolio-radius-sm);
   border: 0;
-  font-family: var(--portfolio-mono);
-  font-size: 0.82rem;
-  line-height: 1.6;
+  font-family: var(--portfolio-code);
+  font-size: 0.78rem;
+  line-height: 1.7;
   white-space: pre-wrap;
+  overflow-x: auto;
 }
-.prompt-card p { margin: 0 0 0.6rem; font-family: var(--portfolio-mono); font-size: 0.82rem; color: var(--portfolio-paper); }
-.prompt-card p:last-child { margin-bottom: 0; }
+.roadmap-body .prompt-card p,
+.prompt-card p {
+  margin: 0 0 0.6rem;
+  font-family: var(--portfolio-code);
+  font-size: 0.78rem;
+  line-height: 1.7;
+  letter-spacing: 0;
+  color: var(--portfolio-paper);
+}
+.prompt-card p:last-child {
+  margin-bottom: 0;
+}
 .prompt-card__copy {
   position: absolute;
-  top: 0.6rem;
-  right: 0.6rem;
+  top: 0.75rem;
+  right: 0.75rem;
   font-family: var(--portfolio-sans);
   font-size: 0.68rem;
   letter-spacing: 0.04em;
@@ -2486,7 +3268,9 @@ button:focus-visible {
   padding: 4px 8px;
   cursor: pointer;
 }
-.prompt-card__copy:hover { background: rgba(255, 255, 255, 0.24); }
+.prompt-card__copy:hover {
+  background: rgba(255, 255, 255, 0.24);
+}
 
 /* Generic callout blockquotes */
 .roadmap-body > blockquote {
@@ -2511,7 +3295,11 @@ button:focus-visible {
   color: var(--portfolio-muted);
   font-size: 0.85rem;
 }
-.media-slot::before { content: "+"; font-size: 1.2rem; color: var(--portfolio-concrete); }
+.media-slot::before {
+  content: "+";
+  font-size: 1.2rem;
+  color: var(--portfolio-concrete);
+}
 
 /* Tables in the case study */
 .roadmap-body table {
@@ -2520,13 +3308,17 @@ button:focus-visible {
   margin: 1rem 0 1.5rem;
   font-size: 0.85rem;
 }
-.roadmap-body th, .roadmap-body td {
+.roadmap-body th,
+.roadmap-body td {
   padding: 0.6rem 0.7rem;
   border: 1px solid var(--portfolio-hairline);
   text-align: left;
   vertical-align: top;
 }
-.roadmap-body th { background: var(--portfolio-paper-deep); font-weight: 600; }
+.roadmap-body th {
+  background: var(--portfolio-paper-deep);
+  font-weight: 600;
+}
 
 /* Footer nav */
 .cs-footer {
@@ -2539,18 +3331,29 @@ button:focus-visible {
   border-top: 1px solid var(--portfolio-hairline);
   font-size: 0.9rem;
 }
-.cs-footer a { color: var(--portfolio-ink); text-decoration: none; }
-.cs-footer a:hover { color: var(--portfolio-accent); }
+.cs-footer a {
+  color: var(--portfolio-ink);
+  text-decoration: none;
+}
+.cs-footer a:hover {
+  color: var(--portfolio-accent);
+}
 
 @media (max-width: 720px) {
-  .cs-roadmap__grid.has-rail { grid-template-columns: 1fr; }
+  .cs-roadmap__grid.has-rail {
+    grid-template-columns: 1fr;
+  }
   .cs-roadmap__grid.has-rail .roadmap-rail {
     position: static;
     margin-bottom: 1.5rem;
     padding-bottom: 1rem;
     border-bottom: 1px solid var(--portfolio-hairline);
   }
-  .roadmap-rail ol { display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; }
+  .roadmap-rail ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+  }
 }
 
 /*******************************************************************************
@@ -2562,18 +3365,56 @@ button:focus-visible {
  ******************************************************************************/
 
 /* ---- funnel diagram ------------------------------------------------------ */
+/* Diagram left, the sentence that explains it right — the caption is the
+   payload here, so it gets equal billing rather than a line of small print. */
+.roadmap-body .rs-funnel,
 .rs-funnel {
-  margin: 1.75rem 0 2rem;
-  max-width: 620px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  margin: 1.75rem 0 2.5rem;
+  max-width: none;
+}
+.rs-funnel__plate {
+  flex: 1 1 24rem;
+  min-width: 0;
+  padding: 0.85rem;
+  background: var(--portfolio-surface);
 }
 .rs-funnel svg {
   display: block;
   width: 100%;
   height: auto;
-  padding: 0.5rem;
-  border: 1px solid var(--portfolio-hairline);
-  border-radius: var(--portfolio-radius);
-  background: var(--portfolio-surface);
+  border: 0;
+  background: transparent;
+}
+/* Beats `.roadmap-body figure figcaption`, which pushes captions down by 0.7rem
+   for the stacked-figure case — here the caption is a column, not a footnote. */
+.roadmap-body .rs-funnel__caption,
+.rs-funnel__caption {
+  flex: 1 1 18rem;
+  min-width: 0;
+  margin: 0;
+  padding-top: 0.35rem;
+  text-align: left;
+}
+.roadmap-body .rs-funnel__caption p,
+.rs-funnel__caption p {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--portfolio-muted);
+}
+.roadmap-body .rs-funnel__eyebrow,
+.rs-funnel__eyebrow {
+  margin: 0 0 0.5rem !important;
+  font-family: var(--portfolio-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--portfolio-concrete);
 }
 
 .rs-funnel__note {
@@ -2616,8 +3457,9 @@ button:focus-visible {
 
   display: flex;
   flex-direction: column;
+  align-items: center; /* the pair is an exhibit — it sits centred in the column */
   gap: clamp(36px, 6vw, 64px);
-  margin: 1.75rem 0 2rem;
+  margin: 1.25rem 0 2rem;
 }
 
 /* Explicit areas so the arrow centers on the FRAMES, not on the frame+caption
@@ -2632,12 +3474,25 @@ button:focus-visible {
   gap: 10px var(--rs-gap);
   justify-content: start;
 }
-.rs-frame--source { grid-area: sf; }
-.rs-frame--product { grid-area: pf; }
-.rs-cap--source { grid-area: sc; }
-.rs-cap--product { grid-area: pc; }
-.rs-arrow { grid-area: ar; align-self: center; }
-.rs-meta { grid-area: mt; }
+.rs-frame--source {
+  grid-area: sf;
+}
+.rs-frame--product {
+  grid-area: pf;
+}
+.rs-cap--source {
+  grid-area: sc;
+}
+.rs-cap--product {
+  grid-area: pc;
+}
+.rs-arrow {
+  grid-area: ar;
+  align-self: center;
+}
+.rs-meta {
+  grid-area: mt;
+}
 
 .rs-frame {
   position: relative;
@@ -2648,7 +3503,9 @@ button:focus-visible {
   cursor: pointer;
   outline: none;
 }
-.rs-frame:focus-visible { box-shadow: 0 0 0 2px var(--portfolio-accent); }
+.rs-frame:focus-visible {
+  box-shadow: 0 0 0 2px var(--portfolio-accent);
+}
 .rs-frame video {
   display: block;
   width: 100%;
@@ -2657,7 +3514,9 @@ button:focus-visible {
 }
 /* Both clips share a ratio, so "reference vs shipped" is carried by a hairline
    on the source rather than by a letterbox. */
-.rs-frame--source { border: 1px solid var(--portfolio-hairline-strong); }
+.rs-frame--source {
+  border: 1px solid var(--portfolio-hairline-strong);
+}
 
 .rs-frame::after {
   content: "";
@@ -2668,7 +3527,9 @@ button:focus-visible {
   transition: opacity 0.25s ease;
   pointer-events: none;
 }
-.rs-frame.is-playing::after { opacity: 0; }
+.rs-frame.is-playing::after {
+  opacity: 0;
+}
 
 .rs-cue {
   position: absolute;
@@ -2685,7 +3546,9 @@ button:focus-visible {
   transition: opacity 0.25s ease;
   pointer-events: none;
 }
-.rs-frame.is-playing .rs-cue { opacity: 0; }
+.rs-frame.is-playing .rs-cue {
+  opacity: 0;
+}
 
 .rs-origin {
   margin-bottom: 5px;
@@ -2706,8 +3569,14 @@ button:focus-visible {
 }
 
 /* Ghosted so it does not compete with two moving clips. */
-.rs-arrow { color: var(--portfolio-concrete); }
-.rs-arrow svg { display: block; width: 22px; height: 22px; }
+.rs-arrow {
+  color: var(--portfolio-concrete);
+}
+.rs-arrow svg {
+  display: block;
+  width: 22px;
+  height: 22px;
+}
 
 .rs-meta {
   display: flex;
@@ -2721,7 +3590,10 @@ button:focus-visible {
   letter-spacing: 0.04em;
   color: var(--portfolio-muted);
 }
-.rs-meta span::before { content: "— "; color: var(--portfolio-concrete); }
+.rs-meta span::before {
+  content: "— ";
+  color: var(--portfolio-concrete);
+}
 
 @media (max-width: 620px) {
   .rs-pair {
@@ -2738,7 +3610,9 @@ button:focus-visible {
 
 @media (prefers-reduced-motion: reduce) {
   .rs-frame::after,
-  .rs-cue { transition: none; }
+  .rs-cue {
+    transition: none;
+  }
 }
 
 /* ---- 02 / Prototype — Kaiju Fight model pipeline ------------------------- */
@@ -2793,9 +3667,16 @@ button:focus-visible {
   white-space: nowrap;
   color: var(--portfolio-muted);
 }
-.rs-flow__lane--video { grid-column: 3; }
-.rs-flow__lane--post { grid-column: 5 / 8; }
-.rs-flow__lane--fallback { grid-row: 5; grid-column: 1; }
+.rs-flow__lane--video {
+  grid-column: 3;
+}
+.rs-flow__lane--post {
+  grid-column: 5 / 8;
+}
+.rs-flow__lane--fallback {
+  grid-row: 5;
+  grid-column: 1;
+}
 
 .rs-flow__node {
   grid-row: 3;
@@ -2837,7 +3718,9 @@ button:focus-visible {
   background: var(--portfolio-accent-soft);
 }
 .rs-flow__node--key b,
-.rs-flow__node--key span { color: var(--portfolio-accent-ink); }
+.rs-flow__node--key span {
+  color: var(--portfolio-accent-ink);
+}
 
 /* Fallback nodes only run when the primary route fails — dashed to say so. */
 .rs-flow__node--alt {
@@ -2846,11 +3729,17 @@ button:focus-visible {
   border-color: var(--portfolio-concrete);
   background: transparent;
 }
-.rs-flow__node--alt b { color: var(--portfolio-muted); }
+.rs-flow__node--alt b {
+  color: var(--portfolio-muted);
+}
 /* Pinned to the columns they hang below — otherwise auto-placement drops them
    into the 16px connector columns. */
-.rs-flow__node--alt-prep { grid-column: 3; }
-.rs-flow__node--alt-video { grid-column: 5; }
+.rs-flow__node--alt-prep {
+  grid-column: 3;
+}
+.rs-flow__node--alt-video {
+  grid-column: 5;
+}
 
 .rs-flow__link {
   grid-row: 3;
@@ -2858,7 +3747,10 @@ button:focus-visible {
   height: 1px;
   background: var(--portfolio-concrete);
 }
-.rs-flow__link--alt { grid-row: 5; grid-column: 4; }
+.rs-flow__link--alt {
+  grid-row: 5;
+  grid-column: 4;
+}
 
 /* Vertical connectors: down out of the failing model, back up into delivery. */
 .rs-flow__branch {
@@ -2887,8 +3779,12 @@ button:focus-visible {
   white-space: nowrap;
   color: var(--portfolio-concrete);
 }
-.rs-flow__branch--drop { grid-column: 3; }
-.rs-flow__branch--rise { grid-column: 5; }
+.rs-flow__branch--drop {
+  grid-column: 3;
+}
+.rs-flow__branch--rise {
+  grid-column: 5;
+}
 
 .rs-flow figcaption {
   margin-top: 0.7rem;
@@ -2898,8 +3794,181 @@ button:focus-visible {
 }
 
 /* ---- 03 / Implement — head-anchoring failure vs ground-anchoring fix ------ */
+/* --- Generative media platforms ------------------------------------------- */
+/* The claim on the left, the vendors it names on the right. Logo, name,
+   domain — a flat row, no cards: these are a fact about the build, not a
+   partner wall. */
+.roadmap-body .rs-platforms,
+.rs-platforms {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 1.25rem clamp(1.5rem, 3vw, 2.5rem);
+  margin: 0 0 2rem;
+  max-width: none;
+}
+.roadmap-body .rs-platforms__lede,
+.rs-platforms__lede {
+  flex: 1 1 20rem;
+  min-width: 0;
+  max-width: 28rem;
+  margin: 0;
+}
+.roadmap-body .rs-platforms__list,
+.rs-platforms__list {
+  flex: 1 1 18rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.9rem 2rem;
+  margin: 0;
+  padding: 0;
+  padding-top: 0.2rem;
+  list-style: none;
+  max-width: none;
+}
+.rs-platforms li {
+  display: grid;
+  grid-template-columns: 40px auto;
+  grid-template-rows: auto auto;
+  align-items: center;
+  column-gap: 0.8rem;
+  margin: 0;
+}
+.roadmap-body .rs-platforms img,
+.rs-platforms img {
+  grid-row: 1 / 3;
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border: 1px solid var(--portfolio-hairline);
+  border-radius: 0;
+}
+.rs-platforms__name {
+  align-self: end;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--portfolio-ink);
+}
+.rs-platforms__domain {
+  align-self: start;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  color: var(--portfolio-concrete);
+}
+
+/* --- Evaluation matrix ---------------------------------------------------- */
+/* Its own artifact rather than a reveal: the point is that the three anatomies
+   need different gates, and that only reads with the columns side by side. */
+.roadmap-body .rs-matrix,
+.rs-matrix {
+  margin: 1.25rem 0 2.25rem;
+  max-width: none;
+}
+.rs-matrix__scroll {
+  overflow-x: auto;
+}
+.roadmap-body .rs-matrix table,
+.rs-matrix table {
+  width: 100%;
+  min-width: 44rem;
+  margin: 0;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.rs-matrix__eyebrow {
+  caption-side: top;
+  margin-bottom: 0.7rem;
+  font-family: var(--portfolio-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-align: left;
+  color: var(--portfolio-concrete);
+}
+.roadmap-body .rs-matrix th,
+.roadmap-body .rs-matrix td,
+.rs-matrix th,
+.rs-matrix td {
+  padding: 0.75rem 0.9rem;
+  border: 0;
+  border-bottom: 1px solid var(--portfolio-hairline);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  text-align: left;
+  vertical-align: top;
+  color: var(--portfolio-muted);
+}
+/* Both axes share one neutral grey plate, darker than any body fill so the
+   header row and the metric column read as the frame, not as data. */
+.roadmap-body .rs-matrix thead th,
+.rs-matrix thead th {
+  background: rgba(29, 33, 29, 0.13);
+  border-bottom: 1px solid var(--portfolio-hairline-strong);
+  font-weight: 500;
+  color: var(--portfolio-ink);
+  white-space: nowrap;
+}
+/* Column key letters ride ahead of the anatomy name. */
+.rs-matrix__key {
+  display: inline-block;
+  margin-right: 0.45rem;
+  font-family: var(--portfolio-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: var(--portfolio-accent);
+}
+/* The metric column is the other axis — same grey plate as the header row. */
+.roadmap-body .rs-matrix tbody th,
+.rs-matrix tbody th {
+  background: rgba(29, 33, 29, 0.13);
+  border-right: 1px solid var(--portfolio-hairline-strong);
+  font-weight: 500;
+  color: var(--portfolio-ink);
+  white-space: nowrap;
+}
+.roadmap-body .rs-matrix thead th:first-child,
+.rs-matrix thead th:first-child {
+  border-right: 1px solid var(--portfolio-hairline-strong);
+}
+.rs-matrix b {
+  font-weight: 500;
+  color: var(--portfolio-ink);
+}
+/* Character fidelity is the one metric that stays High across all three
+   anatomies — the through-line of the whole evaluation, so the row is lit.
+   Data cells only: the axis keeps its grey. */
+.roadmap-body .rs-matrix tr.is-key td,
+.rs-matrix tr.is-key td {
+  background: rgba(248, 239, 189, 0.49);
+}
+/* The gating cell — the fail condition the evaluation exists to catch. Ruled
+   rather than filled, so it reads as a boundary and does not compete with the
+   lit row above it. */
+.roadmap-body .rs-matrix td.is-gate,
+.rs-matrix td.is-gate {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--portfolio-oxblood);
+}
+.rs-matrix td.is-gate b {
+  color: var(--portfolio-oxblood);
+}
+@media (max-width: 46rem) {
+  .roadmap-body .rs-matrix table,
+  .rs-matrix table {
+    min-width: 38rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* The diagram is schematic — it reads better tighter than the full column.
+   Scoped past `.roadmap-body figure { max-width: none }`. */
+.roadmap-body .rs-anchor,
 .rs-anchor {
-  margin: 1.75rem 0 2rem;
+  margin: 1.75rem 0 2.25rem;
+  max-width: 44rem;
 }
 
 /* The real input sits above the diagram — the anatomy is the whole reason
@@ -2914,25 +3983,38 @@ button:focus-visible {
   border-radius: var(--portfolio-radius);
   background: var(--portfolio-surface);
 }
+/* Specificity guard: `.roadmap-body figure img` sets width:100% for evidence
+   figures, which would otherwise blow this thumbnail up to full column width
+   and squeeze the caption into a one-word column. */
+.roadmap-body .rs-anchor__input img,
 .rs-anchor__input img {
   flex: 0 0 auto;
-  width: clamp(84px, 16vw, 116px);
+  width: clamp(96px, 14vw, 128px);
+  height: auto;
   aspect-ratio: 1;
   object-fit: cover;
+  border: 0;
   border-radius: var(--portfolio-radius-sm);
   background: var(--portfolio-paper-deep);
 }
+.rs-anchor__input > div {
+  min-width: 0;
+}
+.roadmap-body .rs-anchor__input p,
 .rs-anchor__input p {
   margin: 0;
-  font-size: 0.85rem;
-  line-height: 1.5;
+  max-width: 46ch;
+  font-size: 0.95rem;
+  line-height: 1.55;
   color: var(--portfolio-muted);
 }
+.roadmap-body .rs-anchor__eyebrow,
 .rs-anchor__eyebrow {
-  margin-bottom: 0.3rem !important;
+  margin-bottom: 0.35rem !important;
   font-family: var(--portfolio-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.11em;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--portfolio-concrete);
 }
@@ -2948,14 +4030,22 @@ button:focus-visible {
   border-radius: var(--portfolio-radius);
   background: var(--portfolio-surface);
 }
+.roadmap-body .rs-anchor__title,
 .rs-anchor__title {
-  margin: 0 0 0.5rem;
+  margin: 0 0 0.4rem;
   font-size: 0.85rem;
-  font-weight: 600;
+  font-weight: 500;
+  line-height: 1.35;
   color: var(--portfolio-ink);
 }
-.rs-anchor__fail { color: var(--portfolio-oxblood); font-weight: 500; }
-.rs-anchor__pass { color: var(--portfolio-accent); font-weight: 500; }
+.rs-anchor__fail {
+  color: var(--portfolio-oxblood);
+  font-weight: 500;
+}
+.rs-anchor__pass {
+  color: var(--portfolio-accent);
+  font-weight: 500;
+}
 
 .rs-anchor__panel svg {
   display: block;
@@ -2970,7 +4060,9 @@ button:focus-visible {
 }
 
 /* --- diagram parts --- */
-.rs-anchor__ref { fill: var(--portfolio-concrete); }
+.rs-anchor__ref {
+  fill: var(--portfolio-concrete);
+}
 .rs-anchor__ground {
   stroke: var(--portfolio-ink);
   stroke-width: 2;
@@ -2981,10 +4073,21 @@ button:focus-visible {
   stroke-width: 1;
 }
 /* The plush's own blue and yellow, dialled to sit inside the palette. */
-.rs-anchor__cap { fill: var(--portfolio-accent); opacity: 0.42; }
-.rs-anchor__stripe { fill: none; stroke: var(--portfolio-paper); stroke-width: 2; }
-.rs-anchor__part { fill: var(--portfolio-ochre); }
-.rs-anchor__eye { fill: var(--portfolio-ink); }
+.rs-anchor__cap {
+  fill: var(--portfolio-accent);
+  opacity: 0.42;
+}
+.rs-anchor__stripe {
+  fill: none;
+  stroke: var(--portfolio-paper);
+  stroke-width: 2;
+}
+.rs-anchor__part {
+  fill: var(--portfolio-ochre);
+}
+.rs-anchor__eye {
+  fill: var(--portfolio-ink);
+}
 
 /* Annotations carry the accent, so measurement reads apart from the drawing. */
 .rs-anchor__ann-line {
@@ -2993,7 +4096,9 @@ button:focus-visible {
   stroke-width: 1.5;
   stroke-dasharray: 5 4;
 }
-.rs-anchor__panel:last-child .rs-anchor__ann-line { stroke-dasharray: none; }
+.rs-anchor__panel:last-child .rs-anchor__ann-line {
+  stroke-dasharray: none;
+}
 .rs-anchor__ann {
   font-family: var(--portfolio-sans);
   font-size: 12px;
@@ -3007,5 +4112,7 @@ button:focus-visible {
 }
 
 @media (max-width: 620px) {
-  .rs-anchor__pair { grid-template-columns: minmax(0, 1fr); }
+  .rs-anchor__pair {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }

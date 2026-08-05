@@ -1,0 +1,31 @@
+<!--
+  Generative media platforms — 02 / Prototype.
+  The claim sits left, the three vendors it refers to sit right, so the
+  sentence and its evidence read as one row. Logo, name, domain — no
+  link-out, since the point is the shape of the vendor set, not a referral.
+  Styles: ".rs-platforms" in _sass/_portfolio.scss.
+-->
+{% assign icons = '/assets/projects/applied-ai-product-operations/icon' %}
+<div class="rs-platforms">
+  <p class="rs-platforms__lede">
+    Three vendors rather than one: the same model is priced differently across them, and some make a workflow faster to assemble than others.
+  </p>
+
+  <ul class="rs-platforms__list">
+    <li>
+      <img src="{{ icons | append: '/fal.jpg' | relative_url }}" alt="">
+      <span class="rs-platforms__name">Fal.ai</span>
+      <span class="rs-platforms__domain">fal.ai</span>
+    </li>
+    <li>
+      <img src="{{ icons | append: '/replicate.jpeg' | relative_url }}" alt="">
+      <span class="rs-platforms__name">Replicate</span>
+      <span class="rs-platforms__domain">replicate.com</span>
+    </li>
+    <li>
+      <img src="{{ icons | append: '/runware.png' | relative_url }}" alt="">
+      <span class="rs-platforms__name">Runware</span>
+      <span class="rs-platforms__domain">runware.ai</span>
+    </li>
+  </ul>
+</div>

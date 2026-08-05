@@ -54,9 +54,9 @@ ninja.data = [{
           description: "",
           section: "Projects",handler: () => {
               window.location.href = "/projects/community-growth-operations/";
-            },},{id: "projects-from-root-cause-to-dashboard-fixed-broken-ai-template-analytics",
-          title: 'From root-cause to dashboard: fixed broken AI-template analytics',
-          description: "A template&#39;s failure rate was counting engineering events as product failures, so healthy AI templates looked broken. How I redefined the metric around user outcome and rebuilt the analytics layer to survive a backend migration.",
+            },},{id: "projects-counting-outcomes-not-endpoints",
+          title: 'Counting outcomes, not endpoints',
+          description: "",
           section: "Projects",handler: () => {
               window.location.href = "/projects/product-analytics-infrastructure/";
             },},{

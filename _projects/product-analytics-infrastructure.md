@@ -1,18 +1,21 @@
 ---
 layout: project
-title: "From root-cause to dashboard: fixed broken AI-template analytics"
+title: Counting outcomes, not endpoints
 pillar: build
-kind: Product analytics · Data infrastructure
-summary: Rebuilt a failure-measurement system that was confusing business outcome with AI model performance.
+kind: Generative AI · Product analytics · Data infrastructure
+summary: Built the first template-level measurement layer for an AI video feature, replacing endpoint error counts with outcome-based metrics across 40+ templates. Adopted for daily launch monitoring and weekly template-health reviews.
 experience: nauknauk
 featured: true
 importance: 2
 published: true
+status: draft
+paper_design: analytics-real-artifacts-v1
 skills:
   - Metric design & semantics
   - Analytics infrastructure
-  - Stakeholder-driven dashboard design
+  - Dashboard design
   - Data integrity
+  - Migration-resilient semantics
 metrics:
   - value: "Redefined"
     label: what counts as a "failure" for AI templates around the user's outcome, and redesigned the analytics teams use to promote, fix, and retire them

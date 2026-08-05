@@ -1,6 +1,9 @@
 ---
 layout: default
 ---
+{% if page.paper_design == 'analytics-real-artifacts-v1' %}
+  {% include paper-analytics-case-study.liquid %}
+{% else %}
 <main class="case-study cs cs--{{ page.pillar }}">
   <div class="cs__shell">
 
@@ -346,3 +349,4 @@ layout: default
     });
   })();
 </script>
+{% endif %}

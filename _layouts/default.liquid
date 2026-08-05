@@ -18,13 +18,17 @@
   <!-- Body -->
   <body
     id="top"
-    class="{% if site.navbar_fixed %}fixed-top-nav{% endif %} {% unless site.footer_fixed %}sticky-bottom-footer{% endunless %} page-{{ page.layout }}"
+    class="{% if site.navbar_fixed %}fixed-top-nav{% endif %} {% unless site.footer_fixed %}sticky-bottom-footer{% endunless %} page-{{ page.layout }}{% if page.paper_design %} paper-design paper-design--{{ page.paper_design }}{% endif %}"
   >
     <!-- Header -->
-    {% include header.liquid %}
+    {% if page.paper_design == 'analytics-real-artifacts-v1' %}
+      {% include paper-analytics-header.liquid %}
+    {% else %}
+      {% include header.liquid %}
+    {% endif %}
 
     <!-- Content -->
-    <div class="container mt-5" role="main">
+    <div class="{% if page.paper_design == 'analytics-real-artifacts-v1' %}paper-page-container{% else %}container mt-5{% endif %}" role="main">
       {% if page.toc and page.toc.sidebar %}
         {% if page.toc.sidebar == 'right' %}
           <div class="row">
@@ -51,7 +55,9 @@
     </div>
 
     <!-- Footer -->
-    {% include footer.liquid %}
+    {% unless page.paper_design == 'analytics-real-artifacts-v1' %}
+      {% include footer.liquid %}
+    {% endunless %}
 
     <!-- JavaScripts -->
     {% include scripts.liquid %}

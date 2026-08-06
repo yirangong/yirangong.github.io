@@ -50,315 +50,315 @@
     });
   })();
 </script> <h2 id="02--prototype">02 / Prototype</h2> <h4 id="building-the-model-system">Building the model system</h4> <p>The first question was not simply, “Which video model is best?”<br> It was, “What sequence of models gives the video model a solvable input?”</p> <h4 id="generative-media-platforms">Generative media platforms</h4> <div class="rs-platforms"> <p class="rs-platforms__lede"> Three vendors rather than one: the same model is priced differently across them, and some make a workflow faster to assemble than others. </p> <ul class="rs-platforms__list"> <li> <img src="/assets/projects/applied-ai-product-operations/icon/fal.jpg" alt=""> <span class="rs-platforms__name">Fal.ai</span> <span class="rs-platforms__domain">fal.ai</span> </li> <li> <img src="/assets/projects/applied-ai-product-operations/icon/replicate.jpeg" alt=""> <span class="rs-platforms__name">Replicate</span> <span class="rs-platforms__domain">replicate.com</span> </li> <li> <img src="/assets/projects/applied-ai-product-operations/icon/runware.png" alt=""> <span class="rs-platforms__name">Runware</span> <span class="rs-platforms__domain">runware.ai</span> </li> </ul> </div> <figure class="rs-flow"> <div class="rs-flow__scroll"> <div class="rs-flow__grid"> <p class="rs-flow__eyebrow">Workflow · Kaiju Fight</p> <span class="rs-flow__lane rs-flow__lane--video">Reference → video</span> <span class="rs-flow__lane rs-flow__lane--post">Delivery</span> <div class="rs-flow__node rs-flow__node--terminal"> <b>User photo</b><span>uploaded figure</span> </div> <i class="rs-flow__link" aria-hidden="true"></i> <div class="rs-flow__node rs-flow__node--key"> <b>Seedance 2.0 Mini</b><span>Reference-to-video · 3:4 · 720p · 5s</span> </div> <i class="rs-flow__link" aria-hidden="true"></i> <div class="rs-flow__node"> <b>Fetch to CDN</b><span>Stable URL, not the vendor's</span> </div> <i class="rs-flow__link" aria-hidden="true"></i> <div class="rs-flow__node"> <b>Notify backend</b><span>Callback with the result</span> </div> <i class="rs-flow__link" aria-hidden="true"></i> <div class="rs-flow__node rs-flow__node--terminal rs-flow__node--end"> <b>Final video</b><span>delivered</span> </div> <div class="rs-flow__branch rs-flow__branch--drop"><span>on failure</span></div> <div class="rs-flow__branch rs-flow__branch--rise"><span>rejoins</span></div> <span class="rs-flow__lane rs-flow__lane--fallback">Fallback route</span> <div class="rs-flow__node rs-flow__node--alt rs-flow__node--alt-prep"> <b>FLUX 2 Klein 9B Edit</b><span>Normalize the figure to an upright solo portrait</span> </div> <i class="rs-flow__link rs-flow__link--alt" aria-hidden="true"></i> <div class="rs-flow__node rs-flow__node--alt rs-flow__node--alt-video"> <b>Kling O3 Pro</b><span>Video-to-video against a pinned reference clip</span> </div> </div> </div> <figcaption> One model carries the primary route. When it fails, the fallback switches model family rather than model tier — normalizing the figure first, then re-running the shot on Kling — and rejoins before delivery. Failures past that point are reported back to the product. </figcaption> </figure> <details><summary><span class="reveal__text"><span class="reveal__title">Model and fallback decisions</span><span class="reveal__sub">Grok, Flux Klein, and when to switch model family instead of model tier</span></span><span class="reveal__meta">4 decisions</span></summary> <ul> <li>Grok image edit was versatile, fast, and generally reliable, but could reject some protected-character inputs.</li> <li>Flux 9B Klein provided a safer alternate image-preparation route.</li> <li>A standard-to-pro fallback helped when the issue was performance.</li> <li>A different model family (for example, Kling instead of Seedance) was more useful when the failure came from moderation or IP restrictions.</li> </ul> </details> <h2 id="03--implement--iterate">03 / Implement &amp; iterate</h2> <h4 id="diagnosing-the-real-failure">Diagnosing the real failure</h4> <blockquote> <p>Observe the failure -&gt; Identify the constraint -&gt; Change input, prompt, route, or infrastructure -&gt; Test again</p> </blockquote> <p>The long-leg and takeoff cases initially looked like general hallucinations. Looking across repeated failures revealed a consistent spatial problem: head-position mapping. The problem was the model’s anchor, not the visual style.</p> <figure class="rs-anchor"> <div class="rs-anchor__input"> <img src="/assets/projects/applied-ai-product-operations/plush-input.jpg" alt="The user's plush toy: a round white body with a blue striped cap, black eyes and yellow side tufts, with no legs."> <div> <p class="rs-anchor__eyebrow">The input</p> <p>A round plush with no legs — the anatomy that head-position mapping cannot survive.</p> </div> </div> <div class="rs-anchor__pair"> <div class="rs-anchor__panel"> <p class="rs-anchor__title">Head-anchored <span class="rs-anchor__fail">· failure ✕</span></p> <svg viewbox="0 0 316 226" role="img" aria-label="The plush's head is mapped to the reference fighter's head, so its legs stretch down to reach the ground."> <line class="rs-anchor__ann-line" x1="24" y1="37" x2="308" y2="37"></line> <text class="rs-anchor__ann" x="308" y="29" text-anchor="end">heads aligned</text> <g class="rs-anchor__ref"> <circle cx="92" cy="52" r="15"></circle> <rect x="80" y="68" width="24" height="128" rx="12"></rect> </g> <g> <rect class="rs-anchor__part" x="196" y="97" width="7" height="99"></rect> <rect class="rs-anchor__part" x="207" y="97" width="7" height="99"></rect> <ellipse class="rs-anchor__part" cx="199" cy="196" rx="9" ry="4"></ellipse> <ellipse class="rs-anchor__part" cx="211" cy="196" rx="9" ry="4"></ellipse> <ellipse class="rs-anchor__part" cx="173" cy="71" rx="8" ry="6"></ellipse> <ellipse class="rs-anchor__part" cx="237" cy="71" rx="8" ry="6"></ellipse> <circle class="rs-anchor__body" cx="205" cy="69" r="32"></circle> <path class="rs-anchor__cap" d="M173,69 A32,32 0 0 1 237,69 Z"></path> <path class="rs-anchor__stripe" d="M180,55 Q205,47 230,55"></path> <circle class="rs-anchor__eye" cx="195" cy="75" r="4"></circle> <circle class="rs-anchor__eye" cx="215" cy="75" r="4"></circle> </g> <line class="rs-anchor__ground" x1="24" y1="196" x2="276" y2="196"></line> <text class="rs-anchor__tick" x="92" y="216" text-anchor="middle">reference</text> <text class="rs-anchor__tick" x="205" y="216" text-anchor="middle">plush (stretched)</text> </svg> <p class="rs-anchor__note">Head mapped to the fighter's head, so the plush's legs stretch to reach the ground.</p> </div> <div class="rs-anchor__panel"> <p class="rs-anchor__title">Ground-anchored <span class="rs-anchor__pass">· fix ✓</span></p> <svg viewbox="0 0 316 226" role="img" aria-label="The plush is anchored to the ground by its feet and scaled to 40 to 60 percent of the reference fighter's height."> <g class="rs-anchor__ref"> <circle cx="92" cy="52" r="15"></circle> <rect x="80" y="68" width="24" height="128" rx="12"></rect> </g> <g> <ellipse class="rs-anchor__part" cx="194" cy="196" rx="9" ry="4"></ellipse> <ellipse class="rs-anchor__part" cx="206" cy="196" rx="9" ry="4"></ellipse> <ellipse class="rs-anchor__part" cx="170" cy="168" rx="8" ry="6"></ellipse> <ellipse class="rs-anchor__part" cx="230" cy="168" rx="8" ry="6"></ellipse> <circle class="rs-anchor__body" cx="200" cy="166" r="30"></circle> <path class="rs-anchor__cap" d="M170,166 A30,30 0 0 1 230,166 Z"></path> <path class="rs-anchor__stripe" d="M177,153 Q200,145 223,153"></path> <circle class="rs-anchor__eye" cx="191" cy="172" r="4"></circle> <circle class="rs-anchor__eye" cx="209" cy="172" r="4"></circle> </g> <path class="rs-anchor__ann-line" d="M244,136 H252 M248,136 V196 M244,196 H252"></path> <text class="rs-anchor__ann" x="256" y="170">40–60%</text> <line class="rs-anchor__ground" x1="24" y1="196" x2="276" y2="196"></line> <text class="rs-anchor__tick" x="92" y="216" text-anchor="middle">reference</text> <text class="rs-anchor__tick" x="200" y="216" text-anchor="middle">plush (grounded)</text> </svg> <p class="rs-anchor__note">Feet anchored to the ground, body scaled to 40–60% of the fighter.</p> </div> </div> </figure> <details><summary><span class="reveal__text"><span class="reveal__title">The reference-model head-anchoring fix</span><span class="reveal__sub">The prompt that moved the character anchor from the head to the ground</span></span><span class="reveal__meta">Prompt</span></summary> <p>I moved the character anchor to the ground, specified the intended scale, and placed those constraints inside the prompt section responsible for character positioning.</p> <blockquote> <p>Anchor the character to the ground using its feet, bottom edge, or lowest point. Scale it proportionally from the ground up. Do not align its head with the reference fighter’s head. Element 1 and Element 2 are small toy-sized characters; their total height should be approximately 40–60% of the reference video fighters’ height. Scale down proportionally and keep them grounded.</p> </blockquote> <p>This was a deeper fix than another round of surface-level prompt tuning.</p> </details> <h4 id="the-complete-evaluation-framework">The complete evaluation framework</h4> <p>Fidelity gates for humanoid, semi-humanoid, and limbless toy anatomies.</p> <figure class="rs-matrix"> <div class="rs-matrix__scroll"> <table> <caption class="rs-matrix__eyebrow"> 5 × 3 matrix </caption> <thead> <tr> <th scope="col">Metric</th> <th scope="col"> <span class="rs-matrix__key">A</span> Humanoid</th> <th scope="col"> <span class="rs-matrix__key">B</span> Semi-humanoid</th> <th scope="col"> <span class="rs-matrix__key">C</span> Limbless</th> </tr> </thead> <tbody> <tr class="is-key"> <th scope="row">Character fidelity</th> <td><b>High</b></td> <td> <b>High</b> — shape + color + markings, not face proportions</td> <td> <b>High</b> — silhouette + color is the whole identity</td> </tr> <tr> <th scope="row">Skeleton / rig sanity</th> <td><b>High</b></td> <td class="is-gate"> <b>Gating</b> — hallucinated limbs = instant fail (most fragile metric for type B)</td> <td> <b>Replace with:</b> no phantom limbs added</td> </tr> <tr> <th scope="row">Motion quality</th> <td><b>High</b></td> <td> <b>Mid</b> — creative locomotion is ok if coherent</td> <td> <b>Mid</b> — sliding or floating should feel intentional</td> </tr> <tr> <th scope="row">Prompt adherence</th> <td><b>High</b></td> <td> <b>Mid</b> — credit partial adherence if limbs cannot physically do the move</td> <td> <b>Low</b> — score intent, not literal execution</td> </tr> <tr> <th scope="row">BG / style consistency</th> <td><b>Mid</b></td> <td><b>Mid</b></td> <td> <b>Mid</b> — scene-level metric, same weight across all</td> </tr> </tbody> </table> </div> </figure> <h2 id="04--deploy">04 / Deploy</h2> <details><summary><span class="reveal__text"><span class="reveal__title">The release checklist</span><span class="reveal__sub">From hosted reference assets to production configuration</span></span><span class="reveal__meta">8 steps</span></summary> <ol class="rs-steps"> <li class="rs-steps__group"> <p class="rs-steps__label">Assets</p> <ol class="rs-steps__items"> <li>Host the reference assets.</li> <li>Prepare the demo video and a correctly cropped cover.</li> </ol> </li> <li class="rs-steps__group"> <p class="rs-steps__label">Pricing</p> <ol class="rs-steps__items" start="3"> <li>Convert API cost into the product’s pricing unit.</li> </ol> </li> <li class="rs-steps__group"> <p class="rs-steps__label">Engine</p> <ol class="rs-steps__items" start="4"> <li>Configure the engine, provider, target, and preprocessing policy.</li> <li>Bind the user image to the workflow input.</li> <li>Connect the engine to the template.</li> </ol> </li> <li class="rs-steps__group"> <p class="rs-steps__label">Release</p> <ol class="rs-steps__items" start="7"> <li>Test the complete experience in beta.</li> <li>Configure the production version.</li> </ol> </li> </ol> </details> <h4 id="connecting-model-quality-to-product-behaviour">Connecting model quality to product behaviour</h4> <p>I used the product dashboard to connect model testing with workflow behaviour — generation success, fallback behaviour, and whether users moved from generating to publishing. A model could look strong in selected demonstrations and still expose a different pattern at real usage levels.</p> <p>[ADD: public-safe dashboard view]</p> <h2 id="reflection">Reflection</h2> <h3 id="the-decisions-happen-around-the-model-not-inside-it">The decisions happen around the model, not inside it</h3> <p><strong>What I learned</strong></p> <ul> <li>The strongest AI product decisions often happen around the model rather than inside it.</li> <li>A cleaner input can matter more than another round of prompt tuning.</li> <li>A fallback from another model family can be more useful than a more expensive version of the same model.</li> <li>An evaluation system designed around real toy anatomy reveals failures that a generic quality score would miss.</li> </ul> <p><strong>What failed</strong></p> <ul> <li>The workflow depended fully on vendor availability. When a vendor hit very high latency or CDN errors, we needed to switch vendors flexibly — a lesson that led to switching some of our workflows onto AWS Step Functions.</li> <li>Surface-level prompt tuning delayed the real fix on head-anchoring by several rounds.</li> </ul> </div> </section> <nav class="cs-footer" aria-label="Case study navigation"> <a href="/build/">← Back to Build</a> <a href="/field-notes/">Field notes ↗</a> </nav> </div> </div> </main> <script>
-  (function () {
-    var main = document.querySelector('.cs__main');
-    var shell = document.querySelector('.cs__shell');
-    var rail = document.querySelector('.cs__rail');
-    var railList = document.querySelector('.cs__nav ol');
-    if (!main || !railList) return;
+    (function () {
+      var main = document.querySelector('.cs__main');
+      var shell = document.querySelector('.cs__shell');
+      var rail = document.querySelector('.cs__rail');
+      var railList = document.querySelector('.cs__nav ol');
+      if (!main || !railList) return;
 
-    function slug(text) {
-      return text
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/^-+|-+$/g, '');
-    }
+      function slug(text) {
+        return text
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-+|-+$/g, '');
+      }
 
-    // 1. Promote trailing unnumbered process headings (e.g. "Reflection") into
-    //    their own top-level sections, so they read as peers of Process — not as
-    //    indented stage sub-items. Numbered "0N / ..." headings stay as stages.
-    var processSection = main.querySelector('#process');
-    var roadmap = processSection && processSection.querySelector('.roadmap-body');
-    if (roadmap) {
-      var h2s = Array.prototype.slice.call(roadmap.children).filter(function (el) {
-        return el.tagName === 'H2';
-      });
-      var splitIdx = -1,
-        seenNumbered = false;
-      h2s.forEach(function (h, i) {
-        if (/^\s*\d/.test(h.textContent.trim())) seenNumbered = true;
-        else if (seenNumbered && splitIdx === -1) splitIdx = i;
-      });
-      if (splitIdx !== -1) {
-        var startNode = h2s[splitIdx];
-        var moved = [],
-          n = startNode;
-        while (n) {
-          var next = n.nextElementSibling;
-          moved.push(n);
-          n = next;
-        }
-        var wrap = document.createElement('div');
-        wrap.className = 'roadmap-body';
-        moved.forEach(function (m) {
-          wrap.appendChild(m);
+      // 1. Promote trailing unnumbered process headings (e.g. "Reflection") into
+      //    their own top-level sections, so they read as peers of Process — not as
+      //    indented stage sub-items. Numbered "0N / ..." headings stay as stages.
+      var processSection = main.querySelector('#process');
+      var roadmap = processSection && processSection.querySelector('.roadmap-body');
+      if (roadmap) {
+        var h2s = Array.prototype.slice.call(roadmap.children).filter(function (el) {
+          return el.tagName === 'H2';
         });
-        var sec = document.createElement('section');
-        sec.className = 'cs-section cs-roadmap cs-roadmap--reflection';
-        sec.id = startNode.id || slug(startNode.textContent) || 'reflection';
-        sec.setAttribute('data-nav-label', startNode.textContent.trim());
-        sec.appendChild(wrap);
-        processSection.parentNode.insertBefore(sec, processSection.nextElementSibling);
+        var splitIdx = -1,
+          seenNumbered = false;
+        h2s.forEach(function (h, i) {
+          if (/^\s*\d/.test(h.textContent.trim())) seenNumbered = true;
+          else if (seenNumbered && splitIdx === -1) splitIdx = i;
+        });
+        if (splitIdx !== -1) {
+          var startNode = h2s[splitIdx];
+          var moved = [],
+            n = startNode;
+          while (n) {
+            var next = n.nextElementSibling;
+            moved.push(n);
+            n = next;
+          }
+          var wrap = document.createElement('div');
+          wrap.className = 'roadmap-body';
+          moved.forEach(function (m) {
+            wrap.appendChild(m);
+          });
+          var sec = document.createElement('section');
+          sec.className = 'cs-section cs-roadmap cs-roadmap--reflection';
+          sec.id = startNode.id || slug(startNode.textContent) || 'reflection';
+          sec.setAttribute('data-nav-label', startNode.textContent.trim());
+          sec.appendChild(wrap);
+          processSection.parentNode.insertBefore(sec, processSection.nextElementSibling);
 
-        // Group each label-led run ("What I learned", "What failed") into its
-        // own column, so the two read side by side instead of stacking.
-        var isLabel = function (el) {
-          return (
-            el.tagName === 'P' &&
-            el.children.length === 1 &&
-            el.firstElementChild.tagName === 'STRONG' &&
-            el.textContent.trim() === el.firstElementChild.textContent.trim()
-          );
-        };
-        var kids = Array.prototype.slice.call(wrap.children);
-        var firstLabel = kids.filter(isLabel)[0];
-        if (firstLabel) {
-          var grid = document.createElement('div');
-          grid.className = 'cs-reflect';
-          wrap.insertBefore(grid, firstLabel);
-          var col = null,
-            colIndex = 0;
-          kids.slice(kids.indexOf(firstLabel)).forEach(function (el) {
-            if (isLabel(el)) {
-              col = document.createElement('div');
-              col.className = 'cs-reflect__col ' + (colIndex === 0 ? 'cs-reflect__col--learned' : 'cs-reflect__col--failed');
-              colIndex++;
-              grid.appendChild(col);
-            }
-            if (col) col.appendChild(el);
+          // Group each label-led run ("What I learned", "What failed") into its
+          // own column, so the two read side by side instead of stacking.
+          var isLabel = function (el) {
+            return (
+              el.tagName === 'P' &&
+              el.children.length === 1 &&
+              el.firstElementChild.tagName === 'STRONG' &&
+              el.textContent.trim() === el.firstElementChild.textContent.trim()
+            );
+          };
+          var kids = Array.prototype.slice.call(wrap.children);
+          var firstLabel = kids.filter(isLabel)[0];
+          if (firstLabel) {
+            var grid = document.createElement('div');
+            grid.className = 'cs-reflect';
+            wrap.insertBefore(grid, firstLabel);
+            var col = null,
+              colIndex = 0;
+            kids.slice(kids.indexOf(firstLabel)).forEach(function (el) {
+              if (isLabel(el)) {
+                col = document.createElement('div');
+                col.className = 'cs-reflect__col ' + (colIndex === 0 ? 'cs-reflect__col--learned' : 'cs-reflect__col--failed');
+                colIndex++;
+                grid.appendChild(col);
+              }
+              if (col) col.appendChild(el);
+            });
+          }
+        }
+      }
+
+      // 1b. Split "0N / Name" stage headings into a big number and a quiet name.
+      //     Runs before the rail is built; textContent is preserved, so the label
+      //     regex below still strips the number cleanly.
+      if (roadmap) {
+        Array.prototype.slice.call(roadmap.querySelectorAll(':scope > h2')).forEach(function (h) {
+          var m = h.textContent.trim().match(/^(\d+)\s*[\/.\-]\s*(.+)$/);
+          if (!m) return;
+          h.textContent = '';
+          var n = document.createElement('span');
+          n.className = 'stage-n';
+          n.textContent = m[1];
+          var name = document.createElement('span');
+          name.className = 'stage-name';
+          name.textContent = m[2];
+          h.appendChild(n);
+          h.appendChild(document.createTextNode(' '));
+          h.appendChild(name);
+        });
+      }
+
+      // 2. Collect nav targets: each top-level section, plus the Process stage headings.
+      var targets = [];
+      var sections = Array.prototype.slice.call(main.querySelectorAll(':scope > .cs-section[id]'));
+      sections.forEach(function (sec) {
+        var label = sec.getAttribute('data-nav-label');
+        if (!label) return;
+        targets.push({ el: sec, id: sec.id, label: label, stage: false });
+
+        if (sec.id === 'process') {
+          var headings = Array.prototype.slice.call(sec.querySelectorAll('.roadmap-body > h2'));
+          headings.forEach(function (h, i) {
+            if (!h.id) h.id = slug(h.textContent) || 'stage-' + (i + 1);
+            var lab = h.textContent.replace(/^\s*\d+\s*[\/.\-]?\s*/, '').trim();
+            targets.push({ el: h, id: h.id, label: lab, stage: true });
           });
         }
-      }
-    }
-
-    // 1b. Split "0N / Name" stage headings into a big number and a quiet name.
-    //     Runs before the rail is built; textContent is preserved, so the label
-    //     regex below still strips the number cleanly.
-    if (roadmap) {
-      Array.prototype.slice.call(roadmap.querySelectorAll(':scope > h2')).forEach(function (h) {
-        var m = h.textContent.trim().match(/^(\d+)\s*[\/.\-]\s*(.+)$/);
-        if (!m) return;
-        h.textContent = '';
-        var n = document.createElement('span');
-        n.className = 'stage-n';
-        n.textContent = m[1];
-        var name = document.createElement('span');
-        name.className = 'stage-name';
-        name.textContent = m[2];
-        h.appendChild(n);
-        h.appendChild(document.createTextNode(' '));
-        h.appendChild(name);
       });
-    }
 
-    // 2. Collect nav targets: each top-level section, plus the Process stage headings.
-    var targets = [];
-    var sections = Array.prototype.slice.call(main.querySelectorAll(':scope > .cs-section[id]'));
-    sections.forEach(function (sec) {
-      var label = sec.getAttribute('data-nav-label');
-      if (!label) return;
-      targets.push({ el: sec, id: sec.id, label: label, stage: false });
-
-      if (sec.id === 'process') {
-        var headings = Array.prototype.slice.call(sec.querySelectorAll('.roadmap-body > h2'));
-        headings.forEach(function (h, i) {
-          if (!h.id) h.id = slug(h.textContent) || 'stage-' + (i + 1);
-          var lab = h.textContent.replace(/^\s*\d+\s*[\/.\-]?\s*/, '').trim();
-          targets.push({ el: h, id: h.id, label: lab, stage: true });
+      // 3. Build the rail — or hide it for thin pages with nothing to navigate.
+      if (targets.length < 2) {
+        if (rail) rail.setAttribute('hidden', '');
+        if (shell) shell.classList.add('cs__shell--norail');
+      } else {
+        var links = [];
+        targets.forEach(function (t) {
+          var li = document.createElement('li');
+          if (t.stage) li.className = 'is-stage';
+          var a = document.createElement('a');
+          a.href = '#' + t.id;
+          a.textContent = t.label;
+          a.addEventListener('click', function (e) {
+            var el = document.getElementById(t.id);
+            if (!el) return;
+            e.preventDefault();
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (history.replaceState) history.replaceState(null, '', '#' + t.id);
+          });
+          li.appendChild(a);
+          railList.appendChild(li);
+          links.push({ a: a, id: t.id });
         });
-      }
-    });
 
-    // 3. Build the rail — or hide it for thin pages with nothing to navigate.
-    if (targets.length < 2) {
-      if (rail) rail.setAttribute('hidden', '');
-      if (shell) shell.classList.add('cs__shell--norail');
-    } else {
-      var links = [];
-      targets.forEach(function (t) {
-        var li = document.createElement('li');
-        if (t.stage) li.className = 'is-stage';
-        var a = document.createElement('a');
-        a.href = '#' + t.id;
-        a.textContent = t.label;
-        a.addEventListener('click', function (e) {
-          var el = document.getElementById(t.id);
-          if (!el) return;
+        // Scroll-spy: the active item is the last target whose top has passed just
+        // below the sticky header. Position-based (not intersection-based) so stage
+        // headings inside Process win over the Process section that contains them,
+        // and each stage stays active until the next one arrives.
+        var HEADER_OFFSET = 96; // ~ sticky header + a little breathing room
+        var ticking = false;
+        function updateActive() {
+          ticking = false;
+          var line = window.pageYOffset + HEADER_OFFSET + 1;
+          var currentId = targets[0].id;
+          for (var i = 0; i < targets.length; i++) {
+            var top = targets[i].el.getBoundingClientRect().top + window.pageYOffset;
+            if (top <= line) currentId = targets[i].id;
+            else break;
+          }
+          // At the very bottom, short trailing sections can't reach the header line —
+          // pin the last target so it still highlights.
+          if (window.innerHeight + window.pageYOffset >= document.documentElement.scrollHeight - 2) {
+            currentId = targets[targets.length - 1].id;
+          }
+          links.forEach(function (l) {
+            l.a.classList.toggle('is-active', l.id === currentId);
+          });
+        }
+        function onScroll() {
+          if (ticking) return;
+          ticking = true;
+          window.requestAnimationFrame(updateActive);
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll);
+        updateActive();
+      }
+
+      // 4. Content transforms inside the process body (unchanged behaviour).
+      var body = main.querySelector('.roadmap-body');
+      if (!body) return;
+
+      // 3a. Turn [ADD: ...] paragraphs into tidy media slots.
+      Array.prototype.slice.call(body.querySelectorAll('p')).forEach(function (p) {
+        var t = p.textContent.trim();
+        if (/^\[ADD:/i.test(t)) {
+          var slot = document.createElement('div');
+          slot.className = 'media-slot';
+          slot.textContent = t.replace(/^\[ADD:\s*/i, '').replace(/\]\s*$/, '');
+          p.parentNode.replaceChild(slot, p);
+        }
+      });
+
+      // 3b. Blockquotes with arrows -> horizontal route-flow chips.
+      Array.prototype.slice.call(body.querySelectorAll('blockquote')).forEach(function (bq) {
+        if (bq.closest('details')) return; // prompts inside reveals handled below
+        var raw = bq.textContent.replace(/\s+/g, ' ').trim();
+        if (raw.indexOf('->') === -1 && raw.indexOf('→') === -1) return;
+        var label = '';
+        var strong = bq.querySelector('strong');
+        if (strong && strong.textContent.indexOf('->') === -1) {
+          label = strong.textContent.trim();
+          raw = raw.replace(label, '').trim();
+        }
+        var parts = raw
+          .split(/->|→/)
+          .map(function (s) {
+            return s.trim();
+          })
+          .filter(Boolean);
+        if (parts.length < 2) return;
+        var flow = document.createElement('div');
+        flow.className = 'route-flow';
+        if (label) {
+          var l = document.createElement('span');
+          l.className = 'route-flow__label';
+          l.textContent = label;
+          flow.appendChild(l);
+        }
+        parts.forEach(function (part, i) {
+          var step = document.createElement('span');
+          step.className = 'route-flow__step';
+          step.textContent = part;
+          flow.appendChild(step);
+          if (i < parts.length - 1) {
+            var arr = document.createElement('span');
+            arr.className = 'route-flow__arrow';
+            arr.textContent = '→';
+            flow.appendChild(arr);
+          }
+        });
+        bq.parentNode.replaceChild(flow, bq);
+      });
+
+      // 3c. Blockquotes inside a reveal -> monospace prompt cards with a copy button.
+      Array.prototype.slice.call(body.querySelectorAll('details blockquote')).forEach(function (bq) {
+        bq.classList.add('prompt-card');
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'prompt-card__copy';
+        btn.textContent = 'Copy';
+        btn.addEventListener('click', function () {
+          var text = bq.textContent.replace('Copy', '').trim();
+          if (navigator.clipboard) navigator.clipboard.writeText(text);
+          btn.textContent = 'Copied';
+          setTimeout(function () {
+            btn.textContent = 'Copy';
+          }, 1500);
+        });
+        bq.appendChild(btn);
+      });
+    })();
+
+    // Highlights grid: hover to play. Pointer devices only — on touch the videos
+    // keep their normal tap-to-play controls, since there is no hover to leave.
+    (function () {
+      var vids = Array.prototype.slice.call(document.querySelectorAll('.cs-media-hoverplay'));
+      if (!vids.length) return;
+      var canHover = !!window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+      vids.forEach(function (v) {
+        var card = v.closest('.cs-media-item, .cs-impact-item') || v;
+
+        function play() {
+          var p = v.play();
+          if (p && p.catch) p.catch(function () {});
+        }
+        function stop() {
+          v.pause();
+          v.currentTime = 0;
+        }
+
+        // Cue state rides on the video's own events, so it clears however
+        // playback started — hover, click, or keyboard.
+        v.addEventListener('play', function () {
+          card.classList.add('is-playing');
+        });
+        ['pause', 'ended'].forEach(function (evt) {
+          v.addEventListener(evt, function () {
+            card.classList.remove('is-playing');
+          });
+        });
+
+        // These clips carry no control bar, so click and keyboard are the ways in
+        // that do not depend on a pointer. Focusable for the keyboard path.
+        v.setAttribute('tabindex', '0');
+        v.addEventListener('click', function () {
+          v.paused ? play() : stop();
+        });
+        v.addEventListener('keydown', function (e) {
+          if (e.key !== 'Enter' && e.key !== ' ') return;
           e.preventDefault();
-          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          if (history.replaceState) history.replaceState(null, '', '#' + t.id);
+          v.paused ? play() : stop();
         });
-        li.appendChild(a);
-        railList.appendChild(li);
-        links.push({ a: a, id: t.id });
-      });
 
-      // Scroll-spy: the active item is the last target whose top has passed just
-      // below the sticky header. Position-based (not intersection-based) so stage
-      // headings inside Process win over the Process section that contains them,
-      // and each stage stays active until the next one arrives.
-      var HEADER_OFFSET = 96; // ~ sticky header + a little breathing room
-      var ticking = false;
-      function updateActive() {
-        ticking = false;
-        var line = window.pageYOffset + HEADER_OFFSET + 1;
-        var currentId = targets[0].id;
-        for (var i = 0; i < targets.length; i++) {
-          var top = targets[i].el.getBoundingClientRect().top + window.pageYOffset;
-          if (top <= line) currentId = targets[i].id;
-          else break;
+        // Without hover there is nothing to drive playback implicitly, so give
+        // those visitors the native controls back rather than a dead poster.
+        if (!canHover) {
+          v.setAttribute('controls', '');
+          return;
         }
-        // At the very bottom, short trailing sections can't reach the header line —
-        // pin the last target so it still highlights.
-        if (window.innerHeight + window.pageYOffset >= document.documentElement.scrollHeight - 2) {
-          currentId = targets[targets.length - 1].id;
-        }
-        links.forEach(function (l) {
-          l.a.classList.toggle('is-active', l.id === currentId);
-        });
-      }
-      function onScroll() {
-        if (ticking) return;
-        ticking = true;
-        window.requestAnimationFrame(updateActive);
-      }
-      window.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('resize', onScroll);
-      updateActive();
-    }
 
-    // 4. Content transforms inside the process body (unchanged behaviour).
-    var body = main.querySelector('.roadmap-body');
-    if (!body) return;
-
-    // 3a. Turn [ADD: ...] paragraphs into tidy media slots.
-    Array.prototype.slice.call(body.querySelectorAll('p')).forEach(function (p) {
-      var t = p.textContent.trim();
-      if (/^\[ADD:/i.test(t)) {
-        var slot = document.createElement('div');
-        slot.className = 'media-slot';
-        slot.textContent = t.replace(/^\[ADD:\s*/i, '').replace(/\]\s*$/, '');
-        p.parentNode.replaceChild(slot, p);
-      }
-    });
-
-    // 3b. Blockquotes with arrows -> horizontal route-flow chips.
-    Array.prototype.slice.call(body.querySelectorAll('blockquote')).forEach(function (bq) {
-      if (bq.closest('details')) return; // prompts inside reveals handled below
-      var raw = bq.textContent.replace(/\s+/g, ' ').trim();
-      if (raw.indexOf('->') === -1 && raw.indexOf('→') === -1) return;
-      var label = '';
-      var strong = bq.querySelector('strong');
-      if (strong && strong.textContent.indexOf('->') === -1) {
-        label = strong.textContent.trim();
-        raw = raw.replace(label, '').trim();
-      }
-      var parts = raw
-        .split(/->|→/)
-        .map(function (s) {
-          return s.trim();
-        })
-        .filter(Boolean);
-      if (parts.length < 2) return;
-      var flow = document.createElement('div');
-      flow.className = 'route-flow';
-      if (label) {
-        var l = document.createElement('span');
-        l.className = 'route-flow__label';
-        l.textContent = label;
-        flow.appendChild(l);
-      }
-      parts.forEach(function (part, i) {
-        var step = document.createElement('span');
-        step.className = 'route-flow__step';
-        step.textContent = part;
-        flow.appendChild(step);
-        if (i < parts.length - 1) {
-          var arr = document.createElement('span');
-          arr.className = 'route-flow__arrow';
-          arr.textContent = '→';
-          flow.appendChild(arr);
-        }
-      });
-      bq.parentNode.replaceChild(flow, bq);
-    });
-
-    // 3c. Blockquotes inside a reveal -> monospace prompt cards with a copy button.
-    Array.prototype.slice.call(body.querySelectorAll('details blockquote')).forEach(function (bq) {
-      bq.classList.add('prompt-card');
-      var btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'prompt-card__copy';
-      btn.textContent = 'Copy';
-      btn.addEventListener('click', function () {
-        var text = bq.textContent.replace('Copy', '').trim();
-        if (navigator.clipboard) navigator.clipboard.writeText(text);
-        btn.textContent = 'Copied';
-        setTimeout(function () {
-          btn.textContent = 'Copy';
-        }, 1500);
-      });
-      bq.appendChild(btn);
-    });
-  })();
-
-  // Highlights grid: hover to play. Pointer devices only — on touch the videos
-  // keep their normal tap-to-play controls, since there is no hover to leave.
-  (function () {
-    var vids = Array.prototype.slice.call(document.querySelectorAll('.cs-media-hoverplay'));
-    if (!vids.length) return;
-    var canHover = !!window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-
-    vids.forEach(function (v) {
-      var card = v.closest('.cs-media-item, .cs-impact-item') || v;
-
-      function play() {
-        var p = v.play();
-        if (p && p.catch) p.catch(function () {});
-      }
-      function stop() {
-        v.pause();
-        v.currentTime = 0;
-      }
-
-      // Cue state rides on the video's own events, so it clears however
-      // playback started — hover, click, or keyboard.
-      v.addEventListener('play', function () {
-        card.classList.add('is-playing');
-      });
-      ['pause', 'ended'].forEach(function (evt) {
-        v.addEventListener(evt, function () {
-          card.classList.remove('is-playing');
+        card.addEventListener('mouseenter', play);
+        card.addEventListener('mouseleave', function () {
+          // Going fullscreen pulls the pointer off the card — don't kill playback.
+          if (document.fullscreenElement || document.webkitFullscreenElement) return;
+          stop();
         });
       });
-
-      // These clips carry no control bar, so click and keyboard are the ways in
-      // that do not depend on a pointer. Focusable for the keyboard path.
-      v.setAttribute('tabindex', '0');
-      v.addEventListener('click', function () {
-        v.paused ? play() : stop();
-      });
-      v.addEventListener('keydown', function (e) {
-        if (e.key !== 'Enter' && e.key !== ' ') return;
-        e.preventDefault();
-        v.paused ? play() : stop();
-      });
-
-      // Without hover there is nothing to drive playback implicitly, so give
-      // those visitors the native controls back rather than a dead poster.
-      if (!canHover) {
-        v.setAttribute('controls', '');
-        return;
-      }
-
-      card.addEventListener('mouseenter', play);
-      card.addEventListener('mouseleave', function () {
-        // Going fullscreen pulls the pointer off the card — don't kill playback.
-        if (document.fullscreenElement || document.webkitFullscreenElement) return;
-        stop();
-      });
-    });
-  })();
-</script> </div> <footer class="portfolio-footer" role="contentinfo"> <div class="container portfolio-footer__grid"> <div> <span class="portfolio-footer__mark">YG</span> <span>© 2026 Yiran Gong</span> </div> <p>Build · Understand · Observe </p> <a href="#top" aria-label="Return to top">Top ↑</a> </div> </footer> <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> <script src="/assets/js/bootstrap.bundle.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script> <script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script> <script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script> <script defer src="/assets/js/copy_code.js?c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script> <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script> <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script> <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script> <script>
+    })();
+  </script> </div> <footer class="portfolio-footer" role="contentinfo"> <div class="container portfolio-footer__grid"> <div> <span class="portfolio-footer__mark">YG</span> <span>© 2026 Yiran Gong</span> </div> <p>Build · Understand · Observe </p> <a href="#top" aria-label="Return to top">Top ↑</a> </div> </footer> <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> <script src="/assets/js/bootstrap.bundle.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script> <script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script> <script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script> <script defer src="/assets/js/copy_code.js?c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script> <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script> <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script> <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script> <script>
     addBackToTop();
   </script> </body> </html>

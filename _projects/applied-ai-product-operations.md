@@ -145,4 +145,3 @@ I used the product dashboard to connect model testing with workflow behaviour â€
 
 - The workflow depended fully on vendor availability. When a vendor hit very high latency or CDN errors, we needed to switch vendors flexibly â€” a lesson that led to switching some of our workflows onto AWS Step Functions.
 - Surface-level prompt tuning delayed the real fix on head-anchoring by several rounds.
-

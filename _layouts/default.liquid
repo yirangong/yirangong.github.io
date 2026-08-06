@@ -21,11 +21,7 @@
     class="{% if site.navbar_fixed %}fixed-top-nav{% endif %} {% unless site.footer_fixed %}sticky-bottom-footer{% endunless %} page-{{ page.layout }}{% if page.paper_design %} paper-design paper-design--{{ page.paper_design }}{% endif %}"
   >
     <!-- Header -->
-    {% if page.paper_design == 'analytics-real-artifacts-v1' %}
-      {% include paper-analytics-header.liquid %}
-    {% else %}
-      {% include header.liquid %}
-    {% endif %}
+    {% include header.liquid %}
 
     <!-- Content -->
     <div class="{% if page.paper_design == 'analytics-real-artifacts-v1' %}paper-page-container{% else %}container mt-5{% endif %}" role="main">

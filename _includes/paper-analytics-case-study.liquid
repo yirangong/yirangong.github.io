@@ -1,17 +1,20 @@
 <main class="pa-case-study">
   <div class="pa-shell">
-    <aside class="pa-rail" aria-label="Case study sections">
-      <a class="pa-rail__back" href="{{ '/build/' | relative_url }}">&larr; BUILD</a>
-      <div class="pa-rail__rule"></div>
-      <nav>
-        <a class="pa-rail__link is-active" href="#tldr" data-pa-target="tldr">TL;DR</a>
-        <a class="pa-rail__link" href="#background" data-pa-target="background">BACKGROUND</a>
-        <a class="pa-rail__link" href="#impact" data-pa-target="impact">IMPACT</a>
-        <a class="pa-rail__link" href="#how-i-built-it" data-pa-target="how-i-built-it">HOW I BUILT IT</a>
-        <a class="pa-rail__link pa-rail__link--stage" href="#redefinition" data-pa-target="redefinition">01 REDEFINITION</a>
-        <a class="pa-rail__link pa-rail__link--stage" href="#attribution" data-pa-target="attribution">02 ATTRIBUTION</a>
-        <a class="pa-rail__link pa-rail__link--stage" href="#migration" data-pa-target="migration">03 MIGRATION</a>
-        <a class="pa-rail__link" href="#reflection" data-pa-target="reflection">REFLECTION</a>
+    <aside class="pa-rail cs__rail" aria-label="Case study sections">
+      <a class="cs__back" href="{{ '/build/' | relative_url }}">
+        <span aria-hidden="true">&larr;</span> Build
+      </a>
+      <nav class="cs__nav" aria-label="On this page">
+        <ol>
+          <li><a class="pa-rail__link is-active" href="#tldr" data-pa-target="tldr">TL;DR</a></li>
+          <li><a class="pa-rail__link" href="#background" data-pa-target="background">Background</a></li>
+          <li><a class="pa-rail__link" href="#impact" data-pa-target="impact">Impact</a></li>
+          <li><a class="pa-rail__link" href="#how-i-built-it" data-pa-target="how-i-built-it">How I built it</a></li>
+          <li class="is-stage"><a class="pa-rail__link" href="#redefinition" data-pa-target="redefinition">01 Redefinition</a></li>
+          <li class="is-stage"><a class="pa-rail__link" href="#attribution" data-pa-target="attribution">02 Attribution</a></li>
+          <li class="is-stage"><a class="pa-rail__link" href="#migration" data-pa-target="migration">03 Migration</a></li>
+          <li><a class="pa-rail__link" href="#reflection" data-pa-target="reflection">Reflection</a></li>
+        </ol>
       </nav>
     </aside>
 

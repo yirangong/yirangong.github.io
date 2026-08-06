@@ -63,15 +63,9 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
 
 jobs:
-  deploy:
+  build:
     # available images: https://github.com/actions/runner-images#available-images
     runs-on: ubuntu-latest
     steps:
@@ -109,8 +103,26 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: _site
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+
+    steps:
       - name: Deploy 🚀
-        if: github.event_name != 'pull_request'
         id: deployment
         uses: actions/deploy-pages@v5
         with:

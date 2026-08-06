@@ -8,7 +8,7 @@ experience: nauknauk
 featured: true
 importance: 2
 published: true
-status: draft
+status: published
 paper_design: analytics-real-artifacts-v1
 skills:
   - Metric design & semantics

@@ -1723,13 +1723,10 @@
 
 @media (max-width: 1439px) {
   .pa-shell {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: 190px minmax(0, 1fr);
+    gap: clamp(32px, 5vw, 72px);
     padding-right: 40px;
     padding-left: 40px;
-  }
-
-  .pa-rail {
-    display: none;
   }
 
   .pa-content {
@@ -1843,6 +1840,12 @@
   .pa-reflection {
     height: auto;
     flex-basis: auto;
+  }
+}
+
+@media (max-width: 860px) {
+  .pa-shell {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 

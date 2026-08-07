@@ -2092,14 +2092,60 @@ button:focus-visible {
   color: var(--portfolio-ink);
 }
 
-/* Collapse to a single column on narrow screens; drop the rail. */
+/* Collapse to one column on narrow screens, but keep the section navigation
+   available as a compact horizontal rail. */
 @media (max-width: 860px) {
   .cs__shell {
     grid-template-columns: minmax(0, 1fr);
     gap: 0;
   }
+
   .cs__rail {
+    display: flex;
+    position: sticky;
+    z-index: 20;
+    top: 4.875rem;
+    min-width: 0;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding: 0.65rem 0;
+    border-bottom: 1px solid var(--portfolio-hairline);
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(12px);
+  }
+
+  .cs__back {
+    flex: 0 0 auto;
+    margin-bottom: 0;
+    white-space: nowrap;
+  }
+
+  .cs__nav {
+    min-width: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .cs__nav::-webkit-scrollbar {
     display: none;
+  }
+
+  .cs__nav ol {
+    display: flex;
+    width: max-content;
+  }
+
+  .cs__nav a,
+  .cs__nav li.is-stage a {
+    padding: 0.55rem 0.7rem;
+    border-bottom: 2px solid var(--portfolio-hairline);
+    border-left: 0;
+    white-space: nowrap;
+  }
+
+  .cs__nav a.is-active {
+    border-bottom-color: var(--portfolio-active);
   }
 }
 

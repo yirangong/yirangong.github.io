@@ -112,7 +112,18 @@ layout: default
                   <p class="cs-experience__blurb">{{ exp.blurb }}</p>
                 {% endif %}
                 {% if page.team %}
-                  <p class="cs-experience__team"><strong>Team:</strong> {{ page.team }}</p>
+                  <p class="cs-experience__team">
+                    <strong>Team:</strong> {{ page.team }}
+                    {% if page.team_url and page.team_link_label %}
+                      &middot;
+                      <a class="cs-team-link" href="{{ page.team_url }}" target="_blank" rel="noopener">
+                        {% if page.team_icon %}
+                          <img src="{{ page.team_icon | relative_url }}" alt="" aria-hidden="true">
+                        {% endif %}
+                        {{ page.team_link_label }}
+                      </a>
+                    {% endif %}
+                  </p>
                 {% endif %}
               </div>
             </details>
@@ -143,7 +154,18 @@ layout: default
               {% if page.team %}
                 <div>
                   <dt>Team</dt>
-                  <dd>{{ page.team }}</dd>
+                  <dd>
+                    {{ page.team }}
+                    {% if page.team_url and page.team_link_label %}
+                      &middot;
+                      <a class="cs-team-link" href="{{ page.team_url }}" target="_blank" rel="noopener">
+                        {% if page.team_icon %}
+                          <img src="{{ page.team_icon | relative_url }}" alt="" aria-hidden="true">
+                        {% endif %}
+                        {{ page.team_link_label }}
+                      </a>
+                    {% endif %}
+                  </dd>
                 </div>
               {% endif %}
             </dl>

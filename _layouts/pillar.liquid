@@ -1,6 +1,7 @@
 ---
 layout: default
 ---
+{% assign pillar_projects = site.projects | where: 'pillar', page.pillar | sort: 'importance' %}
 <main class="pillar-page pillar-page--{{ page.pillar }}">
   <header class="pillar-hero">
     <div>
@@ -12,10 +13,15 @@ layout: default
       {% if page.supporting_text %}
         <p class="pillar-hero__supporting">{{ page.supporting_text }}</p>
       {% endif %}
+      {% if page.featured_project_label and pillar_projects.first %}
+        <a class="route-button pillar-hero__project-link" href="{{ pillar_projects.first.url | relative_url }}">
+          {{ page.featured_project_label }}
+          <span aria-hidden="true">↗</span>
+        </a>
+      {% endif %}
     </div>
   </header>
 
-  {% assign pillar_projects = site.projects | where: 'pillar', page.pillar | sort: 'importance' %}
   <section class="pillar-projects" aria-label="{{ page.title }} projects">
     {% if pillar_projects.size > 0 %}
       <div class="project-index">

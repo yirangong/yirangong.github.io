@@ -10,7 +10,10 @@ media:
     src: /assets/img/projects/nyu-human-collaboration/representative-task-map.svg
     featured: true
     caption: "Representative task map rendered from the project's map data."
-team: "Yiran and Nastaran · Weiji Ma Lab, NYU"
+team: Yiran and Nastaran
+team_link_label: Weiji Ma Lab, NYU
+team_url: https://www.cns.nyu.edu/malab/
+team_icon: /assets/img/projects/nyu-human-collaboration/weiji-ma-lab-logo.png
 skills:
   - Behavioral experiment design
   - Collaborative planning

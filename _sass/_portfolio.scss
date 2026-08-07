@@ -798,6 +798,10 @@ button:focus-visible {
   opacity: 0.72;
 }
 
+.pillar-hero__project-link {
+  margin-top: 1rem;
+}
+
 .observe-bridge {
   display: grid;
   grid-template-columns: 2fr 7fr 2fr;
@@ -2226,6 +2230,18 @@ button:focus-visible {
   margin: 0;
   font-size: 0.95rem;
   font-weight: 500;
+}
+
+.cs-team-link {
+  display: inline-flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.cs-team-link img {
+  width: 1.75rem;
+  height: 1.75rem;
+  object-fit: contain;
 }
 
 /* Shared experience chip (driven by _data/experience.yml via `experience:`) */

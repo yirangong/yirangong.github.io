@@ -9,7 +9,9 @@ permalink: /understand/
 pillar: understand
 index: U—01
 project_groups:
-  - understand-research
+  - nyu-collaboration
+  - nyu-research-future
+project_group_layout: parallel
 description: Investigating cognition, decisions, interaction, and evaluation.
 supporting_text: "Research questions are paired with the experiments, models, tools, and evidence used to study them."
 featured_project_label: Explore the communication dynamics project

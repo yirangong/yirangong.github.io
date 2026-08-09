@@ -1,8 +1,8 @@
 {% assign project = include.project %}
 {% assign card_title = project.card_title | default: project.title %}
-<article class="project-card project-card--{{ project.pillar }}">
+<article class="project-card project-card--{{ project.pillar }}{% if include.compact %} project-card--compact{% endif %}">
   <a class="project-card__link" href="{{ project.url | relative_url }}" aria-label="Read {{ project.title }}">
-    <div class="project-card__preview" aria-hidden="true"></div>
+    {% unless include.compact %}<div class="project-card__preview" aria-hidden="true"></div>{% endunless %}
 
     <div class="project-card__body">
       <div class="project-card__top">
@@ -15,7 +15,10 @@
       </div>
 
       <h3>{{ card_title }}</h3>
-      {% if project.card_detail %}
+      {% if include.compact %}
+        <p class="project-card__summary">{{ project.summary }}</p>
+        {% if project.card_detail %}<p class="project-card__metric">{{ project.card_detail }}</p>{% endif %}
+      {% elsif project.card_detail %}
         <p class="project-card__metric">{{ project.card_detail }}</p>
       {% elsif project.metrics and project.metrics.first %}
         <p class="project-card__metric">

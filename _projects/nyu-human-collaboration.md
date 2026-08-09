@@ -2,10 +2,11 @@
 layout: project
 title: Modeling Communication Dynamics in Complex Strategic Planning
 pillar: understand
-group: understand-research
+group: nyu-collaboration
 index: U—01
 kind: NYU research · Behavioral experiment
 summary: A Unity-based behavioral experiment exploring when communication helps people coordinate through complex, asymmetric planning tasks.
+card_detail: Question · Communication · Planning
 media:
   - type: image
     src: /assets/img/projects/nyu-human-collaboration/representative-task-map.svg

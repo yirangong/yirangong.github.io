@@ -20,3 +20,36 @@ understand-research:
   context_label: Research focus
   scope_label: Approach
   scope_note: Questions · Experiments · Models · Evidence
+
+nyu-collaboration:
+  pillar: understand
+  compact: true
+  mark: "01"
+  eyebrow: NYU research · Weiji Ma Lab
+  name: Weiji Ma Lab, NYU
+  role: Behavioral experiment · Collaborative planning
+  context_label: Parent focus
+  context: A Unity-based behavioral experiment exploring when communication helps people coordinate through complex, asymmetric planning tasks.
+  scope: Unity experiment · Python analysis · 1,242 candidate maps
+  child_label: Child project
+  child_heading: Current work
+
+nyu-research-future:
+  pillar: understand
+  compact: true
+  focus_tone: accent
+  mark: "02"
+  eyebrow: "NYU research · [affiliation to confirm]"
+  name: NYU Research
+  role: "[Research context, role, and timeframe]"
+  context_label: Parent focus
+  context: "[Shared focus for this body of NYU research]"
+  scope: "[Methods, models, tools, and evidence to confirm]"
+  child_label: Child project
+  child_heading: Future work
+  placeholder:
+    index: U—02
+    kind: "[Kind to confirm]"
+    title: "[Future NYU Research Project]"
+    summary: "[One-sentence project summary and specific research focus.]"
+    detail: "[Question · Method · Evidence]"

@@ -15,7 +15,7 @@
 {% assign group_mark = group.mark | default: group_name | slice: 0 %}
 
 <section
-  class="project-group project-group--{{ group.pillar | default: page.pillar }}"
+  class="project-group project-group--{{ group.pillar | default: page.pillar }}{% if group.compact %} project-group--compact{% endif %}"
   aria-labelledby="project-group-{{ include.group_key }}"
 >
   <header class="project-group__header">
@@ -50,7 +50,13 @@
     {% endif %}
   </header>
 
-  {% if group_context or group_scope %}
+  {% if group.compact and group_context %}
+    <div class="project-group__focus{% if group.focus_tone == 'accent' %} project-group__focus--accent{% endif %}">
+      <p class="project-group__label">{{ group.context_label | default: 'Parent focus' }}</p>
+      <p>{{ group_context }}</p>
+      {% if group_scope %}<span>{{ group_scope }}</span>{% endif %}
+    </div>
+  {% elsif group_context or group_scope %}
     <div class="project-group__context">
       {% if group_context %}
         <div class="project-group__context-main">
@@ -71,12 +77,33 @@
     </div>
   {% endif %}
 
+  {% if group.compact %}
+    <div class="project-group__children-heading">
+      <div>
+        <p class="project-group__label">{{ group.child_label | default: 'Child project' }}</p>
+        <h3>{{ group.child_heading | default: 'Current work' }}</h3>
+      </div>
+      <span>01 project</span>
+    </div>
+  {% endif %}
+
   {% if projects.size > 0 %}
     <div class="project-index project-index--grouped">
       {% for project in projects %}
-        {% include project-card.liquid project=project %}
+        {% include project-card.liquid project=project compact=group.compact %}
       {% endfor %}
     </div>
+  {% elsif group.placeholder %}
+    <article class="project-placeholder" aria-label="Future research project placeholder">
+      <div class="project-placeholder__top">
+        <span>{{ group.placeholder.index }}</span>
+        <strong>Future</strong>
+      </div>
+      <p class="project-placeholder__kind">{{ group.placeholder.kind }}</p>
+      <h3>{{ group.placeholder.title }}</h3>
+      <p>{{ group.placeholder.summary }}</p>
+      <span class="project-placeholder__detail">{{ group.placeholder.detail }}</span>
+    </article>
   {% else %}
     <p class="framework-message">Projects in this group remain unpublished until their case-study content is ready.</p>
   {% endif %}

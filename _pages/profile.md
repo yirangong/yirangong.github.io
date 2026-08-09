@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: default
 title: About
 nav_label: About
 nav: true
@@ -9,47 +9,62 @@ permalink: /about/
 description: Working across applied AI, cognitive science, and human behavior.
 ---
 
-<div class="about-grid">
-  <div class="about-grid__portrait">
-    <img src="{{ '/assets/img/prof_pic.jpg' | relative_url }}" alt="Portrait of Yiran Gong">
-  </div>
-  <div class="about-grid__copy">
-    <p class="route-label">ABOUT / CURRENT FRAMEWORK</p>
-    <h2>I work where technical systems meet human behavior.</h2>
-    <p>I study Cognitive Science and Computer Science at Barnard College of Columbia University and conduct research on communication and collaborative planning at NYU.</p>
-    <p>My portfolio brings together applied AI work, research into decision-making and interaction, and an observation practice shaped by communities, architecture, cities, food, travel, and photography.</p>
-    <aside class="content-placeholder">
-      <strong>To complete before publication</strong>
-      <p>Current academic status · graduation timeline · detailed biography</p>
-    </aside>
+<main class="about-profile">
+  <section class="about-profile__panel" aria-labelledby="about-profile-title">
+    <figure class="about-profile__portrait">
+      <img src="{{ '/assets/img/prof_pic.jpg' | relative_url }}" alt="Yiran Gong beside a bronze statue at night">
+    </figure>
 
-    <section class="about-contact" aria-labelledby="about-contact-title">
-      <p class="route-label">CONTACT / 01</p>
-      <h3 id="about-contact-title">Get in touch</h3>
-      <p class="about-contact__note">
-        Open to conversations about applied AI, research collaboration, and work that sits between the two. Email is the most reliable way to reach me.
-      </p>
-      <dl class="about-contact__list">
-        <div>
-          <dt>Email</dt>
-          <dd><a href="mailto:yirangong99@gmail.com">yirangong99@gmail.com</a></dd>
+    <div class="about-profile__content">
+      <header class="about-profile__header">
+        <h1 id="about-profile-title">About me</h1>
+        <span aria-hidden="true"></span>
+      </header>
+
+      <div class="about-profile__status" aria-label="Current status">
+        <div class="about-profile__status-main">
+          <p class="route-label">Currently at</p>
+          <strong>Barnard College · Columbia -- NYC</strong>
+          <span>B.A. in Cognitive Science and Computer Science</span>
+          <span>Graduating May 2027</span>
         </div>
-        <div>
-          <dt>LinkedIn</dt>
-          <dd>
-            <a href="https://www.linkedin.com/in/yiran-gong/" target="_blank" rel="me noopener">in/yiran-gong <span aria-hidden="true">↗</span></a>
-          </dd>
+        <div class="about-profile__availability">
+          <p class="route-label">Open to</p>
+          <strong>2027 full-time roles</strong>
         </div>
-        <div>
-          <dt>GitHub</dt>
-          <dd>
-            <a href="https://github.com/yirangong" target="_blank" rel="me noopener">@yirangong <span aria-hidden="true">↗</span></a>
-          </dd>
-        </div>
-      </dl>
-      <div class="route-actions">
-        <a class="route-button route-button--dark" href="{{ '/cv/' | relative_url }}">Read the CV <span>↗</span></a>
       </div>
-    </section>
-  </div>
-</div>
+
+      <div class="about-profile__bio">
+        <p>
+          I am an aspiring product manager drawn to problems both human and technical.
+        </p>
+        <p>
+          I’m fascinated by how elegantly human modes of thinking — how to plan in uncertainty, why people collaborate although effortful -- can be formulated in mathematical models. That curiosity guides how I approach technology: grounded in how people live, and built to extend the mind.
+        </p>
+        <p>
+          Growing up in Shanghai, moving to New Orleans and New York, and spending a gap year traveling and interning taught me to adapt quickly and question my assumptions. Meaningful work to me means things that align with human values and equitably benefits diverse communities.
+        </p>
+      </div>
+
+      <aside class="about-profile__more" aria-labelledby="about-profile-more-title">
+        <h2 id="about-profile-more-title">Even more about me!</h2>
+        <ul>
+          <li>Earned C1 German proficiency at 18 through a German–English dual-language program.</li>
+          <li>Traveled solo through seven countries and completed the Kumano Kodo in Japan and Camino de Santiago in Spain — one of the 10k people on Earth to earn the Dual Pilgrim status.</li>
+          <li>After spending 5 months traveling laptop-free (and AI-free), I learned agentic workflows from zero in 2026.</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <section class="about-profile__contact" aria-labelledby="about-contact-title">
+    <div>
+      <p class="route-label">Get in touch</p>
+      <h2 id="about-contact-title">Let’s connect.</h2>
+    </div>
+    <div class="about-profile__contact-actions">
+      <a class="route-button route-button--light" href="mailto:yirangong99@gmail.com">Email <span aria-hidden="true">↗</span></a>
+      <a class="route-button route-button--ghost" href="https://www.linkedin.com/in/yiran-gong/" target="_blank" rel="me noopener">LinkedIn <span aria-hidden="true">↗</span></a>
+    </div>
+  </section>
+</main>

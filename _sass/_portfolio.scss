@@ -1291,85 +1291,260 @@ button:focus-visible {
   font-size: 1.15rem;
 }
 
-.about-grid {
+.about-profile {
+  padding: clamp(3.5rem, 6vw, 5.5rem) 0 clamp(4rem, 7vw, 6rem);
+}
+
+.about-profile__panel {
   display: grid;
-  grid-template-columns: 5fr 7fr;
-  gap: clamp(2rem, 7vw, 7rem);
-  align-items: start;
-  padding-top: 3rem;
-  border-top: 1px solid var(--portfolio-ink);
+  grid-template-columns: minmax(320px, 452px) minmax(0, 1fr);
+  gap: clamp(2.25rem, 4vw, 3.25rem);
+  padding: clamp(2rem, 3.25vw, 2.5rem);
+  background: #fff;
+  border: 1px solid var(--portfolio-hairline);
+  border-radius: 30px;
 }
 
-.about-grid__portrait {
-  position: relative;
-  min-height: 520px;
-  background: var(--portfolio-concrete);
+.about-profile__portrait {
+  min-height: 650px;
+  margin: 0;
+  overflow: hidden;
+  background: var(--portfolio-ink);
+  border-radius: 22px;
 }
 
-.about-grid__portrait img {
+.about-profile__portrait img {
   width: 100%;
   height: 100%;
   filter: grayscale(1);
   object-fit: cover;
+  object-position: 58% 54%;
 }
 
-.about-grid__copy h2 {
-  margin: 0 0 2rem;
-  font-size: clamp(3rem, 6vw, 6rem);
-  line-height: 0.85;
-  text-transform: uppercase;
+.about-profile__content {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-.about-contact {
-  margin-top: clamp(2.5rem, 5vw, 4rem);
-  padding-top: 2rem;
-  border-top: 1px solid var(--portfolio-ink);
-}
-
-.about-contact h3 {
-  margin: 0.4rem 0 0.75rem;
-  font-size: clamp(1.6rem, 3vw, 2.25rem);
-  line-height: 1;
-  text-transform: uppercase;
-}
-
-.about-contact__note {
-  max-width: 34rem;
-  margin-bottom: 1.75rem;
-}
-
-.about-contact__list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
-  gap: 1.25rem 2rem;
-  margin: 0 0 2rem;
-}
-
-.about-contact__list dt {
-  margin-bottom: 0.3rem;
-  color: var(--portfolio-muted);
-  font-family: var(--portfolio-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.about-contact__list dd {
+.about-profile__header h1 {
   margin: 0;
+  font-size: clamp(3rem, 5vw, 4rem);
+  line-height: 1;
 }
 
-.about-contact__list a {
-  border-bottom: 1px solid var(--portfolio-ink);
-  color: var(--portfolio-ink);
-  font-weight: 600;
-  text-decoration: none;
-  word-break: break-word;
+.about-profile__header > span {
+  display: block;
+  width: 4rem;
+  height: 5px;
+  margin-top: 1.2rem;
+  background: var(--portfolio-ochre);
 }
 
-.about-contact__list a:hover {
-  background: var(--portfolio-signal);
-  border-bottom-color: transparent;
+.about-profile__status {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(210px, 260px);
+  gap: 1rem;
+}
+
+.about-profile__status-main,
+.about-profile__availability {
+  display: flex;
+  min-height: 106px;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1.25rem;
+  border-radius: 16px;
+}
+
+.about-profile__status-main {
+  background: var(--portfolio-paper);
+  border: 1px solid var(--portfolio-hairline);
+}
+
+.about-profile__status-main strong,
+.about-profile__status-main span {
+  display: block;
+}
+
+.about-profile__status-main strong {
+  margin-bottom: 0.35rem;
+  font-family: var(--portfolio-display);
+}
+
+.about-profile__status-main span {
+  color: var(--portfolio-muted);
+  font-size: 0.78rem;
+}
+
+.about-profile__availability {
+  background: var(--portfolio-accent);
+  color: #fff;
+}
+
+.about-profile__availability strong {
+  font-family: var(--portfolio-serif);
+  font-size: 1.1rem;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.about-profile__status .route-label,
+.about-profile__more .route-label,
+.about-profile__contact .route-label {
+  margin-bottom: 0.4rem;
+  color: var(--portfolio-oxblood);
+  font-size: 0.6rem;
+}
+
+.about-profile__availability .route-label {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.about-profile__bio {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.about-profile__bio p {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.58;
+}
+
+.about-profile__more {
+  padding: 1.5rem;
+  background: #b9d8eb;
+  border-radius: 18px;
+  color: #fff;
+}
+
+.about-profile__more h2 {
+  margin: 0 0 1rem;
+  font-size: 1.55rem;
+  line-height: 1.08;
+}
+
+.about-profile__more ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.78rem;
+  line-height: 1.58;
+}
+
+.about-profile__more li::before {
+  content: "- ";
+}
+
+.about-profile__contact {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-top: 1.75rem;
+  padding: 1.65rem 2rem;
+  background: var(--portfolio-ink);
+  border-radius: 22px;
+  color: #fff;
+}
+
+.about-profile__contact .route-label {
+  color: var(--portfolio-ochre);
+}
+
+.about-profile__contact h2 {
+  margin: 0;
+  font-size: clamp(1.25rem, 2vw, 1.55rem);
+  line-height: 1.2;
+}
+
+.about-profile__contact-actions {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 0.7rem;
+}
+
+.about-profile__contact .route-button {
+  min-height: 40px;
+  gap: 0.8rem;
+  padding: 0.62rem 0.95rem;
+  border-color: rgba(255, 255, 255, 0.34);
+  border-radius: 999px;
+  color: #fff;
+  font-family: var(--portfolio-mono);
+  font-size: 0.62rem;
+}
+
+.about-profile__contact .route-button--light {
+  background: #fff;
+  border-color: #fff;
   color: var(--portfolio-ink);
+}
+
+.about-profile__contact .route-button:hover {
+  background: var(--portfolio-ochre);
+  border-color: var(--portfolio-ochre);
+  color: var(--portfolio-ink);
+}
+
+@media (max-width: 991.98px) {
+  .about-profile__panel {
+    grid-template-columns: minmax(260px, 0.8fr) minmax(0, 1.2fr);
+    gap: 2rem;
+  }
+
+  .about-profile__portrait {
+    min-height: 580px;
+  }
+
+  .about-profile__status {
+    grid-template-columns: 1fr;
+  }
+
+  .about-profile__contact {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .about-profile {
+    padding-top: 2rem;
+  }
+
+  .about-profile__panel {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+    border-radius: 22px;
+  }
+
+  .about-profile__portrait {
+    min-height: 66vh;
+    max-height: 720px;
+    border-radius: 16px;
+  }
+
+  .about-profile__content {
+    gap: 1.25rem;
+    padding: 0.5rem;
+  }
+
+  .about-profile__contact {
+    padding: 1.5rem;
+    border-radius: 18px;
+  }
+
+  .about-profile__contact-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .about-profile__contact .route-button {
+    width: 100%;
+  }
 }
 
 /* CV — résumé document */

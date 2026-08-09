@@ -2,6 +2,7 @@
 layout: project
 title: Modeling Communication Dynamics in Complex Strategic Planning
 pillar: understand
+group: understand-research
 index: U—01
 kind: NYU research · Behavioral experiment
 summary: A Unity-based behavioral experiment exploring when communication helps people coordinate through complex, asymmetric planning tasks.

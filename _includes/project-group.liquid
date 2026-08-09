@@ -1,0 +1,83 @@
+{% assign group = include.group %}
+{% assign projects = include.projects %}
+{% assign exp = null %}
+{% if group.experience %}
+  {% assign exp = site.data.experience[group.experience] %}
+{% endif %}
+
+{% assign group_name = group.name | default: exp.company | default: page.title %}
+{% assign group_role = group.role | default: exp.role %}
+{% assign group_reporting = group.reporting | default: exp.reporting %}
+{% assign group_timeframe = group.timeframe | default: exp.timeframe %}
+{% assign group_url = group.url | default: exp.url %}
+{% assign group_context = group.context | default: exp.hub_blurb | default: exp.blurb | default: page.description %}
+{% assign group_scope = group.scope | default: exp.hub_scope | default: exp.scope | default: page.supporting_text %}
+{% assign group_mark = group.mark | default: group_name | slice: 0 %}
+
+<section
+  class="project-group project-group--{{ group.pillar | default: page.pillar }}"
+  aria-labelledby="project-group-{{ include.group_key }}"
+>
+  <header class="project-group__header">
+    <div class="project-group__identity">
+      <span class="project-group__mark" aria-hidden="true">{{ group_mark }}</span>
+      <div class="project-group__identity-copy">
+        <p class="project-group__eyebrow">
+          <span>{{ group.eyebrow }}</span>
+          {% if group_timeframe -%}
+            <span>{{ group_timeframe }}</span>
+          {%- endif %}
+        </p>
+        <h2 id="project-group-{{ include.group_key }}">{{ group_name }}</h2>
+        {% if group_role or group_reporting %}
+          <p class="project-group__meta">
+            {% if group_role -%}
+              <span>{{ group_role }}</span>
+            {%- endif %}
+            {% if group_reporting -%}
+              <span>{{ group_reporting }}</span>
+            {%- endif %}
+          </p>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if group_url %}
+      <a class="project-group__link" href="{{ group_url }}" target="_blank" rel="noopener">
+        {{ group.link_label | default: group_url }}
+        <span aria-hidden="true">↗</span>
+      </a>
+    {% endif %}
+  </header>
+
+  {% if group_context or group_scope %}
+    <div class="project-group__context">
+      {% if group_context %}
+        <div class="project-group__context-main">
+          <p class="project-group__label">{{ group.context_label | default: 'About the work' }}</p>
+          <p>{{ group_context }}</p>
+        </div>
+      {% endif %}
+
+      {% if group_scope %}
+        <div class="project-group__context-scope">
+          <p class="project-group__label">{{ group.scope_label | default: 'Scope' }}</p>
+          <p>{{ group_scope }}</p>
+          {% if group.scope_note -%}
+            <span>{{ group.scope_note }}</span>
+          {%- endif %}
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  {% if projects.size > 0 %}
+    <div class="project-index project-index--grouped">
+      {% for project in projects %}
+        {% include project-card.liquid project=project %}
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="framework-message">Projects in this group remain unpublished until their case-study content is ready.</p>
+  {% endif %}
+</section>

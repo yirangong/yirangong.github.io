@@ -2,6 +2,7 @@
 layout: project
 title: Visual Neuroscience
 pillar: understand
+group: understand-research
 index: U—03
 kind: Senior-year seminar · Forthcoming
 summary: A reserved framework for work from the visual neuroscience seminar.

@@ -3,27 +3,28 @@ layout: default
 ---
 {% assign pillar_projects = site.projects | where: 'pillar', page.pillar | sort: 'importance' %}
 <main class="pillar-page pillar-page--{{ page.pillar }}">
-  <header class="pillar-hero">
-    <div>
-      <p class="route-label">{{ page.index }} / {{ page.pillar | upcase }}</p>
-      <h1>{{ page.title }}</h1>
-    </div>
-    <div class="pillar-hero__description">
-      <p>{{ page.description }}</p>
-      {% if page.supporting_text %}
-        <p class="pillar-hero__supporting">{{ page.supporting_text }}</p>
-      {% endif %}
-      {% if page.featured_project_label and pillar_projects.first %}
-        <a class="route-button pillar-hero__project-link" href="{{ pillar_projects.first.url | relative_url }}">
-          {{ page.featured_project_label }}
-          <span aria-hidden="true">↗</span>
-        </a>
-      {% endif %}
-    </div>
-  </header>
-
   <section class="pillar-projects" aria-label="{{ page.title }} projects">
-    {% if pillar_projects.size > 0 %}
+    {% if page.project_groups %}
+      {% for group_key in page.project_groups %}
+        {% assign group = site.data.project_groups[group_key] %}
+        {% assign group_projects = pillar_projects | where: 'group', group_key %}
+        {% if group %}
+          {% include project-group.liquid group=group projects=group_projects group_key=group_key %}
+        {% endif %}
+      {% endfor %}
+
+      {% assign ungrouped_count = 0 %}
+      {% for project in pillar_projects %}
+        {% unless project.group %}{% assign ungrouped_count = ungrouped_count | plus: 1 %}{% endunless %}
+      {% endfor %}
+      {% if ungrouped_count > 0 %}
+        <div class="project-index project-index--standalone">
+          {% for project in pillar_projects %}
+            {% unless project.group %}{% include project-card.liquid project=project %}{% endunless %}
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% elsif pillar_projects.size > 0 %}
       <div class="project-index">
         {% for project in pillar_projects %}
           {% include project-card.liquid project=project %}

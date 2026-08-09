@@ -5,6 +5,10 @@ pillar: build
 kind: Community growth · Product operations
 summary: Combined community research, authentic participation, lightweight tooling, and measurement to grow an early creative-AI community from zero — without automating away the trust it ran on.
 experience: nauknauk
+group: nauknauk
+card_title: Growth without automating away trust
+card_badge: 500+
+card_detail: 0 → 500+ members · 200+ prospects tracked
 featured: true
 importance: 3
 published: true

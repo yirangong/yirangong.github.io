@@ -3,7 +3,12 @@ layout: project
 title: "Making toys move: what it takes to ship generative video as a product"
 pillar: build
 kind: Generative AI · Product operations
-summary: Designed, tested, and shipped generative-AI video workflows by connecting model capabilities, input architecture, prompt design, deployment constraints, and user experience.
+summary: Designed, tested, and shipped generative-video workflows by connecting model capabilities, input architecture, prompt design, deployment constraints, and user experience.
+experience: nauknauk
+group: nauknauk
+card_title: Making toys move
+card_badge: "~70%"
+card_detail: "~800 week-one generations · ~70% publish conversion"
 featured: true
 importance: 1
 published: true

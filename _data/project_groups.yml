@@ -1,0 +1,22 @@
+# Shared presentation for groups of projects on pillar index pages.
+# Keep factual employer details in experience.yml and reference them here.
+
+nauknauk:
+  pillar: build
+  experience: nauknauk
+  mark: N
+  eyebrow: Internship
+  context_label: About the work
+  scope_label: Role scope
+  scope_note: Zero-to-one · AI-native
+  link_label: Visit nauknauk.io
+
+understand-research:
+  pillar: understand
+  mark: U
+  eyebrow: Research
+  name: Understand
+  role: Research and computational modeling
+  context_label: Research focus
+  scope_label: Approach
+  scope_note: Questions · Experiments · Models · Evidence

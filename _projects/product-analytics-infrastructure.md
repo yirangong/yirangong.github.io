@@ -5,6 +5,10 @@ pillar: build
 kind: Product analytics · Data infrastructure
 summary: Built the first template-level measurement layer for an AI video feature, replacing endpoint error counts with outcome-based metrics across 40+ templates. Adopted for daily launch monitoring and weekly template-health reviews.
 experience: nauknauk
+group: nauknauk
+card_title: From root-cause to dashboard
+card_badge: 0 broken
+card_detail: Outcome-based failure metrics · survived migration
 featured: true
 importance: 2
 published: true

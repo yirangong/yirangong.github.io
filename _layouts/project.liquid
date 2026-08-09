@@ -1,348 +1,667 @@
 ---
 layout: default
 ---
-<main class="case-study cs cs--{{ page.pillar }}">
-  <div class="cs__shell">
+{% if page.paper_design == 'analytics-real-artifacts-v1' %}
+  {% include paper-analytics-case-study.liquid %}
+{% else %}
+  <main class="case-study cs cs--{{ page.pillar }}">
+    <div class="cs__shell">
+      <!-- LEFT: sticky section nav (list filled by the script below) -->
+      <aside class="cs__rail" aria-label="Section navigation">
+        <a class="cs__back" href="{{ '/' | append: page.pillar | append: '/' | relative_url }}">
+          <span aria-hidden="true">&larr;</span> {{ page.pillar | capitalize }}
+        </a>
+        <nav class="cs__nav" aria-label="On this page"><ol></ol></nav>
+      </aside>
 
-    <!-- LEFT: sticky section nav (list filled by the script below) -->
-    <aside class="cs__rail" aria-label="Section navigation">
-      <a class="cs__back" href="{{ '/' | append: page.pillar | append: '/' | relative_url }}">
-        <span aria-hidden="true">&larr;</span> {{ page.pillar | capitalize }}
-      </a>
-      <nav class="cs__nav" aria-label="On this page"><ol></ol></nav>
-    </aside>
+      <!-- RIGHT: content -->
+      <div class="cs__main">
+        {% comment %} Pull the featured media out for the hero, keep the rest for Highlights. {% endcomment %}
+        {% assign hero = null %}
+        {% for item in page.media -%}
+          {%- if item.featured and hero == null %}{% assign hero = item %}{% endif -%}
+        {%- endfor %}
+        {% assign extra_media = page.media | where_exp: 'i', 'i.featured != true' %}
 
-    <!-- RIGHT: content -->
-    <div class="cs__main">
+        {% comment %} Resolve a shared experience entry if the project points at one. {% endcomment %}
+        {% assign exp = null %}
+        {% if page.experience %}{% assign exp = site.data.experience[page.experience] %}{% endif %}
 
-      {% comment %} Pull the featured media out for the hero, keep the rest for Highlights. {% endcomment %}
-      {% assign hero = nil %}
-      {% for item in page.media %}{% if item.featured and hero == nil %}{% assign hero = item %}{% endif %}{% endfor %}
-      {% assign extra_media = page.media | where_exp: "i", "i.featured != true" %}
+        <!-- OVERVIEW / HERO -->
+        <section id="overview" class="cs-section cs-section--hero" data-nav-label="TL;DR">
+          {% if hero %}
+            <figure class="cs-hero-media">
+              {% if hero.src == null %}
+                <div class="cs-media-placeholder">{{ hero.caption | default: 'Media to add' }}</div>
+              {% elsif hero.type == 'video' %}
+                <video
+                  controls
+                  preload="metadata"
+                  playsinline
+                  {% if hero.poster %}
+                    poster="{{ hero.poster | relative_url }}"
+                  {% endif %}
+                >
+                  <source src="{{ hero.src | relative_url }}" type="video/mp4">
+                </video>
+              {% elsif hero.type == 'embed' %}
+                <div class="cs-media-embed">
+                  <iframe src="{{ hero.src }}" title="{{ hero.caption | default: page.title }}" allowfullscreen loading="lazy"></iframe>
+                </div>
+              {% else %}
+                <img src="{{ hero.src | relative_url }}" alt="{{ hero.caption | default: page.title }}" loading="lazy">
+              {% endif %}
+            </figure>
+          {% endif %}
 
-      {% comment %} Resolve a shared experience entry if the project points at one. {% endcomment %}
-      {% assign exp = nil %}
-      {% if page.experience %}{% assign exp = site.data.experience[page.experience] %}{% endif %}
+          <p class="cs-eyebrow">
+            <span>{{ page.pillar | capitalize }}</span>
+            {% if page.kind -%}
+              <span>&middot; {{ page.kind }}</span>
+            {%- endif %}
+            {% if page.status == 'draft' -%}
+              <span class="cs-draft">Draft</span>
+            {%- endif %}
+          </p>
+          <h1>{{ page.title }}</h1>
 
-      <!-- OVERVIEW / HERO -->
-      <section id="overview" class="cs-section cs-section--hero" data-nav-label="Overview">
-        {% if hero %}
-          <figure class="cs-hero-media">
-            {% if hero.src == nil %}
-              <div class="cs-media-placeholder">{{ hero.caption | default: 'Media to add' }}</div>
-            {% elsif hero.type == 'video' %}
-              <video controls preload="metadata" playsinline{% if hero.poster %} poster="{{ hero.poster | relative_url }}"{% endif %}>
-                <source src="{{ hero.src | relative_url }}" type="video/mp4">
-              </video>
-            {% elsif hero.type == 'embed' %}
-              <div class="cs-media-embed"><iframe src="{{ hero.src }}" title="{{ hero.caption | default: page.title }}" allowfullscreen loading="lazy"></iframe></div>
-            {% else %}
-              <img src="{{ hero.src | relative_url }}" alt="{{ hero.caption | default: page.title }}" loading="lazy">
+          {% comment %} The TL;DR plate and the numbered stack sit side by side. {% endcomment %}
+          <div class="cs-hero-grid">
+            {% if page.summary %}
+              <div class="cs-tldr">
+                <p class="cs-label cs-label--mark">TL;DR</p>
+                <p class="cs-lede">{{ page.summary }}</p>
+              </div>
             {% endif %}
-          </figure>
-        {% endif %}
 
-        <p class="cs-eyebrow">
-          <span>{{ page.pillar | capitalize }}</span>
-          {% if page.kind %}<span>&middot; {{ page.kind }}</span>{% endif %}
-          {% if page.status == 'draft' %}<span class="cs-draft">Draft</span>{% endif %}
-        </p>
-        <h1>{{ page.title }}</h1>
-
-        {% if page.kind %}
-          <ul class="cs-tags" aria-label="Categories">
-            <li>{{ page.pillar | capitalize }}</li>
-            {% assign kinds = page.kind | split: '·' %}
-            {% for k in kinds %}<li>{{ k | strip }}</li>{% endfor %}
-          </ul>
-        {% endif %}
-
-        {% if page.summary %}
-          <div class="cs-tldr">
-            <p class="cs-label">TL;DR</p>
-            <p class="cs-lede">{{ page.summary }}</p>
+            {% if page.skills %}
+              <div class="cs-skills">
+                <p class="cs-label cs-label--sub">Skills &amp; stack</p>
+                <ol class="cs-stack">
+                  {% for skill in page.skills %}
+                    <li>
+                      <span class="cs-stack__n">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span
+                      ><span class="cs-stack__name">{{ skill }}</span>
+                    </li>
+                  {% endfor %}
+                </ol>
+              </div>
+            {% endif %}
           </div>
-        {% endif %}
 
-        {% if exp %}
-          <details class="cs-experience">
-            <summary class="cs-experience__chip">
-              <span class="cs-experience__company">{{ exp.company }}</span>
-              {% if exp.role %}<span class="cs-experience__role">&middot; {{ exp.role }}</span>{% endif %}
-              {% if exp.timeframe %}<span class="cs-experience__when">&middot; {{ exp.timeframe }}</span>{% endif %}
-              <span class="cs-experience__more" aria-hidden="true">About the role &darr;</span>
-            </summary>
-            <div class="cs-experience__body">
-              {% if exp.reporting %}<p class="cs-experience__reporting">{{ exp.reporting }}</p>{% endif %}
-              {% if exp.scope %}<p class="cs-experience__scope">{{ exp.scope }}</p>{% endif %}
-              {% if exp.blurb %}<p class="cs-experience__blurb">{{ exp.blurb }}</p>{% endif %}
-              {% if page.team %}<p class="cs-experience__team"><strong>Team:</strong> {{ page.team }}</p>{% endif %}
-            </div>
-          </details>
-        {% else %}
-          <dl class="cs-meta">
-            {% if page.role %}<div><dt>Role</dt><dd>{{ page.role }}</dd></div>{% endif %}
-            {% if page.company %}<div><dt>Company</dt><dd>{{ page.company }}</dd></div>{% endif %}
-            {% if page.timeframe %}<div><dt>When</dt><dd>{{ page.timeframe }}</dd></div>{% endif %}
-            {% if page.team %}<div><dt>Team</dt><dd>{{ page.team }}</dd></div>{% endif %}
-          </dl>
-        {% endif %}
-
-        {% if page.skills %}
-          <div class="cs-skills">
-            <p class="cs-label">Skills &amp; stack</p>
-            <ul class="cs-chips">
-              {% for skill in page.skills %}<li>{{ skill }}</li>{% endfor %}
-            </ul>
-          </div>
-        {% endif %}
-
-        {% if page.links %}
-          <div class="cs-links" aria-label="Project links">
-            {% for link in page.links %}
-              <a href="{{ link.url }}"{% unless link.url contains site.url %} target="_blank" rel="noopener"{% endunless %} class="cs-button{% if forloop.first %} cs-button--primary{% endif %}">{{ link.label }} <span aria-hidden="true">&#8599;</span></a>
-            {% endfor %}
-          </div>
-        {% endif %}
-      </section>
-
-      {% if page.problem or page.approach or page.impact %}
-        <section id="at-a-glance" class="cs-section" data-nav-label="At a glance" aria-label="At a glance">
-          <p class="cs-label">At a glance</p>
-          <div class="cs-summary">
-            {% if page.problem %}<div><h2>The problem</h2><p>{{ page.problem }}</p></div>{% endif %}
-            {% if page.approach %}<div><h2>What I did</h2><p>{{ page.approach }}</p></div>{% endif %}
-            {% if page.impact %}<div><h2>The impact</h2><p>{{ page.impact }}</p></div>{% endif %}
-          </div>
-        </section>
-      {% endif %}
-
-      {% if extra_media and extra_media.size > 0 %}
-        <section id="highlights" class="cs-section" data-nav-label="Highlights" aria-label="Highlights">
-          <p class="cs-label">{{ page.media_label | default: 'Highlights' }}</p>
-          <div class="cs-media-grid">
-            {% for item in extra_media %}
-              <figure class="cs-media-item{% if item.wide %} cs-media-item--featured{% endif %}">
-                {% if item.src == nil %}
-                  <div class="cs-media-placeholder">{{ item.caption | default: 'Media to add' }}</div>
-                {% elsif item.type == 'video' %}
-                  <video controls preload="metadata" playsinline{% if item.poster %} poster="{{ item.poster | relative_url }}"{% endif %}>
-                    <source src="{{ item.src | relative_url }}" type="video/mp4">
-                  </video>
-                {% elsif item.type == 'embed' %}
-                  <div class="cs-media-embed"><iframe src="{{ item.src }}" title="{{ item.caption | default: page.title }}" allowfullscreen loading="lazy"></iframe></div>
-                {% else %}
-                  <img src="{{ item.src | relative_url }}" alt="{{ item.caption | default: page.title }}" loading="lazy">
+          {% if exp %}
+            <details class="cs-experience">
+              <summary class="cs-experience__chip">
+                <span class="cs-experience__company">{{ exp.company }}</span>
+                {% if exp.role -%}
+                  <span class="cs-experience__role">&middot; {{ exp.role }}</span>
+                {%- endif %}
+                {% if exp.timeframe -%}
+                  <span class="cs-experience__when">&middot; {{ exp.timeframe }}</span>
+                {%- endif %}
+                <span class="cs-experience__more" aria-hidden="true">About the role &darr;</span>
+              </summary>
+              <div class="cs-experience__body">
+                {% if exp.reporting %}
+                  <p class="cs-experience__reporting">{{ exp.reporting }}</p>
                 {% endif %}
-                {% if item.caption and item.src %}<figcaption>{{ item.caption }}</figcaption>{% endif %}
-              </figure>
-            {% endfor %}
-          </div>
+                {% if exp.scope %}
+                  <p class="cs-experience__scope">{{ exp.scope }}</p>
+                {% endif %}
+                {% if exp.blurb %}
+                  <p class="cs-experience__blurb">{{ exp.blurb }}</p>
+                {% endif %}
+                {% if page.team %}
+                  <p class="cs-experience__team">
+                    <strong>Team:</strong> {{ page.team }}
+                    {% if page.team_url and page.team_link_label %}
+                      &middot;
+                      <a class="cs-team-link" href="{{ page.team_url }}" target="_blank" rel="noopener">
+                        {% if page.team_icon %}
+                          <img src="{{ page.team_icon | relative_url }}" alt="" aria-hidden="true">
+                        {% endif %}
+                        {{ page.team_link_label }}
+                      </a>
+                    {% endif %}
+                  </p>
+                {% endif %}
+              </div>
+            </details>
+          {% elsif page.role or page.company or page.timeframe or page.team %}
+            {% comment %}
+              Guarded: with none of these set the <dl> still rendered,
+              contributing its top margin as dead space under the hero.
+            {% endcomment %}
+            <dl class="cs-meta">
+              {% if page.role %}
+                <div>
+                  <dt>Role</dt>
+                  <dd>{{ page.role }}</dd>
+                </div>
+              {% endif %}
+              {% if page.company %}
+                <div>
+                  <dt>Company</dt>
+                  <dd>{{ page.company }}</dd>
+                </div>
+              {% endif %}
+              {% if page.timeframe %}
+                <div>
+                  <dt>When</dt>
+                  <dd>{{ page.timeframe }}</dd>
+                </div>
+              {% endif %}
+              {% if page.team %}
+                <div>
+                  <dt>Team</dt>
+                  <dd>
+                    {{ page.team }}
+                    {% if page.team_url and page.team_link_label %}
+                      &middot;
+                      <a class="cs-team-link" href="{{ page.team_url }}" target="_blank" rel="noopener">
+                        {% if page.team_icon %}
+                          <img src="{{ page.team_icon | relative_url }}" alt="" aria-hidden="true">
+                        {% endif %}
+                        {{ page.team_link_label }}
+                      </a>
+                    {% endif %}
+                  </dd>
+                </div>
+              {% endif %}
+            </dl>
+          {% endif %}
+
+          {% if page.links %}
+            <div class="cs-links" aria-label="Project links">
+              {% for link in page.links %}
+                <a
+                  href="{{ link.url }}"
+                  {% unless link.url contains site.url %}
+                    target="_blank" rel="noopener"
+                  {% endunless %}
+                  class="cs-button{% if forloop.first %} cs-button--primary{% endif %}"
+                >
+                  {{- link.label }}
+                  <span aria-hidden="true">&#8599;</span></a
+                >
+              {% endfor %}
+            </div>
+          {% endif %}
         </section>
-      {% endif %}
 
-      {% assign body = content | strip %}
-      {% if body != '' %}
-        <section id="process" class="cs-section cs-roadmap" data-nav-label="Process" aria-label="Process walkthrough">
-          {% if page.roadmap_label %}<p class="cs-label">{{ page.roadmap_label }}</p>{% endif %}
-          <div class="roadmap-body">
-            {{ content }}
-          </div>
-        </section>
-      {% endif %}
+        {% comment %} IMPACT — the claim, the numbers, then the named work that backs them up. {% endcomment %}
+        {% assign has_media = false %}
+        {% if extra_media and extra_media.size > 0 %}{% assign has_media = true %}{% endif %}
+        {% if page.impact or page.metrics or page.impact_examples or has_media %}
+          <section id="impact" class="cs-section" data-nav-label="Impact" aria-label="Impact">
+            <p class="cs-label cs-label--mark">Impact</p>
 
-      <nav class="cs-footer" aria-label="Case study navigation">
-        <a href="{{ '/' | append: page.pillar | append: '/' | relative_url }}">&larr; Back to {{ page.pillar | capitalize }}</a>
-        <a href="{{ '/field-notes/' | relative_url }}">Field notes &#8599;</a>
-      </nav>
+            <div class="cs-impact-head">
+              {% if page.impact %}
+                <p class="cs-impact-lede">{{ page.impact }}</p>
+              {% endif %}
+              {% if page.metrics %}
+                <dl class="cs-metrics">
+                  {% for m in page.metrics %}
+                    <div>
+                      <dt>{{ m.value }}</dt>
+                      <dd>{{ m.label }}</dd>
+                    </div>
+                  {% endfor %}
+                </dl>
+              {% endif %}
+            </div>
 
+            <div class="cs-impact-groups">
+              {% if page.impact_examples %}
+                <div class="cs-impact-group">
+                  <p class="cs-group-label">{{ page.impact_examples_label | default: 'Selected work' }}</p>
+                  <ul class="cs-impact-list">
+                    {% for ex in page.impact_examples %}
+                      <li class="cs-impact-item">
+                        {% if ex.src %}
+                          <video
+                            class="cs-media-hoverplay"
+                            muted
+                            loop
+                            preload="metadata"
+                            playsinline
+                            aria-label="Play the {{ ex.title }} clip"
+                            {% if ex.poster %}
+                              poster="{{ ex.poster | relative_url }}"
+                            {% endif -%}
+                            {% if ex.ratio %}
+                              style="aspect-ratio: {{ ex.ratio }}"
+                            {% endif %}
+                          >
+                            <source src="{{ ex.src | relative_url }}" type="video/mp4">
+                          </video>
+                          <span class="rs-cue">Hover to play</span>
+                        {% endif %}
+                        <p class="cs-impact-item__text">
+                          <strong class="cs-media-title">{{ ex.title }}</strong>
+                          {% if ex.note -%}
+                            <span class="cs-media-note">{{ ex.note }}</span>
+                          {%- endif %}
+                        </p>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              {% endif %}
+
+              {% if has_media %}
+                <div class="cs-impact-group">
+                  <p class="cs-group-label cs-group-label--warm">{{ page.media_label | default: 'Highlights' }}</p>
+                  <div class="cs-media-grid">
+                    {% for item in extra_media %}
+                      <figure class="cs-media-item{% if item.wide %} cs-media-item--featured{% endif %}">
+                        {% if item.src == null %}
+                          <div class="cs-media-placeholder">{{ item.caption | default: 'Media to add' }}</div>
+                        {% elsif item.type == 'video' %}
+                          <video
+                            class="cs-media-hoverplay"
+                            muted
+                            loop
+                            preload="metadata"
+                            playsinline
+                            aria-label="Play the {{ item.title | default: item.caption | default: 'highlight' }} clip"
+                            {% if item.poster %}
+                              poster="{{ item.poster | relative_url }}"
+                            {% endif -%}
+                            {% if item.ratio %}
+                              style="aspect-ratio: {{ item.ratio }}"
+                            {% endif %}
+                          >
+                            <source src="{{ item.src | relative_url }}" type="video/mp4">
+                          </video>
+                          <span class="rs-cue">Hover to play</span>
+                        {% elsif item.type == 'embed' %}
+                          <div class="cs-media-embed">
+                            <iframe src="{{ item.src }}" title="{{ item.caption | default: page.title }}" allowfullscreen loading="lazy"></iframe>
+                          </div>
+                        {% else %}
+                          <img src="{{ item.src | relative_url }}" alt="{{ item.caption | default: page.title }}" loading="lazy">
+                        {% endif %}
+                        {% if item.src %}
+                          {% if item.title or item.caption %}
+                            <figcaption>
+                              {% if item.title -%}
+                                <strong class="cs-media-title">{{ item.title }}</strong>
+                              {%- endif %}
+                              {% if item.caption -%}
+                                <span class="cs-media-note">{{ item.caption }}</span>
+                              {%- endif %}
+                            </figcaption>
+                          {% endif %}
+                        {% endif %}
+                      </figure>
+                    {% endfor %}
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+          </section>
+        {% endif %}
+
+        {% comment %} BACKGROUND — the setup: what the problem was and what I did about it. {% endcomment %}
+        {% if page.problem or page.approach %}
+          <section id="background" class="cs-section cs-section--band" data-nav-label="Background" aria-label="Background">
+            <p class="cs-label cs-label--mark">Background</p>
+            <div class="cs-summary">
+              {% if page.problem %}
+                <div>
+                  <h2 class="cs-label cs-label--sub">The problem</h2>
+                  <p>{{ page.problem }}</p>
+                </div>
+              {% endif %}
+              {% if page.approach %}
+                <div>
+                  <h2 class="cs-label cs-label--accent">What I did</h2>
+                  <p>{{ page.approach }}</p>
+                </div>
+              {% endif %}
+            </div>
+          </section>
+        {% endif %}
+
+        {% assign body = content | strip %}
+        {% if body != '' %}
+          <section
+            id="process"
+            class="cs-section cs-roadmap"
+            data-nav-label="{{ page.roadmap_label | default: 'Process' }}"
+            aria-label="Process walkthrough"
+          >
+            {% if page.roadmap_label %}
+              <p class="cs-label cs-label--mark">{{ page.roadmap_label }}</p>
+            {% endif %}
+            {% if page.roadmap_headline %}
+              <h2 class="cs-roadmap-headline">{{ page.roadmap_headline }}</h2>
+            {% endif %}
+            <div class="roadmap-body">
+              {{ content }}
+            </div>
+          </section>
+        {% endif %}
+
+        <nav class="cs-footer" aria-label="Case study navigation">
+          <a href="{{ '/' | append: page.pillar | append: '/' | relative_url }}">&larr; Back to {{ page.pillar | capitalize }}</a>
+          <a href="{{ '/field-notes/' | relative_url }}">Field notes &#8599;</a>
+        </nav>
+      </div>
     </div>
-  </div>
-</main>
+  </main>
 
-<script>
-  (function () {
-    var main = document.querySelector(".cs__main");
-    var shell = document.querySelector(".cs__shell");
-    var rail = document.querySelector(".cs__rail");
-    var railList = document.querySelector(".cs__nav ol");
-    if (!main || !railList) return;
+  <script>
+    (function () {
+      var main = document.querySelector('.cs__main');
+      var shell = document.querySelector('.cs__shell');
+      var rail = document.querySelector('.cs__rail');
+      var railList = document.querySelector('.cs__nav ol');
+      if (!main || !railList) return;
 
-    function slug(text) {
-      return text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
-    }
-
-    // 1. Promote trailing unnumbered process headings (e.g. "Reflection") into
-    //    their own top-level sections, so they read as peers of Process — not as
-    //    indented stage sub-items. Numbered "0N / ..." headings stay as stages.
-    var processSection = main.querySelector("#process");
-    var roadmap = processSection && processSection.querySelector(".roadmap-body");
-    if (roadmap) {
-      var h2s = Array.prototype.slice.call(roadmap.children).filter(function (el) {
-        return el.tagName === "H2";
-      });
-      var splitIdx = -1, seenNumbered = false;
-      h2s.forEach(function (h, i) {
-        if (/^\s*\d/.test(h.textContent.trim())) seenNumbered = true;
-        else if (seenNumbered && splitIdx === -1) splitIdx = i;
-      });
-      if (splitIdx !== -1) {
-        var startNode = h2s[splitIdx];
-        var moved = [], n = startNode;
-        while (n) { var next = n.nextElementSibling; moved.push(n); n = next; }
-        var wrap = document.createElement("div");
-        wrap.className = "roadmap-body";
-        moved.forEach(function (m) { wrap.appendChild(m); });
-        var sec = document.createElement("section");
-        sec.className = "cs-section cs-roadmap";
-        sec.id = startNode.id || slug(startNode.textContent) || "reflection";
-        sec.setAttribute("data-nav-label", startNode.textContent.trim());
-        sec.appendChild(wrap);
-        processSection.parentNode.insertBefore(sec, processSection.nextElementSibling);
+      function slug(text) {
+        return text
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-+|-+$/g, '');
       }
-    }
 
-    // 2. Collect nav targets: each top-level section, plus the Process stage headings.
-    var targets = [];
-    var sections = Array.prototype.slice.call(main.querySelectorAll(":scope > .cs-section[id]"));
-    sections.forEach(function (sec) {
-      var label = sec.getAttribute("data-nav-label");
-      if (!label) return;
-      targets.push({ el: sec, id: sec.id, label: label, stage: false });
+      // 1. Promote trailing unnumbered process headings (e.g. "Reflection") into
+      //    their own top-level sections, so they read as peers of Process — not as
+      //    indented stage sub-items. Numbered "0N / ..." headings stay as stages.
+      var processSection = main.querySelector('#process');
+      var roadmap = processSection && processSection.querySelector('.roadmap-body');
+      if (roadmap) {
+        var h2s = Array.prototype.slice.call(roadmap.children).filter(function (el) {
+          return el.tagName === 'H2';
+        });
+        var splitIdx = -1,
+          seenNumbered = false;
+        h2s.forEach(function (h, i) {
+          if (/^\s*\d/.test(h.textContent.trim())) seenNumbered = true;
+          else if (seenNumbered && splitIdx === -1) splitIdx = i;
+        });
+        if (splitIdx !== -1) {
+          var startNode = h2s[splitIdx];
+          var moved = [],
+            n = startNode;
+          while (n) {
+            var next = n.nextElementSibling;
+            moved.push(n);
+            n = next;
+          }
+          var wrap = document.createElement('div');
+          wrap.className = 'roadmap-body';
+          moved.forEach(function (m) {
+            wrap.appendChild(m);
+          });
+          var sec = document.createElement('section');
+          sec.className = 'cs-section cs-roadmap cs-roadmap--reflection';
+          sec.id = startNode.id || slug(startNode.textContent) || 'reflection';
+          sec.setAttribute('data-nav-label', startNode.textContent.trim());
+          sec.appendChild(wrap);
+          processSection.parentNode.insertBefore(sec, processSection.nextElementSibling);
 
-      if (sec.id === "process") {
-        var headings = Array.prototype.slice.call(sec.querySelectorAll(".roadmap-body > h2"));
-        headings.forEach(function (h, i) {
-          if (!h.id) h.id = slug(h.textContent) || "stage-" + (i + 1);
-          var lab = h.textContent.replace(/^\s*\d+\s*[\/.\-]?\s*/, "").trim();
-          targets.push({ el: h, id: h.id, label: lab, stage: true });
+          // Group each label-led run ("What I learned", "What failed") into its
+          // own column, so the two read side by side instead of stacking.
+          var isLabel = function (el) {
+            return (
+              el.tagName === 'P' &&
+              el.children.length === 1 &&
+              el.firstElementChild.tagName === 'STRONG' &&
+              el.textContent.trim() === el.firstElementChild.textContent.trim()
+            );
+          };
+          var kids = Array.prototype.slice.call(wrap.children);
+          var firstLabel = kids.filter(isLabel)[0];
+          if (firstLabel) {
+            var grid = document.createElement('div');
+            grid.className = 'cs-reflect';
+            wrap.insertBefore(grid, firstLabel);
+            var col = null,
+              colIndex = 0;
+            kids.slice(kids.indexOf(firstLabel)).forEach(function (el) {
+              if (isLabel(el)) {
+                col = document.createElement('div');
+                col.className = 'cs-reflect__col ' + (colIndex === 0 ? 'cs-reflect__col--learned' : 'cs-reflect__col--failed');
+                colIndex++;
+                grid.appendChild(col);
+              }
+              if (col) col.appendChild(el);
+            });
+          }
+        }
+      }
+
+      // 1b. Split "0N / Name" stage headings into a big number and a quiet name.
+      //     Runs before the rail is built; textContent is preserved, so the label
+      //     regex below still strips the number cleanly.
+      if (roadmap) {
+        Array.prototype.slice.call(roadmap.querySelectorAll(':scope > h2')).forEach(function (h) {
+          var m = h.textContent.trim().match(/^(\d+)\s*[\/.\-]\s*(.+)$/);
+          if (!m) return;
+          h.textContent = '';
+          var n = document.createElement('span');
+          n.className = 'stage-n';
+          n.textContent = m[1];
+          var name = document.createElement('span');
+          name.className = 'stage-name';
+          name.textContent = m[2];
+          h.appendChild(n);
+          h.appendChild(document.createTextNode(' '));
+          h.appendChild(name);
         });
       }
-    });
 
-    // 3. Build the rail — or hide it for thin pages with nothing to navigate.
-    if (targets.length < 2) {
-      if (rail) rail.setAttribute("hidden", "");
-      if (shell) shell.classList.add("cs__shell--norail");
-    } else {
-      var links = [];
-      targets.forEach(function (t) {
-        var li = document.createElement("li");
-        if (t.stage) li.className = "is-stage";
-        var a = document.createElement("a");
-        a.href = "#" + t.id;
-        a.textContent = t.label;
-        a.addEventListener("click", function (e) {
-          var el = document.getElementById(t.id);
-          if (!el) return;
+      // 2. Collect nav targets: each top-level section, plus the Process stage headings.
+      var targets = [];
+      var sections = Array.prototype.slice.call(main.querySelectorAll(':scope > .cs-section[id]'));
+      sections.forEach(function (sec) {
+        var label = sec.getAttribute('data-nav-label');
+        if (!label) return;
+        targets.push({ el: sec, id: sec.id, label: label, stage: false });
+
+        if (sec.id === 'process') {
+          var headings = Array.prototype.slice.call(sec.querySelectorAll('.roadmap-body > h2'));
+          headings.forEach(function (h, i) {
+            if (!h.id) h.id = slug(h.textContent) || 'stage-' + (i + 1);
+            var lab = h.textContent.replace(/^\s*\d+\s*[\/.\-]?\s*/, '').trim();
+            targets.push({ el: h, id: h.id, label: lab, stage: true });
+          });
+        }
+      });
+
+      // 3. Build the rail — or hide it for thin pages with nothing to navigate.
+      if (targets.length < 2) {
+        if (rail) rail.setAttribute('hidden', '');
+        if (shell) shell.classList.add('cs__shell--norail');
+      } else {
+        var links = [];
+        targets.forEach(function (t) {
+          var li = document.createElement('li');
+          if (t.stage) li.className = 'is-stage';
+          var a = document.createElement('a');
+          a.href = '#' + t.id;
+          a.textContent = t.label;
+          a.addEventListener('click', function (e) {
+            var el = document.getElementById(t.id);
+            if (!el) return;
+            e.preventDefault();
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (history.replaceState) history.replaceState(null, '', '#' + t.id);
+          });
+          li.appendChild(a);
+          railList.appendChild(li);
+          links.push({ a: a, id: t.id });
+        });
+
+        // Scroll-spy: the active item is the last target whose top has passed just
+        // below the sticky header. Position-based (not intersection-based) so stage
+        // headings inside Process win over the Process section that contains them,
+        // and each stage stays active until the next one arrives.
+        var HEADER_OFFSET = 96; // ~ sticky header + a little breathing room
+        var ticking = false;
+        function updateActive() {
+          ticking = false;
+          var line = window.pageYOffset + HEADER_OFFSET + 1;
+          var currentId = targets[0].id;
+          for (var i = 0; i < targets.length; i++) {
+            var top = targets[i].el.getBoundingClientRect().top + window.pageYOffset;
+            if (top <= line) currentId = targets[i].id;
+            else break;
+          }
+          // At the very bottom, short trailing sections can't reach the header line —
+          // pin the last target so it still highlights.
+          if (window.innerHeight + window.pageYOffset >= document.documentElement.scrollHeight - 2) {
+            currentId = targets[targets.length - 1].id;
+          }
+          links.forEach(function (l) {
+            l.a.classList.toggle('is-active', l.id === currentId);
+          });
+        }
+        function onScroll() {
+          if (ticking) return;
+          ticking = true;
+          window.requestAnimationFrame(updateActive);
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll);
+        updateActive();
+      }
+
+      // 4. Content transforms inside the process body (unchanged behaviour).
+      var body = main.querySelector('.roadmap-body');
+      if (!body) return;
+
+      // 3a. Turn [ADD: ...] paragraphs into tidy media slots.
+      Array.prototype.slice.call(body.querySelectorAll('p')).forEach(function (p) {
+        var t = p.textContent.trim();
+        if (/^\[ADD:/i.test(t)) {
+          var slot = document.createElement('div');
+          slot.className = 'media-slot';
+          slot.textContent = t.replace(/^\[ADD:\s*/i, '').replace(/\]\s*$/, '');
+          p.parentNode.replaceChild(slot, p);
+        }
+      });
+
+      // 3b. Blockquotes with arrows -> horizontal route-flow chips.
+      Array.prototype.slice.call(body.querySelectorAll('blockquote')).forEach(function (bq) {
+        if (bq.closest('details')) return; // prompts inside reveals handled below
+        var raw = bq.textContent.replace(/\s+/g, ' ').trim();
+        if (raw.indexOf('->') === -1 && raw.indexOf('→') === -1) return;
+        var label = '';
+        var strong = bq.querySelector('strong');
+        if (strong && strong.textContent.indexOf('->') === -1) {
+          label = strong.textContent.trim();
+          raw = raw.replace(label, '').trim();
+        }
+        var parts = raw
+          .split(/->|→/)
+          .map(function (s) {
+            return s.trim();
+          })
+          .filter(Boolean);
+        if (parts.length < 2) return;
+        var flow = document.createElement('div');
+        flow.className = 'route-flow';
+        if (label) {
+          var l = document.createElement('span');
+          l.className = 'route-flow__label';
+          l.textContent = label;
+          flow.appendChild(l);
+        }
+        parts.forEach(function (part, i) {
+          var step = document.createElement('span');
+          step.className = 'route-flow__step';
+          step.textContent = part;
+          flow.appendChild(step);
+          if (i < parts.length - 1) {
+            var arr = document.createElement('span');
+            arr.className = 'route-flow__arrow';
+            arr.textContent = '→';
+            flow.appendChild(arr);
+          }
+        });
+        bq.parentNode.replaceChild(flow, bq);
+      });
+
+      // 3c. Blockquotes inside a reveal -> monospace prompt cards with a copy button.
+      Array.prototype.slice.call(body.querySelectorAll('details blockquote')).forEach(function (bq) {
+        bq.classList.add('prompt-card');
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'prompt-card__copy';
+        btn.textContent = 'Copy';
+        btn.addEventListener('click', function () {
+          var text = bq.textContent.replace('Copy', '').trim();
+          if (navigator.clipboard) navigator.clipboard.writeText(text);
+          btn.textContent = 'Copied';
+          setTimeout(function () {
+            btn.textContent = 'Copy';
+          }, 1500);
+        });
+        bq.appendChild(btn);
+      });
+    })();
+
+    // Highlights grid: hover to play. Pointer devices only — on touch the videos
+    // keep their normal tap-to-play controls, since there is no hover to leave.
+    (function () {
+      var vids = Array.prototype.slice.call(document.querySelectorAll('.cs-media-hoverplay'));
+      if (!vids.length) return;
+      var canHover = !!window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+      vids.forEach(function (v) {
+        var card = v.closest('.cs-media-item, .cs-impact-item') || v;
+
+        function play() {
+          var p = v.play();
+          if (p && p.catch) p.catch(function () {});
+        }
+        function stop() {
+          v.pause();
+          v.currentTime = 0;
+        }
+
+        // Cue state rides on the video's own events, so it clears however
+        // playback started — hover, click, or keyboard.
+        v.addEventListener('play', function () {
+          card.classList.add('is-playing');
+        });
+        ['pause', 'ended'].forEach(function (evt) {
+          v.addEventListener(evt, function () {
+            card.classList.remove('is-playing');
+          });
+        });
+
+        // These clips carry no control bar, so click and keyboard are the ways in
+        // that do not depend on a pointer. Focusable for the keyboard path.
+        v.setAttribute('tabindex', '0');
+        v.addEventListener('click', function () {
+          v.paused ? play() : stop();
+        });
+        v.addEventListener('keydown', function (e) {
+          if (e.key !== 'Enter' && e.key !== ' ') return;
           e.preventDefault();
-          el.scrollIntoView({ behavior: "smooth", block: "start" });
-          if (history.replaceState) history.replaceState(null, "", "#" + t.id);
+          v.paused ? play() : stop();
         });
-        li.appendChild(a);
-        railList.appendChild(li);
-        links.push({ a: a, id: t.id });
-      });
 
-      // Scroll-spy: the active item is the last target whose top has passed just
-      // below the sticky header. Position-based (not intersection-based) so stage
-      // headings inside Process win over the Process section that contains them,
-      // and each stage stays active until the next one arrives.
-      var HEADER_OFFSET = 96; // ~ sticky header + a little breathing room
-      var ticking = false;
-      function updateActive() {
-        ticking = false;
-        var line = window.pageYOffset + HEADER_OFFSET + 1;
-        var currentId = targets[0].id;
-        for (var i = 0; i < targets.length; i++) {
-          var top = targets[i].el.getBoundingClientRect().top + window.pageYOffset;
-          if (top <= line) currentId = targets[i].id;
-          else break;
+        // Without hover there is nothing to drive playback implicitly, so give
+        // those visitors the native controls back rather than a dead poster.
+        if (!canHover) {
+          v.setAttribute('controls', '');
+          return;
         }
-        // At the very bottom, short trailing sections can't reach the header line —
-        // pin the last target so it still highlights.
-        if (window.innerHeight + window.pageYOffset >= document.documentElement.scrollHeight - 2) {
-          currentId = targets[targets.length - 1].id;
-        }
-        links.forEach(function (l) {
-          l.a.classList.toggle("is-active", l.id === currentId);
+
+        card.addEventListener('mouseenter', play);
+        card.addEventListener('mouseleave', function () {
+          // Going fullscreen pulls the pointer off the card — don't kill playback.
+          if (document.fullscreenElement || document.webkitFullscreenElement) return;
+          stop();
         });
-      }
-      function onScroll() {
-        if (ticking) return;
-        ticking = true;
-        window.requestAnimationFrame(updateActive);
-      }
-      window.addEventListener("scroll", onScroll, { passive: true });
-      window.addEventListener("resize", onScroll);
-      updateActive();
-    }
-
-    // 4. Content transforms inside the process body (unchanged behaviour).
-    var body = main.querySelector(".roadmap-body");
-    if (!body) return;
-
-    // 3a. Turn [ADD: ...] paragraphs into tidy media slots.
-    Array.prototype.slice.call(body.querySelectorAll("p")).forEach(function (p) {
-      var t = p.textContent.trim();
-      if (/^\[ADD:/i.test(t)) {
-        var slot = document.createElement("div");
-        slot.className = "media-slot";
-        slot.textContent = t.replace(/^\[ADD:\s*/i, "").replace(/\]\s*$/, "");
-        p.parentNode.replaceChild(slot, p);
-      }
-    });
-
-    // 3b. Blockquotes with arrows -> horizontal route-flow chips.
-    Array.prototype.slice.call(body.querySelectorAll("blockquote")).forEach(function (bq) {
-      if (bq.closest("details")) return; // prompts inside reveals handled below
-      var raw = bq.textContent.replace(/\s+/g, " ").trim();
-      if (raw.indexOf("->") === -1 && raw.indexOf("→") === -1) return;
-      var label = "";
-      var strong = bq.querySelector("strong");
-      if (strong && strong.textContent.indexOf("->") === -1) {
-        label = strong.textContent.trim();
-        raw = raw.replace(label, "").trim();
-      }
-      var parts = raw.split(/->|→/).map(function (s) { return s.trim(); }).filter(Boolean);
-      if (parts.length < 2) return;
-      var flow = document.createElement("div");
-      flow.className = "route-flow";
-      if (label) {
-        var l = document.createElement("span");
-        l.className = "route-flow__label";
-        l.textContent = label;
-        flow.appendChild(l);
-      }
-      parts.forEach(function (part, i) {
-        var step = document.createElement("span");
-        step.className = "route-flow__step";
-        step.textContent = part;
-        flow.appendChild(step);
-        if (i < parts.length - 1) {
-          var arr = document.createElement("span");
-          arr.className = "route-flow__arrow";
-          arr.textContent = "→";
-          flow.appendChild(arr);
-        }
       });
-      bq.parentNode.replaceChild(flow, bq);
-    });
-
-    // 3c. Blockquotes inside a reveal -> monospace prompt cards with a copy button.
-    Array.prototype.slice.call(body.querySelectorAll("details blockquote")).forEach(function (bq) {
-      bq.classList.add("prompt-card");
-      var btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "prompt-card__copy";
-      btn.textContent = "Copy";
-      btn.addEventListener("click", function () {
-        var text = bq.textContent.replace("Copy", "").trim();
-        if (navigator.clipboard) navigator.clipboard.writeText(text);
-        btn.textContent = "Copied";
-        setTimeout(function () { btn.textContent = "Copy"; }, 1500);
-      });
-      bq.appendChild(btn);
-    });
-  })();
-</script>
+    })();
+  </script>
+{% endif %}

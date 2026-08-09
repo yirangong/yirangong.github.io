@@ -1,130 +1,581 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NaukNauk Outreach Tracker</title>
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --bg: #ffffff; --bg2: #f5f5f3; --bg3: #eeede9;
-    --text: #1a1a1a; --text2: #666; --text3: #999;
-    --border: rgba(0,0,0,0.1); --border2: rgba(0,0,0,0.18);
-    --info-bg: #e6f1fb; --info-text: #185fa5;
-    --warn-bg: #faeeda; --warn-text: #854f0b;
-    --success-bg: #eaf3de; --success-text: #3b6d11;
-    --danger-bg: #fcebeb; --danger-text: #a32d2d;
-    --radius: 8px; --radius-lg: 12px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #1e1e1e; --bg2: #2a2a2a; --bg3: #333;
-      --text: #f0f0f0; --text2: #aaa; --text3: #666;
-      --border: rgba(255,255,255,0.1); --border2: rgba(255,255,255,0.2);
-      --info-bg: #0c447c; --info-text: #b5d4f4;
-      --warn-bg: #633806; --warn-text: #fac775;
-      --success-bg: #27500a; --success-text: #c0dd97;
-      --danger-bg: #791f1f; --danger-text: #f7c1c1;
-    }
-  }
-  body { background: var(--bg3); color: var(--text); min-height: 100vh; padding: 2rem 1rem; }
-  .container { max-width: 980px; margin: 0 auto; }
-  h1 { font-size: 18px; font-weight: 500; margin-bottom: 1.5rem; }
-  .card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1rem; }
-  .tabs { display: flex; border-bottom: 0.5px solid var(--border); margin-bottom: 1.25rem; }
-  .tab { font-size: 13px; font-weight: 500; color: var(--text3); padding: 8px 14px; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; background: none; border-top: none; border-left: none; border-right: none; font-family: inherit; }
-  .tab.active { color: var(--text); border-bottom-color: var(--text); }
-  .pane { display: none; } .pane.active { display: flex; flex-direction: column; gap: 1rem; }
-  .field { display: flex; flex-direction: column; gap: 5px; }
-  .field label { font-size: 12px; color: var(--text2); }
-  .field input, .field textarea, .field select { width: 100%; font-size: 13px; font-family: inherit; color: var(--text); background: var(--bg); border: 0.5px solid var(--border2); border-radius: var(--radius); padding: 7px 10px; resize: vertical; }
-  .field textarea { line-height: 1.6; }
-  .field input:focus, .field textarea:focus, .field select:focus { outline: none; border-color: var(--text3); }
-  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .btn { font-size: 12px; font-weight: 500; font-family: inherit; padding: 7px 12px; border-radius: var(--radius); border: 0.5px solid var(--border2); background: transparent; color: var(--text); cursor: pointer; }
-  .btn:hover { background: var(--bg2); } .btn:active { transform: scale(.98); }
-  .btn-primary { background: var(--bg2); }
-  .btn.danger:hover { color: var(--danger-text); }
-  .btn-row { display: flex; gap: 8px; align-items: center; }
-  .status-badge { display: inline-block; font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 20px; white-space: nowrap; }
-  .s-pending { background: var(--bg2); color: var(--text2); }
-  .s-sent { background: var(--info-bg); color: var(--info-text); }
-  .s-replied { background: var(--warn-bg); color: var(--warn-text); }
-  .s-joined { background: var(--success-bg); color: var(--success-text); }
-  .s-pass { background: var(--danger-bg); color: var(--danger-text); }
-  .tracker-layout { display: grid; grid-template-columns: 1fr 340px; gap: 1rem; align-items: start; }
-  @media(max-width:700px) { .tracker-layout, .row2 { grid-template-columns: 1fr; } }
-  table { width: 100%; border-collapse: collapse; font-size: 12px; }
-  th { text-align: left; font-size: 11px; font-weight: 500; color: var(--text3); padding: 6px 8px; border-bottom: 0.5px solid var(--border); white-space: nowrap; }
-  td { padding: 7px 8px; border-bottom: 0.5px solid var(--border); vertical-align: middle; }
-  tr:last-child td { border-bottom: none; }
-  tr.selected td { background: var(--bg2); }
-  tr:hover td { background: var(--bg2); cursor: pointer; }
-  .mini-btn { font-size: 11px; padding: 3px 7px; border-radius: 6px; border: 0.5px solid var(--border); background: none; color: var(--text2); cursor: pointer; font-family: inherit; }
-  .mini-btn:hover { background: var(--bg2); color: var(--text); }
-  .empty { font-size: 13px; color: var(--text3); font-style: italic; padding: 16px; text-align: center; }
-  .stats { display: grid; grid-template-columns: repeat(5,1fr); gap: 8px; margin-bottom: .5rem; }
-  .stat { background: var(--bg2); border-radius: var(--radius); padding: 8px; text-align: center; }
-  .stat-num { font-size: 18px; font-weight: 500; }
-  .stat-label { font-size: 11px; color: var(--text3); margin-top: 1px; }
-  .edit-panel { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1rem; display: flex; flex-direction: column; gap: .875rem; position: sticky; top: 1rem; }
-  .edit-panel-empty { font-size: 13px; color: var(--text3); font-style: italic; text-align: center; padding: 24px 0; }
-  .edit-panel-title { font-size: 12px; font-weight: 500; color: var(--text2); }
-  .divider { height: 0.5px; background: var(--border); }
-  .notice { font-size: 12px; padding: 7px 10px; border-radius: var(--radius); background: var(--bg2); color: var(--text3); }
-  .copy-link { font-size: 12px; color: var(--info-text); cursor: pointer; border: none; background: none; font-family: inherit; padding: 0; }
-  .copy-link:hover { text-decoration: underline; }
-  .date-muted { font-size: 11px; color: var(--text3); }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NaukNauk Outreach Tracker</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --bg: #ffffff;
+        --bg2: #f5f5f3;
+        --bg3: #eeede9;
+        --text: #1a1a1a;
+        --text2: #666;
+        --text3: #999;
+        --border: rgba(0, 0, 0, 0.1);
+        --border2: rgba(0, 0, 0, 0.18);
+        --info-bg: #e6f1fb;
+        --info-text: #185fa5;
+        --warn-bg: #faeeda;
+        --warn-text: #854f0b;
+        --success-bg: #eaf3de;
+        --success-text: #3b6d11;
+        --danger-bg: #fcebeb;
+        --danger-text: #a32d2d;
+        --radius: 8px;
+        --radius-lg: 12px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #1e1e1e;
+          --bg2: #2a2a2a;
+          --bg3: #333;
+          --text: #f0f0f0;
+          --text2: #aaa;
+          --text3: #666;
+          --border: rgba(255, 255, 255, 0.1);
+          --border2: rgba(255, 255, 255, 0.2);
+          --info-bg: #0c447c;
+          --info-text: #b5d4f4;
+          --warn-bg: #633806;
+          --warn-text: #fac775;
+          --success-bg: #27500a;
+          --success-text: #c0dd97;
+          --danger-bg: #791f1f;
+          --danger-text: #f7c1c1;
+        }
+      }
+      body {
+        background: var(--bg3);
+        color: var(--text);
+        min-height: 100vh;
+        padding: 2rem 1rem;
+      }
+      .container {
+        max-width: 980px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 18px;
+        font-weight: 500;
+        margin-bottom: 1.5rem;
+      }
+      .card {
+        background: var(--bg);
+        border: 0.5px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+      }
+      .tabs {
+        display: flex;
+        border-bottom: 0.5px solid var(--border);
+        margin-bottom: 1.25rem;
+      }
+      .tab {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--text3);
+        padding: 8px 14px;
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+        margin-bottom: -1px;
+        background: none;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        font-family: inherit;
+      }
+      .tab.active {
+        color: var(--text);
+        border-bottom-color: var(--text);
+      }
+      .pane {
+        display: none;
+      }
+      .pane.active {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+      .field label {
+        font-size: 12px;
+        color: var(--text2);
+      }
+      .field input,
+      .field textarea,
+      .field select {
+        width: 100%;
+        font-size: 13px;
+        font-family: inherit;
+        color: var(--text);
+        background: var(--bg);
+        border: 0.5px solid var(--border2);
+        border-radius: var(--radius);
+        padding: 7px 10px;
+        resize: vertical;
+      }
+      .field textarea {
+        line-height: 1.6;
+      }
+      .field input:focus,
+      .field textarea:focus,
+      .field select:focus {
+        outline: none;
+        border-color: var(--text3);
+      }
+      .row2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .btn {
+        font-size: 12px;
+        font-weight: 500;
+        font-family: inherit;
+        padding: 7px 12px;
+        border-radius: var(--radius);
+        border: 0.5px solid var(--border2);
+        background: transparent;
+        color: var(--text);
+        cursor: pointer;
+      }
+      .btn:hover {
+        background: var(--bg2);
+      }
+      .btn:active {
+        transform: scale(0.98);
+      }
+      .btn-primary {
+        background: var(--bg2);
+      }
+      .btn.danger:hover {
+        color: var(--danger-text);
+      }
+      .btn-row {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .status-badge {
+        display: inline-block;
+        font-size: 11px;
+        font-weight: 500;
+        padding: 2px 8px;
+        border-radius: 20px;
+        white-space: nowrap;
+      }
+      .s-pending {
+        background: var(--bg2);
+        color: var(--text2);
+      }
+      .s-sent {
+        background: var(--info-bg);
+        color: var(--info-text);
+      }
+      .s-replied {
+        background: var(--warn-bg);
+        color: var(--warn-text);
+      }
+      .s-joined {
+        background: var(--success-bg);
+        color: var(--success-text);
+      }
+      .s-pass {
+        background: var(--danger-bg);
+        color: var(--danger-text);
+      }
+      .tracker-layout {
+        display: grid;
+        grid-template-columns: 1fr 340px;
+        gap: 1rem;
+        align-items: start;
+      }
+      @media (max-width: 700px) {
+        .tracker-layout,
+        .row2 {
+          grid-template-columns: 1fr;
+        }
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+      }
+      th {
+        text-align: left;
+        font-size: 11px;
+        font-weight: 500;
+        color: var(--text3);
+        padding: 6px 8px;
+        border-bottom: 0.5px solid var(--border);
+        white-space: nowrap;
+      }
+      td {
+        padding: 7px 8px;
+        border-bottom: 0.5px solid var(--border);
+        vertical-align: middle;
+      }
+      tr:last-child td {
+        border-bottom: none;
+      }
+      tr.selected td {
+        background: var(--bg2);
+      }
+      tr:hover td {
+        background: var(--bg2);
+        cursor: pointer;
+      }
+      .mini-btn {
+        font-size: 11px;
+        padding: 3px 7px;
+        border-radius: 6px;
+        border: 0.5px solid var(--border);
+        background: none;
+        color: var(--text2);
+        cursor: pointer;
+        font-family: inherit;
+      }
+      .mini-btn:hover {
+        background: var(--bg2);
+        color: var(--text);
+      }
+      .empty {
+        font-size: 13px;
+        color: var(--text3);
+        font-style: italic;
+        padding: 16px;
+        text-align: center;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 8px;
+        margin-bottom: 0.5rem;
+      }
+      .stat {
+        background: var(--bg2);
+        border-radius: var(--radius);
+        padding: 8px;
+        text-align: center;
+      }
+      .stat-num {
+        font-size: 18px;
+        font-weight: 500;
+      }
+      .stat-label {
+        font-size: 11px;
+        color: var(--text3);
+        margin-top: 1px;
+      }
+      .edit-panel {
+        background: var(--bg);
+        border: 0.5px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.875rem;
+        position: sticky;
+        top: 1rem;
+      }
+      .edit-panel-empty {
+        font-size: 13px;
+        color: var(--text3);
+        font-style: italic;
+        text-align: center;
+        padding: 24px 0;
+      }
+      .edit-panel-title {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--text2);
+      }
+      .divider {
+        height: 0.5px;
+        background: var(--border);
+      }
+      .notice {
+        font-size: 12px;
+        padding: 7px 10px;
+        border-radius: var(--radius);
+        background: var(--bg2);
+        color: var(--text3);
+      }
+      .copy-link {
+        font-size: 12px;
+        color: var(--info-text);
+        cursor: pointer;
+        border: none;
+        background: none;
+        font-family: inherit;
+        padding: 0;
+      }
+      .copy-link:hover {
+        text-decoration: underline;
+      }
+      .date-muted {
+        font-size: 11px;
+        color: var(--text3);
+      }
 
-  /* paste box */
-  .paste-box { border: 1.5px dashed var(--border2); border-radius: var(--radius-lg); padding: 1rem; display: flex; flex-direction: column; gap: .5rem; background: var(--bg2); }
-  .paste-box label { font-size: 12px; font-weight: 500; color: var(--text2); }
-  .paste-box textarea { font-size: 12px; font-family: inherit; color: var(--text); background: var(--bg); border: 0.5px solid var(--border2); border-radius: var(--radius); padding: 8px 10px; resize: vertical; min-height: 72px; line-height: 1.5; width: 100%; }
-  .paste-box textarea:focus { outline: none; border-color: var(--text3); }
-  .extract-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; }
-  .extract-badge.ok { background: var(--success-bg); color: var(--success-text); }
-  .extract-badge.warn { background: var(--warn-bg); color: var(--warn-text); }
-  .extracted-preview { font-size: 12px; color: var(--text2); line-height: 1.7; padding: 8px 10px; background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius); }
-  .extracted-preview strong { color: var(--text); font-weight: 500; }
-  .star-btn { background: none; border: none; cursor: pointer; font-size: 13px; padding: 0 2px; color: var(--text3); line-height: 1; transition: color .15s; }
-  .star-btn:hover { color: #f5a623; }
-  .star-btn.starred { color: #f5a623; }
-</style>
-</head>
-<body>
-<div class="container">
-  <h1>NaukNauk — Reddit outreach tracker</h1>
-  <div class="card">
-    <div class="tabs">
-      <button class="tab active" onclick="switchTab('tracker')">tracker</button>
-      <button class="tab" onclick="switchTab('add')">add user</button>
-      <button class="tab" onclick="switchTab('generate')">generate DM</button>
-      <button class="tab" onclick="switchTab('template')">DM template</button>
-    </div>
-
-    <!-- TRACKER -->
-    <div id="pane-tracker" class="pane active">
-      <div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:.5rem">
-        <button class="btn" onclick="regenAll()">regen all DMs</button>
-        <button class="btn" onclick="exportCSV()">export CSV</button>
-        <label class="btn" style="cursor:pointer;margin:0">import CSV<input type="file" accept=".csv" onchange="importCSV(event)" style="display:none"></label>
-      </div>
-      <div class="stats" id="stats"></div>
-      <div class="tracker-layout">
-        <div style="overflow-x:auto">
-          <table>
-            <thead><tr><th></th><th>handle</th><th>subreddit</th><th>posted</th><th>added</th><th>status</th><th></th></tr></thead>
-            <tbody id="tbody"></tbody>
-          </table>
+      /* paste box */
+      .paste-box {
+        border: 1.5px dashed var(--border2);
+        border-radius: var(--radius-lg);
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        background: var(--bg2);
+      }
+      .paste-box label {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--text2);
+      }
+      .paste-box textarea {
+        font-size: 12px;
+        font-family: inherit;
+        color: var(--text);
+        background: var(--bg);
+        border: 0.5px solid var(--border2);
+        border-radius: var(--radius);
+        padding: 8px 10px;
+        resize: vertical;
+        min-height: 72px;
+        line-height: 1.5;
+        width: 100%;
+      }
+      .paste-box textarea:focus {
+        outline: none;
+        border-color: var(--text3);
+      }
+      .extract-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 11px;
+        font-weight: 500;
+        padding: 3px 10px;
+        border-radius: 20px;
+      }
+      .extract-badge.ok {
+        background: var(--success-bg);
+        color: var(--success-text);
+      }
+      .extract-badge.warn {
+        background: var(--warn-bg);
+        color: var(--warn-text);
+      }
+      .extracted-preview {
+        font-size: 12px;
+        color: var(--text2);
+        line-height: 1.7;
+        padding: 8px 10px;
+        background: var(--bg);
+        border: 0.5px solid var(--border);
+        border-radius: var(--radius);
+      }
+      .extracted-preview strong {
+        color: var(--text);
+        font-weight: 500;
+      }
+      .star-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 13px;
+        padding: 0 2px;
+        color: var(--text3);
+        line-height: 1;
+        transition: color 0.15s;
+      }
+      .star-btn:hover {
+        color: #f5a623;
+      }
+      .star-btn.starred {
+        color: #f5a623;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>NaukNauk — Reddit outreach tracker</h1>
+      <div class="card">
+        <div class="tabs">
+          <button class="tab active" onclick="switchTab('tracker')">tracker</button>
+          <button class="tab" onclick="switchTab('add')">add user</button>
+          <button class="tab" onclick="switchTab('generate')">generate DM</button>
+          <button class="tab" onclick="switchTab('template')">DM template</button>
         </div>
-        <div class="edit-panel">
-          <div class="edit-panel-empty" id="edit-empty">select a user to edit</div>
-          <div id="edit-form" style="display:none;flex-direction:column;gap:.875rem">
-            <div class="edit-panel-title" id="edit-title"></div>
-            <div class="divider"></div>
-            <div class="field"><label>status</label>
-              <select id="e-status" onchange="saveEdit()">
+
+        <!-- TRACKER -->
+        <div id="pane-tracker" class="pane active">
+          <div style="display: flex; justify-content: flex-end; gap: 8px; margin-bottom: 0.5rem">
+            <button class="btn" onclick="regenAll()">regen all DMs</button>
+            <button class="btn" onclick="exportCSV()">export CSV</button>
+            <label class="btn" style="cursor: pointer; margin: 0"
+              >import CSV<input type="file" accept=".csv" onchange="importCSV(event)" style="display: none"
+            /></label>
+          </div>
+          <div class="stats" id="stats"></div>
+          <div class="tracker-layout">
+            <div style="overflow-x: auto">
+              <table>
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>handle</th>
+                    <th>subreddit</th>
+                    <th>posted</th>
+                    <th>added</th>
+                    <th>status</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+              </table>
+            </div>
+            <div class="edit-panel">
+              <div class="edit-panel-empty" id="edit-empty">select a user to edit</div>
+              <div id="edit-form" style="display: none; flex-direction: column; gap: 0.875rem">
+                <div class="edit-panel-title" id="edit-title"></div>
+                <div class="divider"></div>
+                <div class="field">
+                  <label>status</label>
+                  <select id="e-status" onchange="saveEdit()">
+                    <option value="pending">pending</option>
+                    <option value="sent">DM sent</option>
+                    <option value="replied">replied</option>
+                    <option value="joined">joined r/StoryWithToys</option>
+                    <option value="pass">passed</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>date posted content</label>
+                  <input type="month" id="e-posted" onchange="saveEdit()" />
+                </div>
+                <div class="field">
+                  <div style="display: flex; justify-content: space-between; align-items: center">
+                    <label>source</label>
+                    <a id="e-source-link" href="#" target="_blank" class="copy-link" style="display: none">open ↗</a>
+                  </div>
+                  <input id="e-source" placeholder="e.g. Reddit keyword search, r/NaukNauk..." oninput="schedSave();updateSourceLink()" />
+                </div>
+                <div class="field">
+                  <label>notes</label>
+                  <textarea id="e-notes" rows="3" placeholder="follow-up reminders, context, dates..." oninput="schedSave()"></textarea>
+                </div>
+                <div class="field">
+                  <div style="display: flex; justify-content: space-between; align-items: center">
+                    <label>outreach DM</label>
+                    <button class="copy-link" onclick="copyDm()">copy</button>
+                  </div>
+                  <div style="position: relative">
+                    <pre
+                      id="e-dm-display"
+                      style="
+                        font-family: var(--font-sans);
+                        font-size: 12px;
+                        line-height: 1.7;
+                        white-space: pre-wrap;
+                        word-break: break-word;
+                        background: var(--bg2);
+                        border: 0.5px solid var(--border);
+                        border-radius: var(--radius);
+                        padding: 10px 12px;
+                        min-height: 120px;
+                        color: var(--text);
+                        margin: 0;
+                        cursor: text;
+                      "
+                      onclick="toggleDmEdit()"
+                      title="click to edit"
+                    ></pre>
+                    <textarea
+                      id="e-dm"
+                      rows="8"
+                      oninput="schedSave();syncDmDisplay()"
+                      style="display: none; font-size: 12px; line-height: 1.7; font-family: var(--font-sans)"
+                    ></textarea>
+                    <div style="font-size: 11px; color: var(--text3); margin-top: 4px">click to edit</div>
+                  </div>
+                </div>
+                <div class="btn-row">
+                  <button class="btn btn-primary" onclick="saveEdit()" style="flex: 1">save changes</button>
+                  <button class="btn" onclick="quickGen()">gen DM</button>
+                  <button class="btn danger" onclick="delSelected()">delete</button>
+                </div>
+                <div class="notice" id="e-notice" style="display: none"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ADD USER -->
+        <div id="pane-add" class="pane">
+          <!-- PASTE TO EXTRACT -->
+          <div class="paste-box">
+            <label>paste Reddit post text — fields will auto-fill</label>
+            <textarea
+              id="paste-raw"
+              placeholder="Go to Teddybears r/Teddybears•3mo ago Aid_Le_Sultan Fred on his trip to the Amazon..."
+              oninput="extractFromPaste()"
+            ></textarea>
+            <div id="extract-result" style="display: none; flex-direction: column; gap: 6px">
+              <div id="extract-badge"></div>
+              <div class="extracted-preview" id="extract-preview"></div>
+              <button class="btn btn-primary" onclick="applyExtracted()" style="align-self: flex-start">use these fields</button>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- MANUAL FIELDS -->
+          <div class="row2">
+            <div class="field"><label>Reddit handle *</label><input id="a-handle" placeholder="u/username" /></div>
+            <div class="field"><label>Subreddit *</label><input id="a-sub" placeholder="r/Gunpla" /></div>
+          </div>
+          <div class="field">
+            <label>What they said / posted *</label>
+            <textarea id="a-quote" rows="4" placeholder="paste their exact comment or describe the post"></textarea>
+          </div>
+          <div class="row2">
+            <div class="field"><label>Date posted content</label><input type="month" id="a-posted" /></div>
+            <div class="field">
+              <label>Source</label>
+              <input id="a-source" placeholder="e.g. Reddit keyword search, r/NaukNauk, referral..." />
+            </div>
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label>Community tone</label>
+              <select id="a-tone">
+                <option value="general">General collector</option>
+                <option value="gunpla">Gunpla / model kits</option>
+                <option value="anime">Anime / JP figures</option>
+                <option value="marvel">Marvel / Star Wars</option>
+                <option value="lego">LEGO / toy photography</option>
+                <option value="plushie">Plushies / labubu</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Status</label>
+              <select id="a-status">
                 <option value="pending">pending</option>
                 <option value="sent">DM sent</option>
                 <option value="replied">replied</option>
@@ -132,152 +583,81 @@
                 <option value="pass">passed</option>
               </select>
             </div>
-            <div class="field"><label>date posted content</label>
-              <input type="month" id="e-posted" onchange="saveEdit()">
-            </div>
-            <div class="field">
-              <div style="display:flex;justify-content:space-between;align-items:center">
-                <label>source</label>
-                <a id="e-source-link" href="#" target="_blank" class="copy-link" style="display:none">open ↗</a>
-              </div>
-              <input id="e-source" placeholder="e.g. Reddit keyword search, r/NaukNauk..." oninput="schedSave();updateSourceLink()">
-            </div>
-            <div class="field"><label>notes</label>
-              <textarea id="e-notes" rows="3" placeholder="follow-up reminders, context, dates..." oninput="schedSave()"></textarea>
-            </div>
-            <div class="field">
-              <div style="display:flex;justify-content:space-between;align-items:center">
-                <label>outreach DM</label>
-                <button class="copy-link" onclick="copyDm()">copy</button>
-              </div>
-              <div style="position:relative">
-                <pre id="e-dm-display" style="font-family:var(--font-sans);font-size:12px;line-height:1.7;white-space:pre-wrap;word-break:break-word;background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius);padding:10px 12px;min-height:120px;color:var(--text);margin:0;cursor:text" onclick="toggleDmEdit()" title="click to edit"></pre>
-                <textarea id="e-dm" rows="8" oninput="schedSave();syncDmDisplay()" style="display:none;font-size:12px;line-height:1.7;font-family:var(--font-sans)"></textarea>
-                <div style="font-size:11px;color:var(--text3);margin-top:4px">click to edit</div>
-              </div>
-            </div>
-            <div class="btn-row">
-              <button class="btn btn-primary" onclick="saveEdit()" style="flex:1">save changes</button>
-              <button class="btn" onclick="quickGen()">gen DM</button>
-              <button class="btn danger" onclick="delSelected()">delete</button>
-            </div>
-            <div class="notice" id="e-notice" style="display:none"></div>
           </div>
+          <div class="field">
+            <label>Notes</label>
+            <textarea id="a-notes" rows="1" placeholder="any extra context..." style="min-height: 38px"></textarea>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-primary" onclick="addUser()" style="flex: 1">save user</button>
+            <button class="btn" onclick="clearAdd()">clear</button>
+          </div>
+          <div class="notice" id="add-notice" style="display: none"></div>
+        </div>
+
+        <!-- GENERATE DM -->
+        <div id="pane-generate" class="pane">
+          <div class="notice">pick a saved user, describe their content type, and hit fill — the DM drops straight into their tracker field.</div>
+          <div class="field">
+            <label>select saved user</label>
+            <select id="g-pick" onchange="prefill()">
+              <option value="">— choose —</option>
+            </select>
+          </div>
+          <div class="row2">
+            <div class="field"><label>handle</label><input id="g-handle" placeholder="Tay-Tay-Ray" /></div>
+            <div class="field"><label>subreddit</label><input id="g-sub" placeholder="r/LUMIBRICKS_OFFICIAL" /></div>
+          </div>
+          <div class="field">
+            <label>content type <span style="font-weight: 400; color: var(--text3)">— optional, e.g. "lumbricks build", "predator clip"</span></label>
+            <input id="g-ctype" placeholder="leave blank to omit from DM" />
+          </div>
+          <div class="field">
+            <label>what they said / post title</label>
+            <textarea id="g-quote" rows="3" placeholder="their exact caption or post title"></textarea>
+          </div>
+          <div class="field">
+            <div style="display: flex; justify-content: space-between; align-items: center">
+              <label>DM preview</label>
+              <button class="copy-link" onclick="copyDmPreview()">copy</button>
+            </div>
+            <textarea
+              id="g-preview"
+              rows="9"
+              readonly
+              style="font-size: 13px; line-height: 1.7; color: var(--text2); background: var(--bg2)"
+              placeholder="fill in the fields above — DM appears here instantly"
+            ></textarea>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-primary" onclick="fillDm()" style="flex: 1">save to tracker</button>
+          </div>
+          <div class="notice" id="g-notice" style="display: none"></div>
+        </div>
+
+        <!-- TEMPLATE -->
+        <div id="pane-template" class="pane">
+          <div class="notice">
+            this is the fixed DM template. the wording is locked — only the bracketed fields get swapped out when you generate a DM.
+          </div>
+          <div class="field">
+            <div style="display: flex; justify-content: space-between; align-items: center">
+              <label>DM prompt template</label>
+              <button class="copy-link" onclick="copyTpl()">copy</button>
+            </div>
+            <textarea id="tpl-text" rows="24" oninput="schedSaveTpl()" style="font-family: monospace; font-size: 12px; line-height: 1.6"></textarea>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-primary" onclick="saveTpl()">save template</button>
+            <button class="btn" onclick="resetTpl()">reset to default</button>
+          </div>
+          <div class="notice" id="tpl-notice" style="display: none"></div>
         </div>
       </div>
     </div>
 
-    <!-- ADD USER -->
-    <div id="pane-add" class="pane">
-
-      <!-- PASTE TO EXTRACT -->
-      <div class="paste-box">
-        <label>paste Reddit post text — fields will auto-fill</label>
-        <textarea id="paste-raw" placeholder="Go to Teddybears r/Teddybears•3mo ago Aid_Le_Sultan Fred on his trip to the Amazon..." oninput="extractFromPaste()"></textarea>
-        <div id="extract-result" style="display:none;flex-direction:column;gap:6px">
-          <div id="extract-badge"></div>
-          <div class="extracted-preview" id="extract-preview"></div>
-          <button class="btn btn-primary" onclick="applyExtracted()" style="align-self:flex-start">use these fields</button>
-        </div>
-      </div>
-
-      <div class="divider"></div>
-
-      <!-- MANUAL FIELDS -->
-      <div class="row2">
-        <div class="field"><label>Reddit handle *</label><input id="a-handle" placeholder="u/username"></div>
-        <div class="field"><label>Subreddit *</label><input id="a-sub" placeholder="r/Gunpla"></div>
-      </div>
-      <div class="field"><label>What they said / posted *</label>
-        <textarea id="a-quote" rows="4" placeholder="paste their exact comment or describe the post"></textarea>
-      </div>
-      <div class="row2">
-        <div class="field"><label>Date posted content</label><input type="month" id="a-posted"></div>
-        <div class="field"><label>Source</label>
-          <input id="a-source" placeholder="e.g. Reddit keyword search, r/NaukNauk, referral...">
-        </div>
-      </div>
-      <div class="row2">
-        <div class="field"><label>Community tone</label>
-          <select id="a-tone">
-            <option value="general">General collector</option>
-            <option value="gunpla">Gunpla / model kits</option>
-            <option value="anime">Anime / JP figures</option>
-            <option value="marvel">Marvel / Star Wars</option>
-            <option value="lego">LEGO / toy photography</option>
-            <option value="plushie">Plushies / labubu</option>
-          </select>
-        </div>
-        <div class="field"><label>Status</label>
-          <select id="a-status">
-            <option value="pending">pending</option>
-            <option value="sent">DM sent</option>
-            <option value="replied">replied</option>
-            <option value="joined">joined r/StoryWithToys</option>
-            <option value="pass">passed</option>
-          </select>
-        </div>
-      </div>
-      <div class="field"><label>Notes</label>
-        <textarea id="a-notes" rows="1" placeholder="any extra context..." style="min-height:38px"></textarea>
-      </div>
-      <div class="btn-row">
-        <button class="btn btn-primary" onclick="addUser()" style="flex:1">save user</button>
-        <button class="btn" onclick="clearAdd()">clear</button>
-      </div>
-      <div class="notice" id="add-notice" style="display:none"></div>
-    </div>
-
-    <!-- GENERATE DM -->
-    <div id="pane-generate" class="pane">
-      <div class="notice">pick a saved user, describe their content type, and hit fill — the DM drops straight into their tracker field.</div>
-      <div class="field"><label>select saved user</label>
-        <select id="g-pick" onchange="prefill()"><option value="">— choose —</option></select>
-      </div>
-      <div class="row2">
-        <div class="field"><label>handle</label><input id="g-handle" placeholder="Tay-Tay-Ray"></div>
-        <div class="field"><label>subreddit</label><input id="g-sub" placeholder="r/LUMIBRICKS_OFFICIAL"></div>
-      </div>
-      <div class="field"><label>content type <span style="font-weight:400;color:var(--text3)">— optional, e.g. "lumbricks build", "predator clip"</span></label>
-        <input id="g-ctype" placeholder="leave blank to omit from DM">
-      </div>
-      <div class="field"><label>what they said / post title</label>
-        <textarea id="g-quote" rows="3" placeholder="their exact caption or post title"></textarea>
-      </div>
-      <div class="field">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <label>DM preview</label>
-          <button class="copy-link" onclick="copyDmPreview()">copy</button>
-        </div>
-        <textarea id="g-preview" rows="9" readonly style="font-size:13px;line-height:1.7;color:var(--text2);background:var(--bg2);" placeholder="fill in the fields above — DM appears here instantly"></textarea>
-      </div>
-      <div class="btn-row">
-        <button class="btn btn-primary" onclick="fillDm()" style="flex:1">save to tracker</button>
-      </div>
-      <div class="notice" id="g-notice" style="display:none"></div>
-    </div>
-
-    <!-- TEMPLATE -->
-    <div id="pane-template" class="pane">
-      <div class="notice">this is the fixed DM template. the wording is locked — only the bracketed fields get swapped out when you generate a DM.</div>
-      <div class="field">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <label>DM prompt template</label>
-          <button class="copy-link" onclick="copyTpl()">copy</button>
-        </div>
-        <textarea id="tpl-text" rows="24" oninput="schedSaveTpl()" style="font-family:monospace;font-size:12px;line-height:1.6"></textarea>
-      </div>
-      <div class="btn-row">
-        <button class="btn btn-primary" onclick="saveTpl()">save template</button>
-        <button class="btn" onclick="resetTpl()">reset to default</button>
-      </div>
-      <div class="notice" id="tpl-notice" style="display:none"></div>
-    </div>
-  </div>
-</div>
-
-<script>
-const DEFAULT_TPL = `Hey {handle} — I want to introduce you to our community.
+    <script>
+      const DEFAULT_TPL = `Hey {handle} — I want to introduce you to our community.
 
 I saw your {ctype}"{quote}" from {sub} recently.
 
@@ -285,506 +665,698 @@ That kind of eye for composition and scene-building is exactly what a small comm
 
 Thought you'd fit right in if you ever wanted a place to post fun content of your toys.`;
 
-const SEED_USERS = [
-  {handle:"Grimase",sub:"r/CollectToyManiac",quote:"Blue Ranger really needs backup Action Figures. Just found out about NaukNauk AI app. Made this vid. Wanted to share. Hope y'all enjoy.",tone:"general",status:"sent",posted:"2026-04",source:"",notes:"",dm:"hey Grimase — blue ranger calling for backup is a solid setup, that's a character with an actual situation going on.\n\ni mod a sub called r/StoryWithToys — it's for people who treat their figures as characters rather than display pieces. collectors posting things where something's happening, no brand noise.\n\nif you're making more of this kind of stuff, that's exactly where it should be going.",added:"2026-04-13T00:00:00.000Z"},
-  {handle:"JaniceLaurel7",sub:"r/NaukNauk",quote:"Pow Wow Poncho is enjoying the fresh air when a special friend comes to visit. 🩵🐦",tone:"plushie",status:"sent",posted:"2026-04",source:"",notes:"",dm:"hey JaniceLaurel7 — the way you described poncho enjoying the fresh air with a special visitor has this quiet, unhurried energy that's pretty rare.\n\ni mod a sub called r/StoryWithToys — it's for collectors who give their figures and plushies that kind of inner world.\n\nyour poncho content has exactly that vibe — that's where it should be going.",added:"2026-04-13T00:00:01.000Z"}
-];
+      const SEED_USERS = [
+        {
+          handle: "Grimase",
+          sub: "r/CollectToyManiac",
+          quote:
+            "Blue Ranger really needs backup Action Figures. Just found out about NaukNauk AI app. Made this vid. Wanted to share. Hope y'all enjoy.",
+          tone: "general",
+          status: "sent",
+          posted: "2026-04",
+          source: "",
+          notes: "",
+          dm: "hey Grimase — blue ranger calling for backup is a solid setup, that's a character with an actual situation going on.\n\ni mod a sub called r/StoryWithToys — it's for people who treat their figures as characters rather than display pieces. collectors posting things where something's happening, no brand noise.\n\nif you're making more of this kind of stuff, that's exactly where it should be going.",
+          added: "2026-04-13T00:00:00.000Z",
+        },
+        {
+          handle: "JaniceLaurel7",
+          sub: "r/NaukNauk",
+          quote: "Pow Wow Poncho is enjoying the fresh air when a special friend comes to visit. 🩵🐦",
+          tone: "plushie",
+          status: "sent",
+          posted: "2026-04",
+          source: "",
+          notes: "",
+          dm: "hey JaniceLaurel7 — the way you described poncho enjoying the fresh air with a special visitor has this quiet, unhurried energy that's pretty rare.\n\ni mod a sub called r/StoryWithToys — it's for collectors who give their figures and plushies that kind of inner world.\n\nyour poncho content has exactly that vibe — that's where it should be going.",
+          added: "2026-04-13T00:00:01.000Z",
+        },
+      ];
 
-const STATUS_CLASS = {pending:"s-pending",sent:"s-sent",replied:"s-replied",joined:"s-joined",pass:"s-pass"};
-const STATUS_LABELS = {pending:"pending",sent:"DM sent",replied:"replied",joined:"joined",pass:"passed"};
-const MONTHS = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
-const TONE_NOTES = {
-  gunpla:"dry, technical, hobby-literate — reference craft precision",
-  anime:"lore-accurate, character-focused — reference IP/character specifics",
-  marvel:"cinematic, canon-conscious — reference specific scene or character energy",
-  lego:"craft showcase angle — reference visual storytelling and composition",
-  plushie:"soft but slightly eerie — reference the character's personality or vibe",
-  general:"warm collector-to-collector energy"
-};
+      const STATUS_CLASS = { pending: "s-pending", sent: "s-sent", replied: "s-replied", joined: "s-joined", pass: "s-pass" };
+      const STATUS_LABELS = { pending: "pending", sent: "DM sent", replied: "replied", joined: "joined", pass: "passed" };
+      const MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+      const TONE_NOTES = {
+        gunpla: "dry, technical, hobby-literate — reference craft precision",
+        anime: "lore-accurate, character-focused — reference IP/character specifics",
+        marvel: "cinematic, canon-conscious — reference specific scene or character energy",
+        lego: "craft showcase angle — reference visual storytelling and composition",
+        plushie: "soft but slightly eerie — reference the character's personality or vibe",
+        general: "warm collector-to-collector energy",
+      };
 
-let users=[], selectedIdx=null, saveTimer=null, tplTimer=null, template=DEFAULT_TPL;
-let extracted = {};
+      let users = [],
+        selectedIdx = null,
+        saveTimer = null,
+        tplTimer = null,
+        template = DEFAULT_TPL;
+      let extracted = {};
 
-// ── PASTE PARSER ──────────────────────────────────────────────
-function extractFromPaste() {
-  const raw = document.getElementById('paste-raw').value.trim();
-  const resultEl = document.getElementById('extract-result');
-  if (!raw) { resultEl.style.display='none'; return; }
+      // ── PASTE PARSER ──────────────────────────────────────────────
+      function extractFromPaste() {
+        const raw = document.getElementById("paste-raw").value.trim();
+        const resultEl = document.getElementById("extract-result");
+        if (!raw) {
+          resultEl.style.display = "none";
+          return;
+        }
 
-  extracted = {};
+        extracted = {};
 
-  // subreddit: first r/Word in the text
-  const subMatch = raw.match(/r\/([A-Za-z0-9_]+)/);
-  if (subMatch) extracted.sub = 'r/' + subMatch[1];
+        // subreddit: first r/Word in the text
+        const subMatch = raw.match(/r\/([A-Za-z0-9_]+)/);
+        if (subMatch) extracted.sub = "r/" + subMatch[1];
 
-  // anchor on Reddit's bullet separator: "• 3mo ago Username"
-  // this reliably isolates the time + handle regardless of surrounding page noise
-  const bulletMatch = raw.match(/[•·]\s*(\d+)\s*(mo|yr|d|h|w)\s*ago\s+([A-Za-z0-9_\-]+)/i);
+        // anchor on Reddit's bullet separator: "• 3mo ago Username"
+        // this reliably isolates the time + handle regardless of surrounding page noise
+        const bulletMatch = raw.match(/[•·]\s*(\d+)\s*(mo|yr|d|h|w)\s*ago\s+([A-Za-z0-9_\-]+)/i);
 
-  if (bulletMatch) {
-    extracted.posted = resolvePosted(parseInt(bulletMatch[1]), bulletMatch[2].toLowerCase());
-    extracted.handle = bulletMatch[3];
+        if (bulletMatch) {
+          extracted.posted = resolvePosted(parseInt(bulletMatch[1]), bulletMatch[2].toLowerCase());
+          extracted.handle = bulletMatch[3];
 
-    // everything after the full bullet match (handle included) is post content
-    const matchEnd = raw.indexOf(bulletMatch[0]) + bulletMatch[0].length;
-    let content = raw.slice(matchEnd).trim();
-    // strip URLs
-    content = content.replace(/https?:\/\/\S+/g, '').trim();
-    // take last sentence ending with . ! ? — that's the body caption, not the title
-    const sentences = content.match(/[^.!?]+[.!?]+/g);
-    if (sentences && sentences.length > 1) {
-      extracted.quote = sentences[sentences.length - 1].trim();
-    } else {
-      extracted.quote = content;
-    }
-  } else {
-    // fallback: no bullet found — try plain time marker and first handle token
-    const timeMatch = raw.match(/(\d+)\s*(mo|yr|d|h|w)\s*ago/i);
-    if (timeMatch) {
-      extracted.posted = resolvePosted(parseInt(timeMatch[1]), timeMatch[2].toLowerCase());
-      const afterTime = raw.slice(raw.indexOf(timeMatch[0]) + timeMatch[0].length).trim();
-      const handleMatch = afterTime.match(/^([A-Za-z0-9_\-]+)/);
-      if (handleMatch) {
-        extracted.handle = handleMatch[1];
-        let content = afterTime.slice(handleMatch[1].length).trim();
-        content = content.replace(/https?:\/\/\S+/g, '').trim();
-        const sentences = content.match(/[^.!?]+[.!?]+/g);
-        extracted.quote = (sentences && sentences.length > 1)
-          ? sentences[sentences.length - 1].trim()
-          : content;
+          // everything after the full bullet match (handle included) is post content
+          const matchEnd = raw.indexOf(bulletMatch[0]) + bulletMatch[0].length;
+          let content = raw.slice(matchEnd).trim();
+          // strip URLs
+          content = content.replace(/https?:\/\/\S+/g, "").trim();
+          // take last sentence ending with . ! ? — that's the body caption, not the title
+          const sentences = content.match(/[^.!?]+[.!?]+/g);
+          if (sentences && sentences.length > 1) {
+            extracted.quote = sentences[sentences.length - 1].trim();
+          } else {
+            extracted.quote = content;
+          }
+        } else {
+          // fallback: no bullet found — try plain time marker and first handle token
+          const timeMatch = raw.match(/(\d+)\s*(mo|yr|d|h|w)\s*ago/i);
+          if (timeMatch) {
+            extracted.posted = resolvePosted(parseInt(timeMatch[1]), timeMatch[2].toLowerCase());
+            const afterTime = raw.slice(raw.indexOf(timeMatch[0]) + timeMatch[0].length).trim();
+            const handleMatch = afterTime.match(/^([A-Za-z0-9_\-]+)/);
+            if (handleMatch) {
+              extracted.handle = handleMatch[1];
+              let content = afterTime.slice(handleMatch[1].length).trim();
+              content = content.replace(/https?:\/\/\S+/g, "").trim();
+              const sentences = content.match(/[^.!?]+[.!?]+/g);
+              extracted.quote = sentences && sentences.length > 1 ? sentences[sentences.length - 1].trim() : content;
+            }
+          }
+        }
+
+        // show preview
+        const fields = [];
+        if (extracted.handle) fields.push(`<strong>handle:</strong> ${esc(extracted.handle)}`);
+        if (extracted.sub) fields.push(`<strong>subreddit:</strong> ${esc(extracted.sub)}`);
+        if (extracted.posted) fields.push(`<strong>posted:</strong> ${fmtPosted(extracted.posted)}`);
+        if (extracted.quote) fields.push(`<strong>what they said:</strong> ${esc(extracted.quote)}`);
+
+        const ok = extracted.handle && extracted.quote;
+        document.getElementById("extract-badge").innerHTML = ok
+          ? `<span class="extract-badge ok">fields extracted</span>`
+          : `<span class="extract-badge warn">partial — check fields below</span>`;
+        document.getElementById("extract-preview").innerHTML = fields.join("<br>");
+        resultEl.style.display = "flex";
       }
-    }
-  }
 
-  // show preview
-  const fields = [];
-  if (extracted.handle) fields.push(`<strong>handle:</strong> ${esc(extracted.handle)}`);
-  if (extracted.sub)    fields.push(`<strong>subreddit:</strong> ${esc(extracted.sub)}`);
-  if (extracted.posted) fields.push(`<strong>posted:</strong> ${fmtPosted(extracted.posted)}`);
-  if (extracted.quote)  fields.push(`<strong>what they said:</strong> ${esc(extracted.quote)}`);
+      function resolvePosted(n, unit) {
+        const now = new Date();
+        let y = now.getFullYear(),
+          m = now.getMonth(); // 0-indexed
+        if (unit === "mo") m -= n;
+        else if (unit === "yr") y -= n;
+        else if (unit === "w") m -= Math.round(n / 4);
+        else if (unit === "d" || unit === "h") {
+          /* stay on current month */
+        }
+        while (m < 0) {
+          m += 12;
+          y--;
+        }
+        return `${y}-${String(m + 1).padStart(2, "0")}`;
+      }
 
-  const ok = extracted.handle && extracted.quote;
-  document.getElementById('extract-badge').innerHTML = ok
-    ? `<span class="extract-badge ok">fields extracted</span>`
-    : `<span class="extract-badge warn">partial — check fields below</span>`;
-  document.getElementById('extract-preview').innerHTML = fields.join('<br>');
-  resultEl.style.display = 'flex';
-}
+      function applyExtracted() {
+        if (extracted.handle) document.getElementById("a-handle").value = extracted.handle;
+        if (extracted.sub) document.getElementById("a-sub").value = extracted.sub;
+        if (extracted.quote) document.getElementById("a-quote").value = extracted.quote;
+        if (extracted.posted) document.getElementById("a-posted").value = extracted.posted;
+        // clear paste box
+        document.getElementById("paste-raw").value = "";
+        document.getElementById("extract-result").style.display = "none";
+        extracted = {};
+        document.getElementById("a-handle").focus();
+      }
 
-function resolvePosted(n, unit) {
-  const now = new Date();
-  let y = now.getFullYear(), m = now.getMonth(); // 0-indexed
-  if (unit === 'mo') m -= n;
-  else if (unit === 'yr') y -= n;
-  else if (unit === 'w')  m -= Math.round(n/4);
-  else if (unit === 'd' || unit === 'h') { /* stay on current month */ }
-  while (m < 0) { m += 12; y--; }
-  return `${y}-${String(m+1).padStart(2,'0')}`;
-}
+      // ── CORE ──────────────────────────────────────────────────────
+      function init() {
+        try {
+          const r = localStorage.getItem("nn-users");
+          if (r) users = JSON.parse(r);
+        } catch (e) {
+          users = [];
+        }
+        SEED_USERS.forEach((s) => {
+          if (!users.find((u) => u.handle === s.handle)) users.push(s);
+        });
+        persist();
+        try {
+          const t = localStorage.getItem("nn-template");
+          template = t ? t : DEFAULT_TPL;
+        } catch (e) {
+          template = DEFAULT_TPL;
+        }
+        document.getElementById("tpl-text").value = template;
+        render();
+      }
 
-function applyExtracted() {
-  if (extracted.handle) document.getElementById('a-handle').value = extracted.handle;
-  if (extracted.sub)    document.getElementById('a-sub').value    = extracted.sub;
-  if (extracted.quote)  document.getElementById('a-quote').value  = extracted.quote;
-  if (extracted.posted) document.getElementById('a-posted').value = extracted.posted;
-  // clear paste box
-  document.getElementById('paste-raw').value = '';
-  document.getElementById('extract-result').style.display = 'none';
-  extracted = {};
-  document.getElementById('a-handle').focus();
-}
+      function persist() {
+        try {
+          localStorage.setItem("nn-users", JSON.stringify(users));
+        } catch (e) {}
+      }
+      function persistTpl() {
+        try {
+          localStorage.setItem("nn-template", template);
+        } catch (e) {}
+      }
 
-// ── CORE ──────────────────────────────────────────────────────
-function init() {
-  try { const r=localStorage.getItem('nn-users'); if(r) users=JSON.parse(r); } catch(e){ users=[]; }
-  SEED_USERS.forEach(s=>{ if(!users.find(u=>u.handle===s.handle)) users.push(s); });
-  persist();
-  try { const t=localStorage.getItem('nn-template'); template = t ? t : DEFAULT_TPL; } catch(e){ template=DEFAULT_TPL; }
-  document.getElementById('tpl-text').value=template;
-  render();
-}
+      function fmtPosted(v) {
+        if (!v) return "—";
+        const [y, m] = v.split("-");
+        return MONTHS[parseInt(m) - 1] + " " + y;
+      }
 
-function persist(){ try{ localStorage.setItem('nn-users',JSON.stringify(users)); }catch(e){} }
-function persistTpl(){ try{ localStorage.setItem('nn-template',template); }catch(e){} }
+      function switchTab(t) {
+        const names = ["tracker", "add", "generate", "template"];
+        names.forEach((n, i) => {
+          document.querySelectorAll(".tab")[i].classList.toggle("active", n === t);
+          document.getElementById("pane-" + n).classList.toggle("active", n === t);
+        });
+        if (t === "generate") refreshPick();
+      }
 
-function fmtPosted(v){ if(!v) return '—'; const [y,m]=v.split('-'); return MONTHS[parseInt(m)-1]+' '+y; }
+      function render() {
+        renderStats();
+        renderTable();
+      }
 
-function switchTab(t){
-  const names=['tracker','add','generate','template'];
-  names.forEach((n,i)=>{ document.querySelectorAll('.tab')[i].classList.toggle('active',n===t); document.getElementById('pane-'+n).classList.toggle('active',n===t); });
-  if(t==='generate') refreshPick();
-}
-
-function render(){ renderStats(); renderTable(); }
-
-function renderStats(){
-  const c={pending:0,sent:0,replied:0,joined:0,pass:0};
-  users.forEach(u=>c[u.status]++);
-  document.getElementById('stats').innerHTML=`
+      function renderStats() {
+        const c = { pending: 0, sent: 0, replied: 0, joined: 0, pass: 0 };
+        users.forEach((u) => c[u.status]++);
+        document.getElementById("stats").innerHTML = `
     <div class="stat"><div class="stat-num">${users.length}</div><div class="stat-label">total</div></div>
     <div class="stat"><div class="stat-num">${c.pending}</div><div class="stat-label">pending</div></div>
     <div class="stat"><div class="stat-num">${c.sent}</div><div class="stat-label">DM sent</div></div>
     <div class="stat"><div class="stat-num">${c.replied}</div><div class="stat-label">replied</div></div>
     <div class="stat"><div class="stat-num">${c.joined}</div><div class="stat-label">joined</div></div>`;
-}
+      }
 
-function fmtAdded(v){
-  if(!v) return '—';
-  const d=new Date(v);
-  return d.getDate()+' '+MONTHS[d.getMonth()]+' '+d.getFullYear();
-}
+      function fmtAdded(v) {
+        if (!v) return "—";
+        const d = new Date(v);
+        return d.getDate() + " " + MONTHS[d.getMonth()] + " " + d.getFullYear();
+      }
 
-function renderTable(){
-  const tb=document.getElementById('tbody');
-  if(!users.length){ tb.innerHTML=`<tr><td colspan="6"><div class="empty">no users yet</div></td></tr>`; return; }
-  const sorted=[...users.map((u,i)=>({...u,_i:i}))].sort((a,b)=>{
-    if(a.status==='pending' && b.status!=='pending') return -1;
-    if(a.status!=='pending' && b.status==='pending') return 1;
-    return new Date(b.added||0)-new Date(a.added||0);
-  });
-  tb.innerHTML=sorted.map(({_i:i,...u})=>`
-    <tr class="${selectedIdx===i?'selected':''}" onclick="selectUser(${i})">
-      <td style="width:24px;padding:7px 4px 7px 8px"><button class="star-btn${u.starred?' starred':''}" onclick="event.stopPropagation();toggleStar(${i})" title="${u.starred?'unstar':'star'}">${u.starred?'★':'☆'}</button></td>
-      <td style="font-weight:500"><a href="https://reddit.com/user/${esc(u.handle.replace(/^u\//i,''))}" target="_blank" onclick="event.stopPropagation()" style="color:inherit;text-decoration:none;border-bottom:1px dotted var(--text3)">${esc(u.handle)}</a></td>
-      <td style="color:var(--text2);font-size:12px">${esc(u.sub||'—')}</td>
+      function renderTable() {
+        const tb = document.getElementById("tbody");
+        if (!users.length) {
+          tb.innerHTML = `<tr><td colspan="6"><div class="empty">no users yet</div></td></tr>`;
+          return;
+        }
+        const sorted = [...users.map((u, i) => ({ ...u, _i: i }))].sort((a, b) => {
+          if (a.status === "pending" && b.status !== "pending") return -1;
+          if (a.status !== "pending" && b.status === "pending") return 1;
+          return new Date(b.added || 0) - new Date(a.added || 0);
+        });
+        tb.innerHTML = sorted
+          .map(
+            ({ _i: i, ...u }) => `
+    <tr class="${selectedIdx === i ? "selected" : ""}" onclick="selectUser(${i})">
+      <td style="width:24px;padding:7px 4px 7px 8px"><button class="star-btn${
+        u.starred ? " starred" : ""
+      }" onclick="event.stopPropagation();toggleStar(${i})" title="${u.starred ? "unstar" : "star"}">${u.starred ? "★" : "☆"}</button></td>
+      <td style="font-weight:500"><a href="https://reddit.com/user/${esc(
+        u.handle.replace(/^u\//i, "")
+      )}" target="_blank" onclick="event.stopPropagation()" style="color:inherit;text-decoration:none;border-bottom:1px dotted var(--text3)">${esc(
+        u.handle
+      )}</a></td>
+      <td style="color:var(--text2);font-size:12px">${esc(u.sub || "—")}</td>
       <td class="date-muted">${fmtPosted(u.posted)}</td>
       <td class="date-muted">${fmtAdded(u.added)}</td>
       <td><span class="status-badge ${STATUS_CLASS[u.status]}">${STATUS_LABELS[u.status]}</span></td>
       <td><button class="mini-btn" onclick="event.stopPropagation();copyUserDm(${i})">copy DM</button> <button class="mini-btn" onclick="event.stopPropagation();genFor(${i})">gen ↗</button></td>
-    </tr>`).join('');
-}
-
-function toggleStar(i){ users[i].starred=!users[i].starred; persist(); renderTable(); }
-
-function selectUser(i){
-  selectedIdx=i; renderTable();
-  const u=users[i];
-  document.getElementById('edit-empty').style.display='none';
-  const ef=document.getElementById('edit-form'); ef.style.display='flex';
-  document.getElementById('edit-title').textContent=u.handle+' · '+(u.sub||'unknown sub');
-  document.getElementById('e-status').value=u.status;
-  document.getElementById('e-posted').value=u.posted||'';
-  document.getElementById('e-source').value=u.source||'';
-  updateSourceLink();
-  document.getElementById('e-notes').value=u.notes||'';
-  document.getElementById('e-dm').value=u.dm||'';
-  document.getElementById('e-dm-display').textContent=u.dm||'Click to add a DM...';
-  document.getElementById('e-dm').style.display='none';
-  document.getElementById('e-dm-display').style.display='block';
-  document.getElementById('e-notice').style.display='none';
-}
-
-function syncDmDisplay(){
-  document.getElementById('e-dm-display').textContent=document.getElementById('e-dm').value||'Click to add a DM...';
-}
-
-function toggleDmEdit(){
-  const pre=document.getElementById('e-dm-display');
-  const ta=document.getElementById('e-dm');
-  if(ta.style.display==='none'){
-    ta.style.display='block'; pre.style.display='none'; ta.focus();
-  }
-}
-
-document.addEventListener('DOMContentLoaded',function(){
-  document.getElementById('e-dm').addEventListener('blur',function(){
-    const pre=document.getElementById('e-dm-display');
-    const ta=document.getElementById('e-dm');
-    pre.textContent=ta.value||'Click to add a DM...';
-    pre.style.display='block'; ta.style.display='none';
-  });
-});
-
-function schedSave(){ clearTimeout(saveTimer); saveTimer=setTimeout(saveEdit,1200); }
-
-function updateSourceLink(){
-  const v=document.getElementById('e-source').value.trim();
-  const link=document.getElementById('e-source-link');
-  if(v.startsWith('http')){ link.href=v; link.style.display='inline'; }
-  else { link.style.display='none'; }
-}
-
-function saveEdit(){
-  if(selectedIdx===null) return;
-  users[selectedIdx].status=document.getElementById('e-status').value;
-  users[selectedIdx].posted=document.getElementById('e-posted').value;
-  users[selectedIdx].source=document.getElementById('e-source').value;
-  users[selectedIdx].notes=document.getElementById('e-notes').value;
-  users[selectedIdx].dm=document.getElementById('e-dm').value;
-  persist(); renderStats(); renderTable(); showEditNotice('saved');
-}
-
-function showEditNotice(msg){ const el=document.getElementById('e-notice'); el.textContent=msg; el.style.display='block'; setTimeout(()=>el.style.display='none',2000); }
-
-function delSelected(){
-  if(selectedIdx===null) return;
-  users.splice(selectedIdx,1); selectedIdx=null; persist();
-  document.getElementById('edit-empty').style.display='block';
-  document.getElementById('edit-form').style.display='none';
-  render();
-}
-
-function copyDm(){ const t=document.getElementById('e-dm').value||document.getElementById('e-dm-display').textContent; if(t&&t!=='Click to add a DM...') copyToClipboard(t, ()=>showEditNotice('copied')); }
-function copyUserDm(i){ const t=users[i].dm; if(t) copyToClipboard(t, ()=>{}); }
-
-function addUser(){
-  const handle=document.getElementById('a-handle').value.trim();
-  const sub=document.getElementById('a-sub').value.trim();
-  const quote=document.getElementById('a-quote').value.trim();
-  const posted=document.getElementById('a-posted').value;
-  const tone=document.getElementById('a-tone').value;
-  const status=document.getElementById('a-status').value;
-  const source=document.getElementById('a-source').value.trim();
-  const notes=document.getElementById('a-notes').value.trim();
-  if(!handle||!quote){ showAddNotice('need at least a handle and what they said'); return; }
-  if(users.find(u=>u.handle===handle)){ showAddNotice('user already saved'); return; }
-  users.push({handle,sub,quote,tone,status,posted,source,notes,dm:'',starred:false,added:new Date().toISOString()});
-  persist(); render(); showAddNotice('saved'); clearAdd();
-}
-
-function clearAdd(){
-  ['a-handle','a-sub','a-quote','a-notes','a-source'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('a-posted').value='';
-  document.getElementById('a-status').value='pending';
-  document.getElementById('paste-raw').value='';
-  document.getElementById('extract-result').style.display='none';
-  extracted={};
-}
-
-function showAddNotice(msg){ const el=document.getElementById('add-notice'); el.textContent=msg; el.style.display='block'; setTimeout(()=>el.style.display='none',2500); }
-
-function exportCSV(){
-  const FIELDS = ['handle','reddit_link','sub','quote','status','posted','source','notes','added'];
-  const escape = v => '"' + String(v||'').replace(/"/g,'""') + '"';
-  const rows = [FIELDS.join(',')];
-  users.forEach(u => {
-    const redditLink = 'https://reddit.com/user/' + (u.handle||'').replace(/^u\//i,'');
-    const row = {handle:u.handle,reddit_link:redditLink,sub:u.sub,quote:u.quote,status:u.status,posted:u.posted,source:u.source,notes:u.notes,added:u.added};
-    rows.push(FIELDS.map(f => escape(row[f]||'')).join(','));
-  });
-  const blob = new Blob([rows.join('\r\n')], {type:'text/csv;charset=utf-8;'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'nauknauk_outreach_' + new Date().toISOString().slice(0,10) + '.csv';
-  a.click();
-  URL.revokeObjectURL(a.href);
-}
-
-function importCSV(e){
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function(ev){
-    try {
-      const allRows = parseFullCSV(ev.target.result);
-      if (allRows.length < 2) { alert('no valid rows found'); return; }
-      const headers = allRows[0];
-      // warn if this doesn't look like an outreach tracker CSV
-      if (!headers.includes('handle')) {
-        alert('import failed — this doesn\'t look like an outreach tracker CSV (no "handle" column found).\n\nExpected columns: handle, sub, quote, status, posted, source, notes, added');
-        e.target.value = ''; return;
+    </tr>`
+          )
+          .join("");
       }
-      const imported = [];
-      for (let i = 1; i < allRows.length; i++) {
-        const vals = allRows[i];
-        const obj = {};
-        headers.forEach((h, idx) => { obj[h] = (vals[idx] || '').trim(); });
-        const h = obj.handle ? obj.handle.trim() : '';
-        // skip blank handles or rows where handle looks like garbage data
-        if (!h || h.includes('\n') || h.length > 50) continue;
-        imported.push(obj);
+
+      function toggleStar(i) {
+        users[i].starred = !users[i].starred;
+        persist();
+        renderTable();
       }
-      if (!imported.length) { alert('no valid rows found'); return; }
-      const today = new Date().toISOString();
-      imported.forEach(row => {
-        delete row.reddit_link; // derived field, not stored
-        const idx = users.findIndex(u => u.handle === row.handle);
-        if (idx > -1) {
-          // preserve fields not in CSV (dm, starred) from existing record
-          users[idx] = {...users[idx], ...row, added: users[idx].added || today};
-        } else {
-          users.push({starred: false, dm: '', ...row, added: row.added || today});
+
+      function selectUser(i) {
+        selectedIdx = i;
+        renderTable();
+        const u = users[i];
+        document.getElementById("edit-empty").style.display = "none";
+        const ef = document.getElementById("edit-form");
+        ef.style.display = "flex";
+        document.getElementById("edit-title").textContent = u.handle + " · " + (u.sub || "unknown sub");
+        document.getElementById("e-status").value = u.status;
+        document.getElementById("e-posted").value = u.posted || "";
+        document.getElementById("e-source").value = u.source || "";
+        updateSourceLink();
+        document.getElementById("e-notes").value = u.notes || "";
+        document.getElementById("e-dm").value = u.dm || "";
+        document.getElementById("e-dm-display").textContent = u.dm || "Click to add a DM...";
+        document.getElementById("e-dm").style.display = "none";
+        document.getElementById("e-dm-display").style.display = "block";
+        document.getElementById("e-notice").style.display = "none";
+      }
+
+      function syncDmDisplay() {
+        document.getElementById("e-dm-display").textContent = document.getElementById("e-dm").value || "Click to add a DM...";
+      }
+
+      function toggleDmEdit() {
+        const pre = document.getElementById("e-dm-display");
+        const ta = document.getElementById("e-dm");
+        if (ta.style.display === "none") {
+          ta.style.display = "block";
+          pre.style.display = "none";
+          ta.focus();
         }
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("e-dm").addEventListener("blur", function () {
+          const pre = document.getElementById("e-dm-display");
+          const ta = document.getElementById("e-dm");
+          pre.textContent = ta.value || "Click to add a DM...";
+          pre.style.display = "block";
+          ta.style.display = "none";
+        });
       });
-      persist();
-      render();
-      alert('imported ' + imported.length + ' user' + (imported.length !== 1 ? 's' : ''));
-    } catch(err) {
-      alert('import failed — ' + err.message);
-    }
-    e.target.value = '';
-  };
-  reader.readAsText(file);
-}
 
-// RFC 4180-compliant CSV parser — correctly handles quoted fields containing
-// commas, newlines, and escaped double-quotes. Replaces the naive split approach.
-function parseFullCSV(text) {
-  const rows = [];
-  let i = 0;
-  const n = text.length;
-  while (i < n) {
-    const row = [];
-    while (true) {
-      let field = '';
-      if (i < n && text[i] === '"') {
-        i++; // skip opening quote
-        while (i < n) {
-          if (text[i] === '"') {
-            if (i + 1 < n && text[i + 1] === '"') { field += '"'; i += 2; } // escaped ""
-            else { i++; break; } // closing quote
-          } else {
-            field += text[i++];
-          }
-        }
-      } else {
-        // unquoted field: read until comma or line ending
-        while (i < n && text[i] !== ',' && text[i] !== '\r' && text[i] !== '\n') {
-          field += text[i++];
+      function schedSave() {
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(saveEdit, 1200);
+      }
+
+      function updateSourceLink() {
+        const v = document.getElementById("e-source").value.trim();
+        const link = document.getElementById("e-source-link");
+        if (v.startsWith("http")) {
+          link.href = v;
+          link.style.display = "inline";
+        } else {
+          link.style.display = "none";
         }
       }
-      row.push(field);
-      if (i < n && text[i] === ',') { i++; } // more fields on this row
-      else { break; }                          // end of row
-    }
-    // consume CRLF or LF
-    if (i < n && text[i] === '\r') i++;
-    if (i < n && text[i] === '\n') i++;
-    // skip truly blank rows (single empty field)
-    if (row.length > 0 && !(row.length === 1 && row[0] === '')) rows.push(row);
-  }
-  return rows;
-}
 
+      function saveEdit() {
+        if (selectedIdx === null) return;
+        users[selectedIdx].status = document.getElementById("e-status").value;
+        users[selectedIdx].posted = document.getElementById("e-posted").value;
+        users[selectedIdx].source = document.getElementById("e-source").value;
+        users[selectedIdx].notes = document.getElementById("e-notes").value;
+        users[selectedIdx].dm = document.getElementById("e-dm").value;
+        persist();
+        renderStats();
+        renderTable();
+        showEditNotice("saved");
+      }
 
-function refreshPick(){
-  const sel=document.getElementById('g-pick');
-  sel.innerHTML='<option value="">— choose —</option>'+users.map((u,i)=>`<option value="${i}">${esc(u.handle)} (${esc(u.sub||'?')})</option>`).join('');
-}
+      function showEditNotice(msg) {
+        const el = document.getElementById("e-notice");
+        el.textContent = msg;
+        el.style.display = "block";
+        setTimeout(() => (el.style.display = "none"), 2000);
+      }
 
-function prefill(){
-  const i=document.getElementById('g-pick').value; if(i==='') return;
-  const u=users[parseInt(i)];
-  document.getElementById('g-handle').value=u.handle;
-  document.getElementById('g-sub').value=u.sub;
-  document.getElementById('g-quote').value=u.quote;
-  document.getElementById('g-ctype').value='';
-  updateDmPreview();
-}
+      function delSelected() {
+        if (selectedIdx === null) return;
+        users.splice(selectedIdx, 1);
+        selectedIdx = null;
+        persist();
+        document.getElementById("edit-empty").style.display = "block";
+        document.getElementById("edit-form").style.display = "none";
+        render();
+      }
 
-function genFor(i){
-  const u=users[i];
-  document.getElementById('g-handle').value=u.handle;
-  document.getElementById('g-sub').value=u.sub;
-  document.getElementById('g-quote').value=u.quote;
-  document.getElementById('g-ctype').value='';
-  switchTab('generate');
-  refreshPick();
-  document.getElementById('g-pick').value=i;
-  updateDmPreview();
-}
+      function copyDm() {
+        const t = document.getElementById("e-dm").value || document.getElementById("e-dm-display").textContent;
+        if (t && t !== "Click to add a DM...") copyToClipboard(t, () => showEditNotice("copied"));
+      }
+      function copyUserDm(i) {
+        const t = users[i].dm;
+        if (t) copyToClipboard(t, () => {});
+      }
 
-function buildDm(handle, sub, ctype, quote){
-  const ctypePart = ctype ? ctype + ' post ' : 'post ';
-  return template
-    .replace(/\{handle\}/g, handle)
-    .replace(/\{sub\}/g, sub||'')
-    .replace(/\{ctype\}/g, ctypePart)
-    .replace(/\{quote\}/g, quote);
-}
+      function addUser() {
+        const handle = document.getElementById("a-handle").value.trim();
+        const sub = document.getElementById("a-sub").value.trim();
+        const quote = document.getElementById("a-quote").value.trim();
+        const posted = document.getElementById("a-posted").value;
+        const tone = document.getElementById("a-tone").value;
+        const status = document.getElementById("a-status").value;
+        const source = document.getElementById("a-source").value.trim();
+        const notes = document.getElementById("a-notes").value.trim();
+        if (!handle || !quote) {
+          showAddNotice("need at least a handle and what they said");
+          return;
+        }
+        if (users.find((u) => u.handle === handle)) {
+          showAddNotice("user already saved");
+          return;
+        }
+        users.push({ handle, sub, quote, tone, status, posted, source, notes, dm: "", starred: false, added: new Date().toISOString() });
+        persist();
+        render();
+        showAddNotice("saved");
+        clearAdd();
+      }
 
-function updateDmPreview(){
-  const handle=document.getElementById('g-handle').value.trim();
-  const sub=document.getElementById('g-sub').value.trim();
-  const ctype=document.getElementById('g-ctype').value.trim();
-  const quote=document.getElementById('g-quote').value.trim();
-  document.getElementById('g-preview').value=(handle||quote)?buildDm(handle,sub,ctype,quote):'';
-}
+      function clearAdd() {
+        ["a-handle", "a-sub", "a-quote", "a-notes", "a-source"].forEach((id) => (document.getElementById(id).value = ""));
+        document.getElementById("a-posted").value = "";
+        document.getElementById("a-status").value = "pending";
+        document.getElementById("paste-raw").value = "";
+        document.getElementById("extract-result").style.display = "none";
+        extracted = {};
+      }
 
-// attach live preview to generate fields
-document.addEventListener('DOMContentLoaded', function(){
-  ['g-handle','g-sub','g-ctype','g-quote'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(el) el.addEventListener('input', updateDmPreview);
-  });
-});
+      function showAddNotice(msg) {
+        const el = document.getElementById("add-notice");
+        el.textContent = msg;
+        el.style.display = "block";
+        setTimeout(() => (el.style.display = "none"), 2500);
+      }
 
-function quickGen(){
-  if(selectedIdx===null) return;
-  const u=users[selectedIdx];
-  const dm=buildDm(u.handle, u.sub, '', u.quote);
-  document.getElementById('e-dm').value=dm;
-  document.getElementById('e-dm-display').textContent=dm;
-  users[selectedIdx].dm=dm;
-  persist();
-  showEditNotice('DM generated — edit if needed, then save');
-}
+      function exportCSV() {
+        const FIELDS = ["handle", "reddit_link", "sub", "quote", "status", "posted", "source", "notes", "added"];
+        const escape = (v) => '"' + String(v || "").replace(/"/g, '""') + '"';
+        const rows = [FIELDS.join(",")];
+        users.forEach((u) => {
+          const redditLink = "https://reddit.com/user/" + (u.handle || "").replace(/^u\//i, "");
+          const row = {
+            handle: u.handle,
+            reddit_link: redditLink,
+            sub: u.sub,
+            quote: u.quote,
+            status: u.status,
+            posted: u.posted,
+            source: u.source,
+            notes: u.notes,
+            added: u.added,
+          };
+          rows.push(FIELDS.map((f) => escape(row[f] || "")).join(","));
+        });
+        const blob = new Blob([rows.join("\r\n")], { type: "text/csv;charset=utf-8;" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "nauknauk_outreach_" + new Date().toISOString().slice(0, 10) + ".csv";
+        a.click();
+        URL.revokeObjectURL(a.href);
+      }
 
-function regenAll(){
-  let count=0;
-  users.forEach(u=>{
-    if(u.handle && u.quote){
-      u.dm=buildDm(u.handle, u.sub, '', u.quote);
-      count++;
-    }
-  });
-  persist();
-  if(selectedIdx!==null){
-    document.getElementById('e-dm').value=users[selectedIdx].dm||'';
-    document.getElementById('e-dm-display').textContent=users[selectedIdx].dm||'Click to add a DM...';
-  }
-  render();
-  alert('Regenerated DMs for '+count+' users');
-}
+      function importCSV(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function (ev) {
+          try {
+            const allRows = parseFullCSV(ev.target.result);
+            if (allRows.length < 2) {
+              alert("no valid rows found");
+              return;
+            }
+            const headers = allRows[0];
+            // warn if this doesn't look like an outreach tracker CSV
+            if (!headers.includes("handle")) {
+              alert(
+                'import failed — this doesn\'t look like an outreach tracker CSV (no "handle" column found).\n\nExpected columns: handle, sub, quote, status, posted, source, notes, added'
+              );
+              e.target.value = "";
+              return;
+            }
+            const imported = [];
+            for (let i = 1; i < allRows.length; i++) {
+              const vals = allRows[i];
+              const obj = {};
+              headers.forEach((h, idx) => {
+                obj[h] = (vals[idx] || "").trim();
+              });
+              const h = obj.handle ? obj.handle.trim() : "";
+              // skip blank handles or rows where handle looks like garbage data
+              if (!h || h.includes("\n") || h.length > 50) continue;
+              imported.push(obj);
+            }
+            if (!imported.length) {
+              alert("no valid rows found");
+              return;
+            }
+            const today = new Date().toISOString();
+            imported.forEach((row) => {
+              delete row.reddit_link; // derived field, not stored
+              const idx = users.findIndex((u) => u.handle === row.handle);
+              if (idx > -1) {
+                // preserve fields not in CSV (dm, starred) from existing record
+                users[idx] = { ...users[idx], ...row, added: users[idx].added || today };
+              } else {
+                users.push({ starred: false, dm: "", ...row, added: row.added || today });
+              }
+            });
+            persist();
+            render();
+            alert("imported " + imported.length + " user" + (imported.length !== 1 ? "s" : ""));
+          } catch (err) {
+            alert("import failed — " + err.message);
+          }
+          e.target.value = "";
+        };
+        reader.readAsText(file);
+      }
 
-async function fillDm(){
-  const handle=document.getElementById('g-handle').value.trim();
-  const sub=document.getElementById('g-sub').value.trim();
-  const ctype=document.getElementById('g-ctype').value.trim();
-  const quote=document.getElementById('g-quote').value.trim();
-  if(!handle||!quote){showGNotice('need at least a handle and what they said');return;}
-  const dm=buildDm(handle,sub,ctype,quote);
-  const idx=users.findIndex(u=>u.handle===handle);
-  if(idx>-1){
-    users[idx].dm=dm;
-    await persist();
-    selectUser(idx);
-    switchTab('tracker');
-    showGNotice('DM saved to tracker');
-  } else {
-    showGNotice('user not found in tracker — add them first');
-  }
-}
+      // RFC 4180-compliant CSV parser — correctly handles quoted fields containing
+      // commas, newlines, and escaped double-quotes. Replaces the naive split approach.
+      function parseFullCSV(text) {
+        const rows = [];
+        let i = 0;
+        const n = text.length;
+        while (i < n) {
+          const row = [];
+          while (true) {
+            let field = "";
+            if (i < n && text[i] === '"') {
+              i++; // skip opening quote
+              while (i < n) {
+                if (text[i] === '"') {
+                  if (i + 1 < n && text[i + 1] === '"') {
+                    field += '"';
+                    i += 2;
+                  } // escaped ""
+                  else {
+                    i++;
+                    break;
+                  } // closing quote
+                } else {
+                  field += text[i++];
+                }
+              }
+            } else {
+              // unquoted field: read until comma or line ending
+              while (i < n && text[i] !== "," && text[i] !== "\r" && text[i] !== "\n") {
+                field += text[i++];
+              }
+            }
+            row.push(field);
+            if (i < n && text[i] === ",") {
+              i++;
+            } // more fields on this row
+            else {
+              break;
+            } // end of row
+          }
+          // consume CRLF or LF
+          if (i < n && text[i] === "\r") i++;
+          if (i < n && text[i] === "\n") i++;
+          // skip truly blank rows (single empty field)
+          if (row.length > 0 && !(row.length === 1 && row[0] === "")) rows.push(row);
+        }
+        return rows;
+      }
 
-function copyDmPreview(){ const t=document.getElementById('g-preview').value; if(t) copyToClipboard(t,()=>showGNotice('copied')); }
+      function refreshPick() {
+        const sel = document.getElementById("g-pick");
+        sel.innerHTML =
+          '<option value="">— choose —</option>' +
+          users.map((u, i) => `<option value="${i}">${esc(u.handle)} (${esc(u.sub || "?")})</option>`).join("");
+      }
 
-function copyToClipboard(text, onSuccess) {
-  if (navigator.clipboard && window.isSecureContext) {
-    navigator.clipboard.writeText(text).then(onSuccess).catch(() => execCopy(text, onSuccess));
-  } else {
-    execCopy(text, onSuccess);
-  }
-}
+      function prefill() {
+        const i = document.getElementById("g-pick").value;
+        if (i === "") return;
+        const u = users[parseInt(i)];
+        document.getElementById("g-handle").value = u.handle;
+        document.getElementById("g-sub").value = u.sub;
+        document.getElementById("g-quote").value = u.quote;
+        document.getElementById("g-ctype").value = "";
+        updateDmPreview();
+      }
 
-function execCopy(text, onSuccess) {
-  const ta = document.createElement('textarea');
-  ta.value = text;
-  ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;pointer-events:none';
-  document.body.appendChild(ta);
-  ta.focus(); ta.select();
-  try { document.execCommand('copy'); onSuccess(); } catch(e) {}
-  document.body.removeChild(ta);
-}
+      function genFor(i) {
+        const u = users[i];
+        document.getElementById("g-handle").value = u.handle;
+        document.getElementById("g-sub").value = u.sub;
+        document.getElementById("g-quote").value = u.quote;
+        document.getElementById("g-ctype").value = "";
+        switchTab("generate");
+        refreshPick();
+        document.getElementById("g-pick").value = i;
+        updateDmPreview();
+      }
 
-function showGNotice(msg){ const el=document.getElementById('g-notice'); el.textContent=msg; el.style.display='block'; setTimeout(()=>el.style.display='none',3000); }
+      function buildDm(handle, sub, ctype, quote) {
+        const ctypePart = ctype ? ctype + " post " : "post ";
+        return template
+          .replace(/\{handle\}/g, handle)
+          .replace(/\{sub\}/g, sub || "")
+          .replace(/\{ctype\}/g, ctypePart)
+          .replace(/\{quote\}/g, quote);
+      }
 
-function schedSaveTpl(){ clearTimeout(tplTimer); tplTimer=setTimeout(saveTpl,1500); }
-function saveTpl(){ template=document.getElementById('tpl-text').value; persistTpl(); const el=document.getElementById('tpl-notice'); el.textContent='template saved'; el.style.display='block'; setTimeout(()=>el.style.display='none',2000); }
-function resetTpl(){ template=DEFAULT_TPL; document.getElementById('tpl-text').value=template; persistTpl(); }
-function copyTpl(){ copyToClipboard(document.getElementById('tpl-text').value, ()=>{}); }
-function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+      function updateDmPreview() {
+        const handle = document.getElementById("g-handle").value.trim();
+        const sub = document.getElementById("g-sub").value.trim();
+        const ctype = document.getElementById("g-ctype").value.trim();
+        const quote = document.getElementById("g-quote").value.trim();
+        document.getElementById("g-preview").value = handle || quote ? buildDm(handle, sub, ctype, quote) : "";
+      }
 
-init();
-</script>
-</body>
+      // attach live preview to generate fields
+      document.addEventListener("DOMContentLoaded", function () {
+        ["g-handle", "g-sub", "g-ctype", "g-quote"].forEach((id) => {
+          const el = document.getElementById(id);
+          if (el) el.addEventListener("input", updateDmPreview);
+        });
+      });
+
+      function quickGen() {
+        if (selectedIdx === null) return;
+        const u = users[selectedIdx];
+        const dm = buildDm(u.handle, u.sub, "", u.quote);
+        document.getElementById("e-dm").value = dm;
+        document.getElementById("e-dm-display").textContent = dm;
+        users[selectedIdx].dm = dm;
+        persist();
+        showEditNotice("DM generated — edit if needed, then save");
+      }
+
+      function regenAll() {
+        let count = 0;
+        users.forEach((u) => {
+          if (u.handle && u.quote) {
+            u.dm = buildDm(u.handle, u.sub, "", u.quote);
+            count++;
+          }
+        });
+        persist();
+        if (selectedIdx !== null) {
+          document.getElementById("e-dm").value = users[selectedIdx].dm || "";
+          document.getElementById("e-dm-display").textContent = users[selectedIdx].dm || "Click to add a DM...";
+        }
+        render();
+        alert("Regenerated DMs for " + count + " users");
+      }
+
+      async function fillDm() {
+        const handle = document.getElementById("g-handle").value.trim();
+        const sub = document.getElementById("g-sub").value.trim();
+        const ctype = document.getElementById("g-ctype").value.trim();
+        const quote = document.getElementById("g-quote").value.trim();
+        if (!handle || !quote) {
+          showGNotice("need at least a handle and what they said");
+          return;
+        }
+        const dm = buildDm(handle, sub, ctype, quote);
+        const idx = users.findIndex((u) => u.handle === handle);
+        if (idx > -1) {
+          users[idx].dm = dm;
+          await persist();
+          selectUser(idx);
+          switchTab("tracker");
+          showGNotice("DM saved to tracker");
+        } else {
+          showGNotice("user not found in tracker — add them first");
+        }
+      }
+
+      function copyDmPreview() {
+        const t = document.getElementById("g-preview").value;
+        if (t) copyToClipboard(t, () => showGNotice("copied"));
+      }
+
+      function copyToClipboard(text, onSuccess) {
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard
+            .writeText(text)
+            .then(onSuccess)
+            .catch(() => execCopy(text, onSuccess));
+        } else {
+          execCopy(text, onSuccess);
+        }
+      }
+
+      function execCopy(text, onSuccess) {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.cssText = "position:fixed;top:0;left:0;opacity:0;pointer-events:none";
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        try {
+          document.execCommand("copy");
+          onSuccess();
+        } catch (e) {}
+        document.body.removeChild(ta);
+      }
+
+      function showGNotice(msg) {
+        const el = document.getElementById("g-notice");
+        el.textContent = msg;
+        el.style.display = "block";
+        setTimeout(() => (el.style.display = "none"), 3000);
+      }
+
+      function schedSaveTpl() {
+        clearTimeout(tplTimer);
+        tplTimer = setTimeout(saveTpl, 1500);
+      }
+      function saveTpl() {
+        template = document.getElementById("tpl-text").value;
+        persistTpl();
+        const el = document.getElementById("tpl-notice");
+        el.textContent = "template saved";
+        el.style.display = "block";
+        setTimeout(() => (el.style.display = "none"), 2000);
+      }
+      function resetTpl() {
+        template = DEFAULT_TPL;
+        document.getElementById("tpl-text").value = template;
+        persistTpl();
+      }
+      function copyTpl() {
+        copyToClipboard(document.getElementById("tpl-text").value, () => {});
+      }
+      function esc(s) {
+        return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+      }
+
+      init();
+    </script>
+  </body>
 </html>

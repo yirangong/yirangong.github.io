@@ -1,8 +1,8 @@
 ---
 layout: default
 ---
+{% assign pillar_projects = site.projects | where: 'pillar', page.pillar | sort: 'importance' %}
 <main class="pillar-page pillar-page--{{ page.pillar }}">
-  {% assign pillar_projects = site.projects | where: 'pillar', page.pillar | sort: 'importance' %}
   <section class="pillar-projects" aria-label="{{ page.title }} projects">
     {% if page.project_groups %}
       {% for group_key in page.project_groups %}

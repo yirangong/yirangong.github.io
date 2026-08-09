@@ -61,7 +61,7 @@ To make outreach scalable without making it robotic, I mapped the full workflow 
   <iframe src="{{ '/assets/html/nauknauk-outreach-tracker.html' | relative_url }}" title="NaukNauk outreach tracker — live demo" loading="lazy" style="width:100%;height:700px;border:1px solid rgba(0,0,0,0.12);border-radius:12px;background:#fff;"></iframe>
 </div>
 
-Live demo — paste a Reddit post into the *add user* tab and watch the fields auto-fill and a DM assemble. It runs entirely in the browser, no backend.
+Live demo — paste a Reddit post into the _add user_ tab and watch the fields auto-fill and a DM assemble. It runs entirely in the browser, no backend.
 
 ## 04 / The decision that mattered
 

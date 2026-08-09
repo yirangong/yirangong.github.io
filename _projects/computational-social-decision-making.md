@@ -2,6 +2,7 @@
 layout: project
 title: Computational Models of Social Decision-Making
 pillar: understand
+group: understand-research
 index: U—02
 kind: Course research · Computational modeling
 summary: A framework for selected work from the Computational Models of Decision Making seminar.

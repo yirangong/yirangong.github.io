@@ -2,6 +2,7 @@
 layout: project
 title: Real-Time Human Collaboration
 pillar: understand
+group: understand-research
 index: U—01
 kind: NYU research · Social interaction
 summary: Investigating how communication influences collaborative planning in real time.

@@ -1,124 +1,99 @@
 ---
 layout: default
 ---
+{% assign featured_projects = site.projects | where: 'featured', true | sort: 'importance' %}
+{% assign featured_project = featured_projects | first %}
+{% assign featured_image = featured_project.card_image | default: '/assets/projects/applied-ai-product-operations/hero-workflow.png' %}
+
 <main class="portfolio-home home-pavilion">
-  {%- comment -%} 1 — ABOUT / HERO {%- endcomment -%}
   <section class="home-hero" aria-labelledby="home-title">
     <div class="home-hero__copy">
       <h1 id="home-title" class="home-hero__title">
-        Hi <span class="wave" aria-hidden="true">👋</span>, I&rsquo;m <span class="hl-accent">Yiran</span> &mdash; a
-        <span class="hl-marker">product</span> <span class="amp">&amp;</span> <span class="hl-knock">AI</span>
-        <span class="hl-underline">builder</span> with a background in <span class="hl-accent">cognitive science,</span>
-        building thoughtful technology for deeply
-        <span class="serif">human contexts.</span>
+        <span class="home-hero__line">Hi, I&rsquo;m Yiran.</span>
+        <span class="home-hero__line">
+          a <span class="home-hero__product">product</span>
+          <span class="home-hero__amp">&amp;</span>
+          <span class="home-hero__ai">AI</span> builder,
+        </span>
+        <span class="home-hero__line">with a background in</span>
+        <span class="home-hero__line"> <span class="home-hero__cognition">cognitive science,</span> building </span>
+        <span class="home-hero__line">thoughtful technology for</span>
+        <span class="home-hero__line">deeply <span class="home-hero__human">human contexts.</span></span>
       </h1>
-      <p class="home-hero__lede">
-        My work moves between implementation and inquiry. Both begin with
-        <span class="serif">close observation</span> &mdash; of behavior, communities, and the systems around us.
-      </p>
-      <div class="route-actions">
-        <a class="route-button route-button--dark" href="{{ '/build/' | relative_url }}">See what I build <span>↗</span></a>
-        <a class="route-button" href="{{ '/understand/' | relative_url }}">See what I study <span>↗</span></a>
+
+      <div class="home-hero__bottom">
+        <p class="home-hero__lede">
+          My work moves between implementation and inquiry.<br>
+          Both begin with close observation &mdash; of behavior, communities, and the systems around us.
+        </p>
+        <div class="route-actions">
+          <a class="route-button route-button--dark" href="{{ '/build/' | relative_url }}">See what I build <span>↗</span></a>
+          <a class="route-button" href="{{ '/understand/' | relative_url }}">See what I study <span>↗</span></a>
+        </div>
       </div>
     </div>
 
     <figure class="home-hero__portrait">
-      <img src="{{ '/assets/img/prof_pic.jpg' | relative_url }}" alt="Portrait of Yiran Gong">
+      <img src="{{ '/assets/img/prof_pic.jpg' | relative_url }}" alt="Yiran Gong beside a bronze statue at night">
     </figure>
   </section>
 
-  {%- comment -%} 2 — SELECTED WORK {%- endcomment -%}
-  <section class="section-block work-block" aria-labelledby="selected-work-title">
-    <div class="section-heading section-heading--inline">
-      <div>
-        <span class="tick" aria-hidden="true"></span>
-        <h2 id="selected-work-title">Selected work</h2>
-      </div>
-      <p>Structured so the problem, contribution, methods, and evidence are visible before you open the full case study.</p>
-    </div>
+  {% if featured_project %}
+    <section class="home-featured" aria-labelledby="featured-project-title">
+      <a
+        class="home-featured__card"
+        href="{{ featured_project.url | relative_url }}"
+        aria-label="View {{ featured_project.card_title | default: featured_project.title }}"
+      >
+        <figure class="home-featured__media">
+          <img
+            src="{{ featured_image | relative_url }}"
+            alt="Generative video workflow showing the final render, model pipeline, and anatomy-aware evaluation"
+          >
+        </figure>
 
-    {% assign featured_projects = site.projects | where: 'featured', true | sort: 'importance' %}
-    {% if featured_projects.size > 0 %}
-      <div class="project-index">
-        {% for project in featured_projects %}
-          {% include project-card.liquid project=project %}
-        {% endfor %}
-      </div>
-    {% else %}
-      <p class="framework-message">Selected projects remain unpublished until their content and evidence are ready.</p>
-    {% endif %}
-  </section>
+        <div class="home-featured__content">
+          <p class="home-featured__eyebrow">{{ featured_project.kind }}</p>
+          <h2 id="featured-project-title">{{ featured_project.card_title | default: featured_project.title }}</h2>
+          <p class="home-featured__summary">{{ featured_project.summary }}</p>
 
-  {%- comment -%} 3 — CAPABILITIES IN CONTEXT + CONTACT {%- endcomment -%}
-  <section class="section-block capability-board" aria-labelledby="capabilities-title">
-    <div class="section-heading section-heading--inline">
-      <div>
-        <span class="tick" aria-hidden="true"></span>
-        <h2 id="capabilities-title">Capabilities in context</h2>
-      </div>
-      <p>Skills stay attached to the projects and evidence that demonstrate them.</p>
-    </div>
+          {% if featured_project.metrics %}
+            <dl class="home-featured__metrics">
+              {% for metric in featured_project.metrics limit: 3 %}
+                <div>
+                  <dt>{{ metric.value }}</dt>
+                  <dd>{{ metric.label }}</dd>
+                </div>
+              {% endfor %}
+            </dl>
+          {% endif %}
 
-    <div class="capability-rows">
-      <div class="cap-row cap-row--build">
-        <div class="cap-row__head">
-          <div class="cap-row__title">
-            <span class="cap-row__num">01</span>
-            <h3>Making</h3>
-          </div>
-          <p class="cap-row__desc">Shipping AI products end-to-end — from model choice to instrumentation.</p>
-          <p class="cap-row__evidence"><span>DEMONSTRATED IN</span> <a href="{{ '/build/' | relative_url }}">Gen-AI video · Analytics ↗</a></p>
-        </div>
-        <div class="cap-row__tags">
-          <span>AI workflows</span><span>Product operations</span><span>Model evaluation</span><span>Prompt design</span
-          ><span>Testing &amp; deployment</span><span>Instrumentation</span>
-        </div>
-      </div>
+          {% if featured_project.skills %}
+            <ul class="home-featured__skills" aria-label="Project skills">
+              {% for skill in featured_project.skills limit: 5 %}
+                <li>{{ skill }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
 
-      <div class="cap-row cap-row--understand">
-        <div class="cap-row__head">
-          <div class="cap-row__title">
-            <span class="cap-row__num">02</span>
-            <h3>Investigating</h3>
-          </div>
-          <p class="cap-row__desc">Formal study of how people think, decide, and interact.</p>
-          <p class="cap-row__evidence">
-            <span>DEMONSTRATED IN</span> <a href="{{ '/understand/' | relative_url }}">Cognitive-science research ↗</a>
-          </p>
+          <span class="home-featured__cta">View project <span aria-hidden="true">↗</span></span>
         </div>
-        <div class="cap-row__tags">
-          <span>Human collaboration</span><span>Computational modeling</span><span>Reinforcement learning</span><span>Bayesian models</span
-          ><span>Evaluation</span>
-        </div>
-      </div>
-
-      <div class="cap-row cap-row--connect">
-        <div class="cap-row__head">
-          <div class="cap-row__title">
-            <span class="cap-row__num">03</span>
-            <h3>Connecting</h3>
-          </div>
-          <p class="cap-row__desc">Growing trust and translating between people and systems.</p>
-          <p class="cap-row__evidence"><span>DEMONSTRATED IN</span> <a href="{{ '/build/' | relative_url }}">Community growth 0→500+ ↗</a></p>
-        </div>
-        <div class="cap-row__tags">
-          <span>Community trust</span><span>Close observation</span><span>Cultural systems</span><span>Synthesis</span><span>Communication</span>
-        </div>
-      </div>
-    </div>
-  </section>
+      </a>
+    </section>
+  {% endif %}
 
   <section class="home-contact" aria-labelledby="home-contact-title">
     <div class="home-contact__main">
       <span class="home-contact__eyebrow">CONTACT</span>
-      <h2 id="home-contact-title">I work where technical systems meet <span class="serif">human behavior.</span></h2>
+      <h2 id="home-contact-title">I work where technical systems meet human behavior.</h2>
       <div class="route-actions">
-        {% if site.email -%}
-          <a class="route-button route-button--light" href="mailto:{{ site.email }}">Get in touch <span>↗</span></a>
-        {%- endif %}
+        {% if site.data.socials.email %}
+          <a class="route-button route-button--light" href="mailto:{{ site.data.socials.email }}">Get in touch <span>↗</span></a>
+        {% endif %}
         <a class="route-button route-button--ghost" href="{{ '/cv/' | relative_url }}">Curriculum vitae <span>↗</span></a>
       </div>
     </div>
+
     <div class="home-contact__meta">
       <div>
         <span class="home-contact__label">AVAILABLE FOR</span>
@@ -126,7 +101,11 @@ layout: default
       </div>
       <div>
         <span class="home-contact__label">ELSEWHERE</span>
-        <p><a href="https://github.com/yirangong">GitHub ↗</a> · <a href="{{ '/cv/' | relative_url }}">CV ↗</a></p>
+        <p>
+          <a href="https://github.com/{{ site.data.socials.github_username }}">GitHub ↗</a>
+          ·
+          <a href="https://www.linkedin.com/in/{{ site.data.socials.linkedin_username }}/">LinkedIn ↗</a>
+        </p>
       </div>
     </div>
   </section>

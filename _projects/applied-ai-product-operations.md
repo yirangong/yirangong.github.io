@@ -6,9 +6,10 @@ kind: Generative AI · Product operations
 summary: Designed, tested, and shipped generative-video workflows by connecting model capabilities, input architecture, prompt design, deployment constraints, and user experience.
 experience: nauknauk
 group: nauknauk
-card_title: Making toys move
-card_badge: "~70%"
-card_detail: "~800 week-one generations · ~70% publish conversion"
+card_title: End to end AI workflow shipping generative video feature
+card_badge: "~60%"
+card_detail: "5+ workflows shipped · 10,000+ users reached daily"
+card_image: /assets/projects/applied-ai-product-operations/hero-workflow.png
 featured: true
 importance: 1
 published: true

@@ -1,0 +1,553 @@
+<main class="pa-case-study">
+  <div class="pa-shell">
+    <aside class="pa-rail cs__rail" aria-label="Case study sections">
+      <a class="cs__back" href="{{ '/build/' | relative_url }}"> <span aria-hidden="true">&larr;</span> Build </a>
+      <nav class="cs__nav" aria-label="On this page">
+        <ol>
+          <li><a class="pa-rail__link is-active" href="#tldr" data-pa-target="tldr">TL;DR</a></li>
+          <li><a class="pa-rail__link" href="#background" data-pa-target="background">Background</a></li>
+          <li><a class="pa-rail__link" href="#impact" data-pa-target="impact">Impact</a></li>
+          <li><a class="pa-rail__link" href="#how-i-built-it" data-pa-target="how-i-built-it">How I built it</a></li>
+          <li class="is-stage"><a class="pa-rail__link" href="#redefinition" data-pa-target="redefinition">01 Redefinition</a></li>
+          <li class="is-stage"><a class="pa-rail__link" href="#attribution" data-pa-target="attribution">02 Attribution</a></li>
+          <li class="is-stage"><a class="pa-rail__link" href="#migration" data-pa-target="migration">03 Migration</a></li>
+          <li><a class="pa-rail__link" href="#reflection" data-pa-target="reflection">Reflection</a></li>
+        </ol>
+      </nav>
+    </aside>
+
+    <article class="pa-content">
+      <section id="tldr" class="pa-hero pa-anchor">
+        <div class="pa-hero__eyebrow-row">
+          <p class="pa-eyebrow pa-eyebrow--blue">GENERATIVE AI · PRODUCT ANALYTICS · DATA INFRASTRUCTURE</p>
+          {% if page.status == 'draft' -%}
+            <span class="pa-draft">DRAFT</span>
+          {%- endif %}
+        </div>
+        <h1>{{ page.title }}</h1>
+
+        <div class="pa-hero__summary-grid">
+          <div class="pa-tldr">
+            <span class="pa-tldr__bar" aria-hidden="true"></span>
+            <div>
+              <p class="pa-eyebrow pa-eyebrow--red">TL;DR</p>
+              <p>{{ page.summary }}</p>
+            </div>
+          </div>
+
+          <div class="pa-skills">
+            <p class="pa-eyebrow">SKILLS &amp; STACK</p>
+            <ol>
+              {% for skill in page.skills %}
+                <li>
+                  <span>0{{ forloop.index }}</span>{{ skill }}
+                </li>
+              {% endfor %}
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <section id="background" class="pa-background pa-anchor">
+        <p class="pa-eyebrow pa-eyebrow--red">BACKGROUND</p>
+        <div class="pa-two-column">
+          <div>
+            <p class="pa-eyebrow">THE PROBLEM</p>
+            <p>
+              All 40+ video templates appeared as one aggregated line. Worse, generations rescued by fallback were still counted as failures, so teams
+              could not tell what to promote, fix, or retire.
+            </p>
+          </div>
+          <div>
+            <p class="pa-eyebrow pa-eyebrow--blue">WHAT I DID</p>
+            <p>
+              Rebuilt measurement around one row per generation, defined failure by the user’s final outcome, added seven outcome modes, and tied each
+              failure to its template, model, vendor, and step.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="impact" class="pa-impact pa-anchor">
+        <p class="pa-eyebrow pa-eyebrow--red">IMPACT</p>
+        <div class="pa-impact__top">
+          <p class="pa-impact__statement">Outcome-based analytics that Content Ops monitors daily and product reviews weekly.</p>
+          <div class="pa-metrics" aria-label="Project impact">
+            <div><strong>5×</strong><span>failure overstatement corrected</span></div>
+            <div><strong>40+</strong><span>templates measured individually</span></div>
+            <div><strong>244</strong><span>fallback anomalies surfaced</span></div>
+          </div>
+        </div>
+
+        <figure class="pa-production">
+          <div class="pa-figure-title"><span aria-hidden="true"></span>PRODUCTION HEALTH VIEW</div>
+          <div class="pa-dashboard-card">
+            <div class="pa-dashboard-card__meta"><span>REDACTED FOR CONFIDENTIALITY</span><span>JULY 2026</span></div>
+            <a
+              class="pa-dashboard-artifact"
+              href="{{ '/assets/projects/product-analytics-infrastructure/dashboard-redacted-public.png' | relative_url }}"
+              target="_blank"
+              rel="noopener"
+              aria-label="Open the redacted production health dashboard at full size"
+            >
+              <img
+                src="{{ '/assets/projects/product-analytics-infrastructure/dashboard-redacted-public.png' | relative_url }}"
+                alt="Redacted production health dashboard with volume, failure, success, conversion, recovery, user, and alert metrics"
+                loading="lazy"
+              >
+            </a>
+          </div>
+          <figcaption>Surfaces configuration anomalies quickly and shows how each template behaves today and across the week.</figcaption>
+        </figure>
+      </section>
+
+      <section id="how-i-built-it" class="pa-built pa-anchor">
+        <div>
+          <p class="pa-eyebrow pa-eyebrow--red">HOW I BUILT IT</p>
+          <h2>The decisions behind the layer</h2>
+        </div>
+        <p class="pa-built__intro">
+          The user outcome had to be defined before the grain, attribution, or migration constraints could be made legible.
+        </p>
+        <div class="pa-route-block">
+          <p class="pa-eyebrow">ROUTE</p>
+          <div class="pa-route" aria-label="Decision route">
+            <span class="is-primary">USER OUTCOME</span><i aria-hidden="true"></i> <span>REQUEST GRAIN</span><i aria-hidden="true"></i>
+            <span>ATTRIBUTION</span><i aria-hidden="true"></i>
+            <span class="is-warm">MIGRATION</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="redefinition" class="pa-stage pa-stage--redefinition pa-anchor">
+        <div class="pa-stage__heading"><strong>01 /</strong><span>Redefinition</span></div>
+        <h2>Measure the request, not the deployment path</h2>
+        <p class="pa-eyebrow pa-eyebrow--red">A · MEASURE FAILURE AT THE LEVEL OF THE USER OUTCOME</p>
+
+        <div class="pa-redefinition__intro">
+          <p>
+            Roughly half the templates route to a second engine when the first fails. Fan’s Golden Goal made the consequence clear: endpoint counting
+            reported 39.1% failure; the user-level outcome was 7.4%.
+          </p>
+          <figure class="pa-overstatement">
+            <div class="pa-figure-title pa-figure-title--red"><span aria-hidden="true"></span>THE 5× OVERSTATEMENT</div>
+            <div class="pa-overstatement__body">
+              <div class="pa-bars">
+                <div>
+                  <p><span>ENDPOINT-BASED REPORTED FAILURE</span><span>39.1%</span></p>
+                  <i class="is-red"></i>
+                </div>
+                <div>
+                  <p><span>USER OUTCOME</span><span>7.4%</span></p>
+                  <i class="is-blue"></i>
+                </div>
+              </div>
+              <div class="pa-overstatement__stat">
+                <strong>5×</strong><span>Endpoint counting reported 39.1%; the user-level outcome was 7.4%.</span>
+              </div>
+            </div>
+          </figure>
+        </div>
+
+        <details class="pa-reveal pa-reveal--modes" open>
+          <summary>
+            <span class="pa-reveal__toggle" aria-hidden="true"></span>
+            <span class="pa-reveal__copy"
+              ><strong>Seven outcome modes</strong
+              ><small>A decision tree replaces one ambiguous boolean with outcomes that have different owners and next actions.</small></span
+            >
+            <span class="pa-reveal__count">7 MODES</span>
+          </summary>
+          <div class="pa-reveal__body">
+            <div class="pa-outcome-tree" role="img" aria-label="Seven-mode decision tree for generation outcomes">
+              <svg viewBox="0 0 986 268" aria-hidden="true">
+                <path d="M106 134 H126 M169 116 C169 92 187 92 187 72 M212 134 H236 M286 152 C286 176 318 176 318 202 M336 134 H360 M422 116 C422 92 450 92 450 78 M484 134 H508 M560 152 C560 176 617 176 617 202 M612 134 H636 M732 134 H770 M770 46 V222 M770 46 H804 M770 134 H804 M770 222 H804"></path>
+              </svg>
+              <span class="pa-tree-node pa-tree-node--root">GENERATION</span>
+              <span class="pa-tree-question pa-tree-question--finished">Finished?</span>
+              <span class="pa-tree-question pa-tree-question--primary">Primary?</span>
+              <span class="pa-tree-question pa-tree-question--fallback">Fallback set?</span>
+              <span class="pa-tree-question pa-tree-question--attempted">Attempted?</span>
+              <span class="pa-tree-question pa-tree-question--outcome">Outcome?</span>
+
+              <span class="pa-tree-result pa-tree-result--incomplete"><b>Generation incomplete</b><code>in_progress</code></span>
+              <span class="pa-tree-result pa-tree-result--primary"><b>Primary succeeded</b><code class="is-blue">normal</code></span>
+              <span class="pa-tree-result pa-tree-result--no-fallback"
+                ><b>No fallback · by design</b
+                ><code
+                  >primary_failed_<br>
+                  no_fallback</code
+                ></span
+              >
+              <span class="pa-tree-result pa-tree-result--skipped"
+                ><b>Fallback skipped · routing bug</b><code>primary_failed_fallback_skipped</code></span
+              >
+              <span class="pa-tree-result pa-tree-result--rescued"><b>Fallback rescued</b><code class="is-blue">fallback_rescued</code></span>
+              <span class="pa-tree-result pa-tree-result--timeout"><b>Fallback timed out</b><code>fallback_timed_out</code></span>
+              <span class="pa-tree-result pa-tree-result--failed"><b>Fallback also failed</b><code>fallback_also_failed</code></span>
+
+              <span class="pa-tree-edge pa-tree-edge--no-1">NO</span>
+              <span class="pa-tree-edge pa-tree-edge--yes-1">YES</span>
+              <span class="pa-tree-edge pa-tree-edge--yes-2">YES</span>
+              <span class="pa-tree-edge pa-tree-edge--no-2">NO</span>
+              <span class="pa-tree-edge pa-tree-edge--yes-3">YES</span>
+              <span class="pa-tree-edge pa-tree-edge--no-3">NO</span>
+              <span class="pa-tree-edge pa-tree-edge--yes-4">YES</span>
+              <span class="pa-tree-edge pa-tree-edge--success">SUCCESS</span>
+              <span class="pa-tree-edge pa-tree-edge--timeout">TIMEOUT</span>
+              <span class="pa-tree-edge pa-tree-edge--failed">FAILED</span>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <section class="pa-stage-continuation">
+        <p class="pa-eyebrow pa-eyebrow--red">B · ONE REQUEST, COUNTED TWO WAYS</p>
+        <p class="pa-body-copy">
+          The old dashboard measured deployment paths rather than complete generation requests. A primary failure and the fallback that rescued it
+          appeared as separate series, so the system could describe an endpoint accurately while misrepresenting what happened to the person waiting
+          for a video.
+        </p>
+        <p class="pa-eyebrow pa-eyebrow--red">C · THE RESULT</p>
+
+        <figure class="pa-comparison">
+          <div class="pa-figure-title"><span aria-hidden="true"></span>ENDPOINT GRAIN VS. GENERATION GRAIN</div>
+          <div class="pa-request-flow">
+            <span class="pa-request-flow__label">ONE REQUEST</span>
+            <span class="pa-request-flow__step is-failed">PRIMARY FAILED</span><i>→</i>
+            <span class="pa-request-flow__step is-succeeded">FALLBACK SUCCEEDED</span><i>→</i>
+            <span class="pa-request-flow__step is-delivered">DELIVERED · USER HAS IT</span>
+          </div>
+          <div class="pa-grain-grid">
+            <div class="pa-grain-card pa-grain-card--endpoint">
+              <p>ENDPOINT GRAIN</p>
+              <div><span>Primary attempt</span><b>FAILED</b></div>
+              <div><span>Fallback attempt</span><b>SUCCEEDED</b></div>
+              <small>Two unlinked rows. The primary reads as failed.</small>
+            </div>
+            <div class="pa-grain-card pa-grain-card--generation">
+              <p>GENERATION GRAIN</p>
+              <div class="pa-generation-row">
+                <span
+                  >One generation<br>
+                  <small>PRIMARY + FALLBACK + FINAL OUTCOME</small></span
+                ><b>SUCCEEDED</b>
+              </div>
+              <small>One row. The user’s final outcome survives.</small>
+            </div>
+          </div>
+
+          <div class="pa-before-after" data-pa-compare>
+            <div class="pa-before-after__tabs" role="tablist" aria-label="Compare endpoint-grain and generation-grain analytics views">
+              <button
+                id="pa-compare-before-tab"
+                class="is-active"
+                type="button"
+                role="tab"
+                aria-selected="true"
+                aria-controls="pa-compare-before-panel"
+                data-pa-compare-tab="before"
+              >
+                <span>BEFORE</span>
+                <small>ENDPOINT GRAIN</small>
+              </button>
+              <button
+                id="pa-compare-after-tab"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="pa-compare-after-panel"
+                tabindex="-1"
+                data-pa-compare-tab="after"
+              >
+                <span>AFTER</span>
+                <small>GENERATION GRAIN</small>
+              </button>
+            </div>
+            <div class="pa-before-after__stage">
+              <figure
+                id="pa-compare-before-panel"
+                class="pa-dashboard-panel"
+                role="tabpanel"
+                aria-labelledby="pa-compare-before-tab"
+                data-pa-compare-panel="before"
+              >
+                <figcaption class="pa-dashboard-panel__header">
+                  <p>Daily generation failure rate</p>
+                </figcaption>
+                <div class="pa-dashboard-panel__crop pa-dashboard-panel__crop--before">
+                  <img
+                    src="{{ '/assets/projects/product-analytics-infrastructure/old-per-template-fail-rate-annotated.png' | relative_url }}"
+                    alt="Before: endpoint-grain failure rate split across deployment paths, with one generation appearing as separate lines"
+                    loading="lazy"
+                  >
+                </div>
+                <p class="pa-dashboard-panel__note">
+                  One template appears as two separate lines—one for the primary path and one for fallback—so a single generation looks like two
+                  unrelated events.
+                </p>
+              </figure>
+              <figure
+                id="pa-compare-after-panel"
+                class="pa-dashboard-panel"
+                role="tabpanel"
+                aria-labelledby="pa-compare-after-tab"
+                data-pa-compare-panel="after"
+                hidden
+              >
+                <figcaption class="pa-dashboard-panel__header">
+                  <p>Failed generation count + failed rate</p>
+                </figcaption>
+                <div class="pa-dashboard-panel__crop pa-dashboard-panel__crop--after">
+                  <img
+                    src="{{ '/assets/projects/product-analytics-infrastructure/new-per-template-fail-rate-annotated.png' | relative_url }}"
+                    alt="After: generation-grain failures and final user-outcome failure rate shown by template"
+                    loading="lazy"
+                  >
+                </div>
+                <p class="pa-dashboard-panel__note pa-dashboard-panel__note--after">
+                  With failure defined by the user’s final outcome, each generation now contributes one result—even when fallback uses multiple
+                  endpoints.
+                </p>
+              </figure>
+            </div>
+          </div>
+        </figure>
+      </section>
+
+      <section id="attribution" class="pa-stage pa-anchor">
+        <div class="pa-stage__heading"><strong>02</strong><span>Attribution</span></div>
+        <p class="pa-eyebrow">FROM VISIBLE TO ACTIONABLE</p>
+        <div class="pa-diagnosis-flow" aria-label="Diagnosis flow">
+          <span>OBSERVE SPIKE</span><i>→</i><span>JOIN TEMPLATE</span><i>→</i><span>NAME MODEL, VENDOR, AND FAILED STEP</span><i>→</i
+          ><span>ROUTE TO OWNER</span>
+        </div>
+        <p class="pa-body-copy">
+          Engineering already had backend observability, but a spike could not be traced to a template, model, vendor, or failed step. The generation
+          record added that attribution, plus HTTP status and duration.
+        </p>
+
+        <figure class="pa-template-table">
+          <div class="pa-template-table__head">
+            <div class="pa-figure-title"><span aria-hidden="true"></span>PER-TEMPLATE TABLE</div>
+            <span>REDACTED</span>
+          </div>
+          <div class="pa-table">
+            <div class="pa-table__row pa-table__row--head">
+              <span>TEMPLATE</span><span>SUCCESS</span><span>FALLBACK</span><span>PUBLISH</span><span>ANOMALIES</span>
+            </div>
+            <div class="pa-table__row"><span>Template — 01</span><span>—</span><span>—</span><span>—</span><span>—</span></div>
+            <div class="pa-table__row"><span>Template — 02</span><span>—</span><span>—</span><span>—</span><span>—</span></div>
+            <div class="pa-table__row"><span>Template — 03</span><span>—</span><span>—</span><span>—</span><span>—</span></div>
+          </div>
+        </figure>
+
+        <details class="pa-reveal pa-reveal--anomaly" open>
+          <summary>
+            <span class="pa-reveal__toggle" aria-hidden="true"></span>
+            <span class="pa-reveal__copy"
+              ><strong>How is_config_anomaly works</strong><small>Fallback configured + never fired + generation failed</small></span
+            >
+            <span class="pa-reveal__count">244 CASES</span>
+          </summary>
+          <div class="pa-reveal__body pa-reveal__body--centered">
+            <div class="pa-attribution-record">
+              <div class="pa-record-fields">
+                <h3>ONE GENERATION RECORD</h3>
+                <dl>
+                  <div>
+                    <dt>TEMPLATE</dt>
+                    <dd>Which experience failed</dd>
+                  </div>
+                  <div>
+                    <dt>MODEL</dt>
+                    <dd>What served the request</dd>
+                  </div>
+                  <div>
+                    <dt>VENDOR</dt>
+                    <dd>Who owned availability</dd>
+                  </div>
+                  <div>
+                    <dt>FAILED STEP</dt>
+                    <dd>Where the pipeline broke</dd>
+                  </div>
+                  <div>
+                    <dt>HTTP STATUS</dt>
+                    <dd>How it failed</dd>
+                  </div>
+                  <div>
+                    <dt>DURATION</dt>
+                    <dd>How long it took</dd>
+                  </div>
+                </dl>
+              </div>
+              <div class="pa-derived-signal">
+                <h3>DERIVED SIGNAL · is_config_anomaly</h3>
+                <div><span>Fallback configured</span><b class="is-true">TRUE</b></div>
+                <div><span>Fallback fired</span><b>FALSE</b></div>
+                <div><span>Generation succeeded</span><b>FALSE</b></div>
+                <footer><span>A routing problem rather than a model problem.</span><strong>244</strong></footer>
+              </div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <section id="migration" class="pa-stage pa-anchor">
+        <div class="pa-stage__heading"><strong>03</strong><span>Migration</span></div>
+        <div class="pa-migration__intro">
+          <p class="pa-eyebrow">THE CONTRACT HELD; THE DETAIL DID NOT</p>
+          <p class="pa-body-copy">
+            When part of the service moved to AWS Step Functions, the meaning of a row survived because it was defined around generations. Where
+            fallback fields had no equivalent, I returned “unknown” and added a step-level heatmap as an interim diagnostic.
+          </p>
+        </div>
+
+        <details class="pa-reveal pa-reveal--migration" open>
+          <summary>
+            <span class="pa-reveal__toggle" aria-hidden="true"></span>
+            <span class="pa-reveal__copy"
+              ><strong>The outcome contract that survived</strong
+              ><small>Generation-level meaning stayed stable across the backend change</small></span
+            >
+            <span class="pa-reveal__count">UNKNOWN &gt; GUESS</span>
+          </summary>
+          <div class="pa-reveal__body">
+            <div class="pa-migration-diagram">
+              <div class="pa-migration-diagram__head">
+                <div class="pa-figure-title"><span aria-hidden="true"></span>PARTIAL-MIGRATION ASYMMETRY</div>
+                <span>THE CONTRACT HELD · THE DETAIL DID NOT</span>
+              </div>
+              <div class="pa-contract"><span>Generation-level outcome contract</span><b>ONE FINAL OUTCOME</b></div>
+              <div class="pa-migration-branches" aria-hidden="true"><span></span></div>
+              <div class="pa-pipeline-grid">
+                <div class="pa-pipeline-card is-original">
+                  <p><span>ORIGINAL PIPELINE</span><span>30+ TEMPLATES</span></p>
+                  <strong>Full seven-mode detail</strong>
+                  <small>Fallback fields available · definition intact</small>
+                </div>
+                <div class="pa-pipeline-card">
+                  <p><span>AWS STEP FUNCTIONS</span><span>10 TEMPLATES</span></p>
+                  <strong>Fallback fields null</strong>
+                  <small>Some modes collapse to unknown</small>
+                </div>
+              </div>
+              <div class="pa-interim"><b>INTERIM DIAGNOSTIC</b><span>Step-level heatmap recovers missing detail</span></div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <section id="reflection" class="pa-reflection pa-anchor">
+        <div>
+          <p class="pa-eyebrow pa-eyebrow--red">REFLECTION</p>
+          <h2>A metric definition is a product decision</h2>
+        </div>
+        <div class="pa-two-column">
+          <div>
+            <p class="pa-eyebrow pa-eyebrow--blue">WHAT I LEARNED</p>
+            <p>
+              There was no external ground truth for whether a fallback-rescued generation “really” failed. Trust came from an inspectable definition,
+              and a stable unit of analysis mattered more than a stable implementation.
+            </p>
+          </div>
+          <div>
+            <p class="pa-eyebrow pa-eyebrow--red">WHAT’S STILL OPEN</p>
+            <p>
+              Success rate does not capture whether an output was worth keeping. The implementation still needs manual validation, and fallback
+              semantics remain less detailed on migrated workflows.
+            </p>
+          </div>
+        </div>
+      </section>
+    </article>
+  </div>
+</main>
+
+<script>
+  (function () {
+    var links = Array.prototype.slice.call(document.querySelectorAll('[data-pa-target]'));
+    if (!links.length) return;
+    var targets = links
+      .map(function (link) {
+        return { link: link, element: document.getElementById(link.getAttribute('data-pa-target')) };
+      })
+      .filter(function (item) {
+        return item.element;
+      });
+    var ticking = false;
+
+    function updateRail() {
+      ticking = false;
+      var line = window.pageYOffset + 120;
+      var active = targets[0];
+      targets.forEach(function (item) {
+        if (item.element.getBoundingClientRect().top + window.pageYOffset <= line) active = item;
+      });
+      targets.forEach(function (item) {
+        item.link.classList.toggle('is-active', item === active);
+      });
+    }
+
+    window.addEventListener(
+      'scroll',
+      function () {
+        if (ticking) return;
+        ticking = true;
+        window.requestAnimationFrame(updateRail);
+      },
+      { passive: true }
+    );
+    window.addEventListener('resize', updateRail);
+    updateRail();
+  })();
+</script>
+
+<script>
+  (function () {
+    var comparisons = Array.prototype.slice.call(document.querySelectorAll('[data-pa-compare]'));
+
+    comparisons.forEach(function (comparison) {
+      var tabs = Array.prototype.slice.call(comparison.querySelectorAll('[data-pa-compare-tab]'));
+      var panels = Array.prototype.slice.call(comparison.querySelectorAll('[data-pa-compare-panel]'));
+
+      function activate(tab, moveFocus) {
+        var target = tab.getAttribute('data-pa-compare-tab');
+
+        tabs.forEach(function (item) {
+          var isActive = item === tab;
+          item.classList.toggle('is-active', isActive);
+          item.setAttribute('aria-selected', String(isActive));
+          item.tabIndex = isActive ? 0 : -1;
+        });
+
+        panels.forEach(function (panel) {
+          panel.hidden = panel.getAttribute('data-pa-compare-panel') !== target;
+        });
+
+        if (moveFocus) tab.focus({ preventScroll: true });
+      }
+
+      tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          activate(tab, false);
+        });
+      });
+
+      comparison.querySelector('[role="tablist"]').addEventListener('keydown', function (event) {
+        var current = tabs.indexOf(document.activeElement);
+        if (current < 0) return;
+        var next = null;
+
+        if (event.key === 'ArrowRight') next = (current + 1) % tabs.length;
+        if (event.key === 'ArrowLeft') next = (current - 1 + tabs.length) % tabs.length;
+        if (event.key === 'Home') next = 0;
+        if (event.key === 'End') next = tabs.length - 1;
+        if (next === null) return;
+
+        event.preventDefault();
+        activate(tabs[next], true);
+      });
+    });
+  })();
+</script>

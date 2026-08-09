@@ -33,7 +33,6 @@ description: Working across applied AI, cognitive science, and human behavior.
           <strong>2027 full-time roles</strong>
         </div>
       </div>
-
       <div class="about-profile__bio">
         <p>
           I am an aspiring product manager drawn to problems both human and technical.

@@ -1,69 +1,76 @@
 ---
 layout: project
-title: From model evaluation to shipped AI video workflows
+title: "Making toys move: what it takes to ship generative video as a product"
 pillar: build
 kind: Generative AI · Product operations
 summary: Designed, tested, and shipped generative-video workflows by connecting model capabilities, input architecture, prompt design, deployment constraints, and user experience.
 experience: nauknauk
 group: nauknauk
-card_title: Making toys move
-card_badge: "~70%"
-card_detail: "~800 week-one generations · ~70% publish conversion"
+card_title: End to end AI workflow shipping generative video feature
+card_badge: "~60%"
+card_detail: "5+ workflows shipped · 10,000+ users reached daily"
+card_image: /assets/projects/applied-ai-product-operations/hero-workflow.png
 featured: true
 importance: 1
 published: true
 skills:
   - AI pipeline architecture
   - Model evaluation & selection
-  - Prompt & preprocessing design
-  - Failure diagnosis
+  - Prompt engineering
   - Cost / latency / moderation tradeoffs
-  - Deployment & configuration
   - Monitoring & fallback design
 metrics:
-  - value: "~800"
-    label: Knee Slide generations in week one
-  - value: "~70%"
-    label: Publish conversion vs 57% template average
-  - value: "~8%"
-    label: Share of daily app generations (Dai Dai)
-media_label: Highlights
+  - value: "5+"
+    label: workflows shipped
+  - value: "10,000+"
+    label: users reached daily
+  - value: "~60%"
+    label: avg publish conversion
+media_label: Campaign
 media:
-  - type: image
-    featured: true
-    caption: "Cover still — replace with a hero image"
   - type: video
-    src: /assets/projects/applied-ai-product-operations/knee-slide.mp4
-    caption: "FIFA · Knee Slide — ~800 first-week generations, ~70% publish conversion"
+    src: /assets/projects/applied-ai-product-operations/fifa-jersey-change.mp4
+    poster: /assets/projects/applied-ai-product-operations/fifa-jersey-change-poster.jpg
+    ratio: 656 / 1002
+    title: "FIFA World Cups"
+    caption: "Reusable jersey-personalization infrastructure"
   - type: video
-    src: /assets/projects/applied-ai-product-operations/dai-dai.mp4
-    caption: "FIFA · Dai Dai — built in an afternoon, ~8% of daily generations"
-  - type: video
-    src: /assets/projects/applied-ai-product-operations/kaiju-fight.mp4
-    caption: "Kaiju Fight — reusable jersey-personalization infrastructure"
+    src: /assets/projects/applied-ai-product-operations/may-the-fourth.mp4
+    poster: /assets/projects/applied-ai-product-operations/may-the-fourth-poster.jpg
+    ratio: 624 / 1110
+    title: "May the 4th"
 roadmap_label: How I built it
-problem: The community wanted AI video templates, but turning a toy-community idea into a product feature meant handling messy user images, very different character shapes, coherent motion transfer, model restrictions, and reliable product integration.
-approach: I treated the model as one part of a system — sequencing image-prep and video models, controlling inputs, designing an anatomy-aware evaluation, and building fallback and monitoring into the product itself.
-impact: Shipped reusable, personalizable video workflows that beat template benchmarks (Knee Slide ~70% vs 57%) and grew a creative subreddit from 0 to 500+ members.
+roadmap_headline: Developing a feature users would actually use
+problem: Turning a toy-community facing idea into an AI-native product feature meant handling messy user images, very different character shapes, coherent motion transfer, model restrictions, and reliable product integration.
+approach: Owned the entire lifecycle from research to deployment — sequencing image-prep and video models, controlling inputs, designing an anatomy-aware evaluation, and building fallback and monitoring into the product itself.
+impact: Reusable, personalizable AI template workflows across motion control, storytelling, and campaign needs.
+impact_examples_label: Motion control
+impact_examples:
+  - title: Knee Slide
+    note: "~70% publish conversion vs 56% average"
+    src: /assets/projects/applied-ai-product-operations/knee-slide.mp4
+    poster: /assets/projects/applied-ai-product-operations/knee-slide-poster.jpg
+    ratio: 1072 / 1920
+  - title: Hadouken
+    src: /assets/projects/applied-ai-product-operations/hadouken.mp4
+    poster: /assets/projects/applied-ai-product-operations/hadouken-poster.jpg
+    ratio: 1626 / 1080
 ---
 
-Building an AI video template was not a matter of finding one model and writing one prompt. It was turning an idea from the toy community into a system that could handle messy user images, preserve very different character shapes, transfer motion coherently, survive model restrictions, and connect reliably to the product.
+Building an AI video template was not just a matter of finding one model and writing one prompt.\
+Iterating with a focus on user figure fidelity — core reason why users engage.
 
-Using Kaiju Fight as the running example, this is the lifecycle I followed: research, prototype, implement, deploy, and reflect.
-
-> **Route** Reddit signal -> model system -> controlled input -> product integration -> monitoring -> iteration
+> **Route** Ideas -> Model system -> Controlled input -> Product integration -> Monitoring -> Iteration
 
 ## 01 / Research
 
-Research here did not mean a survey. It meant deciding what was worth building at all.
+Research here did not mean a survey. It meant deciding what was worth building at all — a clip climbing a subreddit, a scene people quote from a movie, a joke only insiders get, sometimes a hallucinated video that came straight out of prompting.
 
-Candidates could be: a clip climbing a subreddit, a scene people quote from a movie, a joke only insiders get, sometimes a hallucinated video that came straight out of prompting.
-
-This is where agency and real human judgment comes in!
+This is where agency and real human judgment comes in.
 
 {% include research-funnel.liquid %}
 
-"Kaiju Fight" template example:
+#### "Kaiju Fight" — reference → shipped
 
 {% include research-pairs.liquid %}
 
@@ -71,11 +78,16 @@ This is where agency and real human judgment comes in!
 
 #### Building the model system
 
-The first question was not simply, "Which video model is best?" It was, "What sequence of models gives the video model a solvable input?"
+The first question was not simply, "Which video model is best?"\
+It was, "What sequence of models gives the video model a solvable input?"
+
+#### Generative media platforms
+
+{% include platforms.liquid %}
 
 {% include prototype-flow.liquid %}
 
-{% details View model and fallback decisions %}
+{% details Model and fallback decisions | Grok, Flux Klein, and when to switch model family instead of model tier | 4 decisions %}
 
 - Grok image edit was versatile, fast, and generally reliable, but could reject some protected-character inputs.
 - Flux 9B Klein provided a safer alternate image-preparation route.
@@ -86,91 +98,47 @@ The first question was not simply, "Which video model is best?" It was, "What se
 
 ## 03 / Implement & iterate
 
-### Controlling the input
+#### Diagnosing the real failure
 
-{% details View prompt-design details %}
+> Observe the failure -> Identify the constraint -> Change input, prompt, route, or infrastructure -> Test again
 
-Prompt placement mattered. I placed key instructions at the beginning and end, and kept grounding constraints beside the description of character placement.
-
-The longer image-preparation prompt also specified:
-
-- Whether to keep one or multiple figures.
-- Whether to retain the background.
-- Whether to remove stands and hand-held objects.
-- How much blank space to leave around the subject.
-- Which toy should be treated as the sole subject.
-
-{% enddetails %}
-
-### Diagnosing the real failure
-
-> Observe the failure -> identify the constraint -> change the input, prompt, model route, or infrastructure -> test again
-
-The long-leg and takeoff cases initially looked like general hallucinations. Looking across repeated failures revealed a consistent spatial problem: head-position mapping.
-
-Similar diagnosis shaped the rest of the workflow:
-
-- Change the input structure before endlessly tuning the prompt.
-- Use another model family when a more expensive tier cannot solve the restriction.
-- Evaluate different character anatomies with different failure gates.
-- Treat configuration and monitoring as part of the AI product itself.
+The long-leg and takeoff cases initially looked like general hallucinations. Looking across repeated failures revealed a consistent spatial problem: head-position mapping. The problem was the model's anchor, not the visual style.
 
 {% include anchor-fix.liquid %}
 
-{% details View the reference-model head-anchoring fix %}
+{% details The reference-model head-anchoring fix | The prompt that moved the character anchor from the head to the ground | Prompt %}
 
 I moved the character anchor to the ground, specified the intended scale, and placed those constraints inside the prompt section responsible for character positioning.
 
 > Anchor the character to the ground using its feet, bottom edge, or lowest point. Scale it proportionally from the ground up. Do not align its head with the reference fighter's head. Element 1 and Element 2 are small toy-sized characters; their total height should be approximately 40–60% of the reference video fighters' height. Scale down proportionally and keep them grounded.
 
-This was a deeper fix than another round of surface-level prompt tuning. The problem was the model's anchor, not the visual style.
+This was a deeper fix than another round of surface-level prompt tuning.
 
 {% enddetails %}
 
-#### Testing before release
+#### The complete evaluation framework
 
-I used a fidelity-first evaluation, because different toy anatomies fail in different ways.
+Fidelity gates for humanoid, semi-humanoid, and limbless toy anatomies.
 
-{% details View the complete evaluation framework %}
-
-| Metric                 | A — Humanoid | B — Semi-humanoid                                                           | C — Limbless                                      |
-| ---------------------- | ------------ | --------------------------------------------------------------------------- | ------------------------------------------------- |
-| Character fidelity     | High         | High — shape + color + markings, not face proportions                       | High — silhouette + color is the whole identity   |
-| Skeleton / rig sanity  | High         | Gating — hallucinated limbs = instant fail (most fragile metric for type B) | Replace with: no phantom limbs added              |
-| Motion quality         | High         | Mid — creative locomotion is ok if coherent                                 | Mid — sliding or floating should feel intentional |
-| Prompt adherence       | High         | Mid — credit partial adherence if limbs cannot physically do the move       | Low — score intent, not literal execution         |
-| BG / style consistency | Mid          | Mid                                                                         | Mid — scene-level metric, same weight across all  |
-
-{% enddetails %}
+{% include evaluation-matrix.liquid %}
 
 ## 04 / Deploy
 
-### Connecting the workflow to the product
+{% details The release checklist | From hosted reference assets to production configuration | 8 steps %}
 
-A strong sandbox output was not yet a product feature. The workflow also needed hosted reference assets, a demo video and cover, product pricing, a configured generation engine, the correct image bindings, beta testing, and production configuration.
-
-{% details View the release checklist %}
-
-1. Host the reference assets.
-2. Prepare the demo video and a correctly cropped cover.
-3. Convert API cost into the product's pricing unit.
-4. Configure the engine, provider, target, and preprocessing policy.
-5. Bind the user image to the workflow input.
-6. Connect the engine to the template.
-7. Test the complete experience in beta.
-8. Configure the production version.
+{% include release-checklist.liquid %}
 
 {% enddetails %}
 
-### Connecting model quality to product behavior
+#### Connecting model quality to product behaviour
 
-How did the workflow behave once it was connected to the product? I used the product dashboard to connect model testing with workflow behavior. Relevant signals included generation success, fallback behavior, and whether users moved from generating to publishing.
-
-This kept the build loop open after configuration. A model could look strong in selected demonstrations and still expose a different pattern at real usage levels.
+I used the product dashboard to connect model testing with workflow behaviour — generation success, fallback behaviour, and whether users moved from generating to publishing. A model could look strong in selected demonstrations and still expose a different pattern at real usage levels.
 
 [ADD: public-safe dashboard view]
 
 ## Reflection
+
+### The decisions happen around the model, not inside it
 
 **What I learned**
 
@@ -181,4 +149,5 @@ This kept the build loop open after configuration. A model could look strong in 
 
 **What failed**
 
-- The workflow depended fully on vendor availability. When a vendor hit very high latency or CDN errors, we needed to switch vendors flexibly — a lesson that fed straight back into the fallback design.
+- The workflow depended fully on vendor availability. When a vendor hit very high latency or CDN errors, we needed to switch vendors flexibly — a lesson that led to switching some of our workflows onto AWS Step Functions.
+- Surface-level prompt tuning delayed the real fix on head-anchoring by several rounds.

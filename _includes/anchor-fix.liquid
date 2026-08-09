@@ -1,13 +1,16 @@
-<!-- Head-anchoring failure vs ground-anchoring fix — 03 / Implement & iterate.
-     The user's plush is the input; the two panels show why head-position
-     mapping broke on this anatomy and what the fix changed. Flat shapes and
-     live text, colors from the Pavilion tokens.
-     Styles: ".rs-anchor" in _sass/_portfolio.scss. -->
+<!--
+  Head-anchoring failure vs ground-anchoring fix — 03 / Implement & iterate.
+  The user's plush is the input; the two panels show why head-position
+  mapping broke on this anatomy and what the fix changed. Flat shapes and
+  live text, colors from the Pavilion tokens.
+  Styles: ".rs-anchor" in _sass/_portfolio.scss.
+-->
 <figure class="rs-anchor">
-
   <div class="rs-anchor__input">
-    <img src="{{ '/assets/projects/applied-ai-product-operations/plush-input.jpg' | relative_url }}"
-         alt="The user's plush toy: a round white body with a blue striped cap, black eyes and yellow side tufts, with no legs." />
+    <img
+      src="{{ '/assets/projects/applied-ai-product-operations/plush-input.jpg' | relative_url }}"
+      alt="The user's plush toy: a round white body with a blue striped cap, black eyes and yellow side tufts, with no legs."
+    >
     <div>
       <p class="rs-anchor__eyebrow">The input</p>
       <p>A round plush with no legs &mdash; the anatomy that head-position mapping cannot survive.</p>
@@ -15,14 +18,16 @@
   </div>
 
   <div class="rs-anchor__pair">
-
     <div class="rs-anchor__panel">
       <p class="rs-anchor__title">Head-anchored <span class="rs-anchor__fail">&middot; failure &#10005;</span></p>
-      <svg viewBox="0 0 300 226" role="img" aria-label="The plush's head is mapped to the reference fighter's head, so its legs stretch down to reach the ground.">
-
+      <svg
+        viewBox="0 0 316 226"
+        role="img"
+        aria-label="The plush's head is mapped to the reference fighter's head, so its legs stretch down to reach the ground."
+      >
         <!-- annotation: both head tops forced onto one line -->
-        <line class="rs-anchor__ann-line" x1="24" y1="37" x2="292" y2="37" />
-        <text class="rs-anchor__ann" x="292" y="29" text-anchor="end">heads aligned</text>
+        <line class="rs-anchor__ann-line" x1="24" y1="37" x2="308" y2="37" />
+        <text class="rs-anchor__ann" x="308" y="29" text-anchor="end">heads aligned</text>
 
         <!-- reference fighter -->
         <g class="rs-anchor__ref">
@@ -54,8 +59,11 @@
 
     <div class="rs-anchor__panel">
       <p class="rs-anchor__title">Ground-anchored <span class="rs-anchor__pass">&middot; fix &#10003;</span></p>
-      <svg viewBox="0 0 300 226" role="img" aria-label="The plush is anchored to the ground by its feet and scaled to 40 to 60 percent of the reference fighter's height.">
-
+      <svg
+        viewBox="0 0 316 226"
+        role="img"
+        aria-label="The plush is anchored to the ground by its feet and scaled to 40 to 60 percent of the reference fighter's height."
+      >
         <!-- reference fighter -->
         <g class="rs-anchor__ref">
           <circle cx="92" cy="52" r="15" />
@@ -85,6 +93,5 @@
       </svg>
       <p class="rs-anchor__note">Feet anchored to the ground, body scaled to 40&ndash;60% of the fighter.</p>
     </div>
-
   </div>
 </figure>

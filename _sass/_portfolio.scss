@@ -2654,6 +2654,11 @@ button:focus-visible {
     width: max-content;
   }
 
+  .cs__nav > ol > li.has-stages,
+  .cs__nav .cs__nav-stages {
+    display: contents;
+  }
+
   .cs__nav a,
   .cs__nav li.is-stage a {
     padding: 0.55rem 0.7rem;
@@ -3375,6 +3380,68 @@ button:focus-visible {
   font-weight: 500;
   line-height: 1.2;
   text-transform: none;
+}
+
+/* Model comparison: framework names and their explanatory contribution scan
+   as aligned rows instead of disappearing inside a long bullet list. */
+.roadmap-body > .model-comparison {
+  max-width: none;
+  margin: 1.25rem 0 2.25rem;
+  padding: 0;
+  border-top: 1px solid var(--portfolio-hairline-strong);
+  list-style: none;
+}
+
+.model-comparison > li {
+  display: grid;
+  grid-template-columns: 2.75rem minmax(12rem, 0.8fr) minmax(0, 1.45fr);
+  gap: clamp(1rem, 2.5vw, 2rem);
+  align-items: start;
+  margin: 0;
+  padding: 1.2rem 0.4rem;
+  border-bottom: 1px solid var(--portfolio-hairline);
+}
+
+.model-comparison__index {
+  padding-top: 0.12rem;
+  color: var(--portfolio-oxblood);
+  font-family: var(--portfolio-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
+.roadmap-body .model-comparison h3,
+.roadmap-body .model-comparison p {
+  margin: 0;
+}
+
+.roadmap-body .model-comparison h3 {
+  font-size: clamp(1rem, 1.6vw, 1.15rem);
+  line-height: 1.35;
+}
+
+.roadmap-body .model-comparison p {
+  color: var(--portfolio-muted);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+@media (max-width: 700px) {
+  .model-comparison > li {
+    grid-template-columns: 2.25rem minmax(0, 1fr);
+    gap: 0.35rem 0.8rem;
+    padding: 1rem 0;
+  }
+
+  .model-comparison__index {
+    grid-row: 1 / 3;
+  }
+
+  .roadmap-body .model-comparison h3,
+  .roadmap-body .model-comparison p {
+    grid-column: 2;
+  }
 }
 .roadmap-body > h2:first-child {
   margin-top: 0;
@@ -4929,4 +4996,3 @@ button:focus-visible {
     min-height: 0;
   }
 }
-

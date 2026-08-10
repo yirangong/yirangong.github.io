@@ -20,7 +20,13 @@
 >
   <header class="project-group__header">
     <div class="project-group__identity">
-      <span class="project-group__mark" aria-hidden="true">{{ group_mark }}</span>
+      <span class="project-group__mark{% if group.mark_image %} project-group__mark--image{% endif %}" aria-hidden="true">
+        {% if group.mark_image %}
+          <img src="{{ group.mark_image | relative_url }}" alt="">
+        {% else %}
+          {{ group_mark }}
+        {% endif %}
+      </span>
       <div class="project-group__identity-copy">
         <p class="project-group__eyebrow">
           <span>{{ group.eyebrow }}</span>

@@ -132,7 +132,7 @@ layout: default
               Guarded: with none of these set the <dl> still rendered,
               contributing its top margin as dead space under the hero.
             {% endcomment %}
-            <dl class="cs-meta">
+            <dl class="cs-meta{% if page.team_url and page.team_link_label %} cs-meta--collaboration{% endif %}">
               {% if page.role %}
                 <div>
                   <dt>Role</dt>
@@ -152,19 +152,30 @@ layout: default
                 </div>
               {% endif %}
               {% if page.team %}
-                <div>
+                <div class="cs-meta__item cs-meta__item--team">
                   <dt>Team</dt>
                   <dd>
-                    {{ page.team }}
-                    {% if page.team_url and page.team_link_label %}
-                      &middot;
-                      <a class="cs-team-link" href="{{ page.team_url }}" target="_blank" rel="noopener">
-                        {% if page.team_icon %}
-                          <img src="{{ page.team_icon | relative_url }}" alt="" aria-hidden="true">
-                        {% endif %}
-                        {{ page.team_link_label }}
-                      </a>
+                    <strong>{{ page.team }}</strong>
+                    {% if page.team_note %}
+                      <span class="cs-meta__note">{{ page.team_note }}</span>
                     {% endif %}
+                  </dd>
+                </div>
+              {% endif %}
+
+              {% if page.team_url and page.team_link_label %}
+                <div class="cs-meta__item cs-meta__item--affiliation">
+                  <dt>Affiliation</dt>
+                  <dd>
+                    <a class="cs-team-link" href="{{ page.team_url }}" target="_blank" rel="noopener">
+                      {% if page.team_icon %}
+                        <span class="cs-team-link__mark" aria-hidden="true">
+                          <img src="{{ page.team_icon | relative_url }}" alt="">
+                        </span>
+                      {% endif %}
+                      <span class="cs-team-link__name">{{ page.team_link_label }}</span>
+                      <span class="cs-team-link__arrow" aria-hidden="true">&#8599;</span>
+                    </a>
                   </dd>
                 </div>
               {% endif %}

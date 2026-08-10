@@ -10,7 +10,7 @@ pillar: understand
 index: U—01
 project_groups:
   - nyu-collaboration
-  - nyu-research-future
+  - computational-decision-making
 project_group_layout: parallel
 description: Investigating cognition, decisions, interaction, and evaluation.
 supporting_text: "Research questions are paired with the experiments, models, tools, and evidence used to study them."

@@ -34,22 +34,16 @@ nyu-collaboration:
   child_label: Child project
   child_heading: Current work
 
-nyu-research-future:
+computational-decision-making:
   pillar: understand
   compact: true
   focus_tone: accent
   mark: "02"
-  eyebrow: "NYU research · [affiliation to confirm]"
-  name: NYU Research
-  role: "[Research context, role, and timeframe]"
+  eyebrow: Barnard coursework · Cognitive science
+  name: Computational Models of Decision-Making
+  role: Independent final paper · Spring 2025
   context_label: Parent focus
-  context: "[Shared focus for this body of NYU research]"
-  scope: "[Methods, models, tools, and evidence to confirm]"
+  context: Comparing computational accounts of how people decide, infer, and communicate under uncertainty.
+  scope: Bayesian inference · Reinforcement learning · Computational model comparison
   child_label: Child project
-  child_heading: Future work
-  placeholder:
-    index: U—02
-    kind: "[Kind to confirm]"
-    title: "[Future NYU Research Project]"
-    summary: "[One-sentence project summary and specific research focus.]"
-    detail: "[Question · Method · Evidence]"
+  child_heading: Selected work

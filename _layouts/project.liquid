@@ -479,6 +479,7 @@ layout: default
         if (shell) shell.classList.add('cs__shell--norail');
       } else {
         var links = [];
+        var stageList = null;
         targets.forEach(function (t) {
           var li = document.createElement('li');
           if (t.stage) li.className = 'is-stage';
@@ -493,7 +494,22 @@ layout: default
             if (history.replaceState) history.replaceState(null, '', '#' + t.id);
           });
           li.appendChild(a);
-          railList.appendChild(li);
+
+          if (t.stage) {
+            if (!stageList) {
+              var parentItem = railList.lastElementChild;
+              if (parentItem) {
+                parentItem.classList.add('has-stages');
+                stageList = document.createElement('ol');
+                stageList.className = 'cs__nav-stages';
+                parentItem.appendChild(stageList);
+              }
+            }
+            (stageList || railList).appendChild(li);
+          } else {
+            stageList = null;
+            railList.appendChild(li);
+          }
           links.push({ a: a, id: t.id });
         });
 

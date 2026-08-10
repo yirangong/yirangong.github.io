@@ -4,7 +4,7 @@ title: Modeling Communication Dynamics in Complex Strategic Planning
 pillar: understand
 group: nyu-collaboration
 index: U—01
-kind: NYU research · Behavioral experiment
+kind: Ongoing study · Experimental design and map selection
 summary: A Unity-based behavioral experiment exploring when communication helps people coordinate through complex, asymmetric planning tasks.
 card_detail: Question · Communication · Planning
 media:
@@ -12,7 +12,7 @@ media:
     src: /assets/img/projects/nyu-human-collaboration/representative-task-map.svg
     featured: true
     caption: "Representative task map rendered from the project's map data."
-team: Yiran and Nastaran
+team: Yiran Gong · supervised by Nastaran and Weiji Ma
 team_link_label: Weiji Ma Lab, NYU
 team_url: https://www.cns.nyu.edu/malab/
 team_icon: /assets/img/projects/nyu-human-collaboration/weiji-ma-lab-logo.png
@@ -33,6 +33,8 @@ approach: The experiment combines a Unity road-construction game with a Python a
 roadmap_label: Research setup
 roadmap_headline: When is talking worth the cost?
 ---
+
+> **TL;DR** I designed the study, built the Unity experiment and Python map-selection pipeline, selected the maps, and collected participant data. Nastaran and Weiji Ma supervised the project. This is an ongoing study; final participant results are not yet available.
 
 ## 01 / Research question
 
@@ -58,6 +60,6 @@ Maps are filtered using starting-position distance and contribution balance, the
 
 ## 04 / Current scope
 
-The repository documents the hypotheses, map data, selection notebooks, visualization code, and game-asset export pipeline. It does not yet present final participant results.
+The repository documents the hypotheses, map data, selection notebooks, visualization code, game-asset export pipeline, and current study implementation. The current phase is study execution and data collection.
 
-The next question is empirical: whether communication improves coordination at strategically difficult moments—and when the cost of talking outweighs its benefit.
+The next analysis will test whether communication improves coordination at strategically difficult moments—and when the cost of talking outweighs its benefit.

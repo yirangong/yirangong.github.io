@@ -398,6 +398,13 @@
   color: #fff;
 }
 
+.home-pavilion .route-button--ghost:hover,
+.home-pavilion .route-button--ghost:focus-visible {
+  background: #fff;
+  border-color: #fff;
+  color: #0e74b8;
+}
+
 .home-contact__meta {
   display: flex;
   width: 300px;

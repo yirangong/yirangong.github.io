@@ -3,7 +3,7 @@ layout: page
 permalink: /cv/
 title: CV
 nav_label: CV
-nav: true
+nav: false
 nav_order: 5
 nav_index: "05"
 description: Education, applied AI work, research, and selected projects — as a PDF.

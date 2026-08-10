@@ -7,6 +7,7 @@ nav_order: 3
 nav_index: "03"
 permalink: /field-notes/
 description: Observations of people, places, and systems.
+published: false
 ---
 
 <main class="field-notes-index">

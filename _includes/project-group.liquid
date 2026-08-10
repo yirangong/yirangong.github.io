@@ -54,7 +54,9 @@
     <div class="project-group__focus{% if group.focus_tone == 'accent' %} project-group__focus--accent{% endif %}">
       <p class="project-group__label">{{ group.context_label | default: 'Parent focus' }}</p>
       <p>{{ group_context }}</p>
-      {% if group_scope %}<span>{{ group_scope }}</span>{% endif %}
+      {% if group_scope -%}
+        <span>{{ group_scope }}</span>
+      {%- endif %}
     </div>
   {% elsif group_context or group_scope %}
     <div class="project-group__context">

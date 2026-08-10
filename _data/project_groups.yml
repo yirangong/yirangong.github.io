@@ -30,11 +30,8 @@ nyu-collaboration:
   eyebrow: NYU research · Weiji Ma Lab
   name: Weiji Ma Lab, NYU
   role: Behavioral experiment · Collaborative planning
-  context_label: Parent focus
   context: A Unity-based behavioral experiment exploring when communication helps people coordinate through complex, asymmetric planning tasks.
   scope: Unity experiment · Python analysis · 1,242 candidate maps
-  child_label: Child project
-  child_heading: Current work
 
 computational-decision-making:
   pillar: understand
@@ -44,8 +41,5 @@ computational-decision-making:
   eyebrow: Barnard coursework · Cognitive science
   name: Computational Models of Decision-Making
   role: Independent final paper · Spring 2025
-  context_label: Parent focus
   context: Comparing computational accounts of how people decide, infer, and communicate under uncertainty.
   scope: Bayesian inference · Reinforcement learning · Computational model comparison
-  child_label: Child project
-  child_heading: Selected work

@@ -4936,7 +4936,6 @@ button:focus-visible {
   gap: 0.6rem;
   padding: 1.4rem;
   background: var(--portfolio-paper);
-  border: 1px solid var(--portfolio-hairline);
   border-radius: 18px;
 }
 
@@ -4962,30 +4961,6 @@ button:focus-visible {
 .project-group__focus--accent .project-group__label,
 .project-group__focus--accent > span {
   color: rgba(255, 255, 255, 0.74);
-}
-
-.project-group__children-heading {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-.project-group__children-heading .project-group__label {
-  margin-bottom: 0.2rem;
-}
-
-.project-group__children-heading h3 {
-  margin: 0;
-  font-size: 1.2rem;
-}
-
-.project-group__children-heading > span {
-  color: var(--portfolio-muted);
-  font-family: var(--portfolio-mono);
-  font-size: 0.58rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
 }
 
 .project-group--compact .project-index--grouped {

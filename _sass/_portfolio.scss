@@ -2329,12 +2329,14 @@ button:focus-visible {
 }
 
 .project-card__preview {
+  display: block;
   width: 100%;
   aspect-ratio: 40 / 19;
   flex: 0 0 auto;
   background: linear-gradient(135deg, #f1f3ee 0%, #e6eae2 100%);
   border: 1px solid #dde2d8;
   border-radius: 10px;
+  object-fit: cover;
 }
 
 .project-card__body {

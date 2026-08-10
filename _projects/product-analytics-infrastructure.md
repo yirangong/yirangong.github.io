@@ -9,6 +9,7 @@ group: nauknauk
 card_title: From root-cause to dashboard
 card_badge: 0 broken
 card_detail: Outcome-based failure metrics · survived migration
+card_image: /assets/projects/product-analytics-infrastructure/card-outcome-migration.svg
 featured: true
 importance: 2
 published: true

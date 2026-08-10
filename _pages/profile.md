@@ -30,18 +30,21 @@ description: Working across applied AI, cognitive science, and human behavior.
         </div>
         <div class="about-profile__availability">
           <p class="route-label">Open to</p>
-          <strong>2027 full-time roles</strong>
+          <strong>2027 full-time Product &amp; AI roles</strong>
         </div>
       </div>
       <div class="about-profile__bio">
         <p>
-          I am an aspiring product manager drawn to problems both human and technical.
+          I’m a product and AI builder drawn to problems that are both human and technical. At Barnard and Columbia, I study cognitive science and
+          computer science—two perspectives that shape how I understand people, model complex systems, and build technology.
         </p>
         <p>
-          I’m fascinated by how elegantly human modes of thinking — how to plan in uncertainty, why people collaborate although effortful -- can be formulated in mathematical models. That curiosity guides how I approach technology: grounded in how people live, and built to extend the mind.
+          I’m especially interested in how people plan under uncertainty and collaborate despite friction. That curiosity informs my approach to
+          product development: begin with how people actually behave, then use technology to make difficult work more intuitive.
         </p>
         <p>
-          Growing up in Shanghai, moving to New Orleans and New York, and spending a gap year traveling and interning taught me to adapt quickly and question my assumptions. Meaningful work to me means things that align with human values and equitably benefits diverse communities.
+          Growing up in Shanghai, moving to New Orleans and New York, and spending a gap year traveling and interning taught me to adapt quickly and
+          question my assumptions. I want to build products that respect human values and create meaningful benefits for diverse communities.
         </p>
       </div>
 
@@ -54,6 +57,7 @@ description: Working across applied AI, cognitive science, and human behavior.
         </ul>
       </aside>
     </div>
+
   </section>
 
   <section class="about-profile__contact" aria-labelledby="about-contact-title">

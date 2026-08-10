@@ -17,7 +17,9 @@
       <h3>{{ card_title }}</h3>
       {% if include.compact %}
         <p class="project-card__summary">{{ project.summary }}</p>
-        {% if project.card_detail %}<p class="project-card__metric">{{ project.card_detail }}</p>{% endif %}
+        {% if project.card_detail %}
+          <p class="project-card__metric">{{ project.card_detail }}</p>
+        {% endif %}
       {% elsif project.card_detail %}
         <p class="project-card__metric">{{ project.card_detail }}</p>
       {% elsif project.metrics and project.metrics.first %}

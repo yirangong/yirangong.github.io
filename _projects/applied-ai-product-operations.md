@@ -134,7 +134,24 @@ Fidelity gates for humanoid, semi-humanoid, and limbless toy anatomies.
 
 I used the product dashboard to connect model testing with workflow behaviour — generation success, fallback behaviour, and whether users moved from generating to publishing. A model could look strong in selected demonstrations and still expose a different pattern at real usage levels.
 
-[ADD: public-safe dashboard view]
+<figure>
+  <a
+    href="{{ '/projects/product-analytics-infrastructure/' | relative_url }}"
+    aria-label="Read the product analytics case study behind the production health dashboard"
+  >
+    <img
+      src="{{ '/assets/projects/product-analytics-infrastructure/dashboard-redacted-public.png' | relative_url }}"
+      alt="Redacted production health dashboard with volume, failure, success, conversion, recovery, user, and alert metrics"
+      loading="lazy"
+    >
+  </a>
+  <figcaption>
+    Production health view, redacted for confidentiality.
+    <a href="{{ '/projects/product-analytics-infrastructure/' | relative_url }}"
+      >See how I defined and built the analytics layer →</a
+    >
+  </figcaption>
+</figure>
 
 ## Reflection
 

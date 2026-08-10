@@ -49,8 +49,6 @@ We had no access to Reddit's API, so finding relevant users, preserving the cont
 
 Before building anything, I did the research the growth depended on. I reviewed roughly 100 posts, ran toy-community and market research, studied individual user profiles, and established an organic operating cadence grounded in anti-spam principles — so growth would never come at the cost of the community's trust.
 
-[ADD: Screenshot — post research and user-profile mapping notes]
-
 ## 03 / What I built
 
 **One paste captures a prospect, and the source post stays one click away.**

@@ -57,6 +57,7 @@ description: Working across applied AI, cognitive science, and human behavior.
         </ul>
       </aside>
     </div>
+
   </section>
 
   <section class="about-profile__contact" aria-labelledby="about-contact-title">

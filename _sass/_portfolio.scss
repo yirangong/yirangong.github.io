@@ -2140,6 +2140,19 @@ button:focus-visible {
   font-weight: 600;
 }
 
+.project-group__mark--image {
+  overflow: hidden;
+  padding: 4px;
+  background: #fff;
+  border: 1px solid var(--portfolio-hairline);
+}
+
+.project-group__mark--image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
 .project-group__identity-copy {
   min-width: 0;
 }
@@ -2734,8 +2747,28 @@ button:focus-visible {
   gap: 1.25rem 2.5rem;
   margin: 1.75rem 0 0;
 }
+.cs-meta--collaboration {
+  display: grid;
+  max-width: 760px;
+  grid-template-columns: minmax(0, 1.15fr) minmax(250px, 0.85fr);
+  gap: 0;
+  overflow: hidden;
+  background: var(--portfolio-paper);
+  border: 1px solid var(--portfolio-hairline);
+  border-radius: 16px;
+}
 .cs-meta div {
   margin: 0;
+}
+.cs-meta--collaboration .cs-meta__item {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem 1.15rem;
+}
+.cs-meta--collaboration .cs-meta__item--affiliation {
+  border-left: 1px solid var(--portfolio-hairline);
 }
 .cs-meta dt {
   margin: 0 0 0.25rem;
@@ -2751,16 +2784,89 @@ button:focus-visible {
   font-weight: 500;
 }
 
+.cs-meta__item--team dd {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.cs-meta__note {
+  color: var(--portfolio-muted);
+  font-size: 0.78rem;
+  font-weight: 400;
+}
+
 .cs-team-link {
   display: inline-flex;
   gap: 0.4rem;
   align-items: center;
+  color: var(--portfolio-ink);
+  text-decoration: none;
 }
 
 .cs-team-link img {
   width: 1.75rem;
   height: 1.75rem;
   object-fit: contain;
+}
+
+.cs-meta--collaboration .cs-team-link {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  gap: 0.75rem;
+}
+
+.cs-meta--collaboration .cs-team-link__mark {
+  display: inline-flex;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: 0 0 2.75rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2rem;
+  background: #fff;
+  border: 1px solid var(--portfolio-hairline);
+  border-radius: 50%;
+}
+
+.cs-meta--collaboration .cs-team-link__mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.cs-team-link__name {
+  min-width: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.cs-team-link__arrow {
+  margin-left: auto;
+  color: var(--portfolio-oxblood);
+  font-size: 0.9rem;
+}
+
+.cs-team-link:hover {
+  color: var(--portfolio-oxblood);
+  text-decoration: none;
+}
+
+.cs-meta--collaboration + .cs-links {
+  margin-top: 0.9rem;
+}
+
+@media (max-width: 620px) {
+  .cs-meta--collaboration {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cs-meta--collaboration .cs-meta__item--affiliation {
+    border-top: 1px solid var(--portfolio-hairline);
+    border-left: 0;
+  }
 }
 
 /* Shared experience chip (driven by _data/experience.yml via `experience:`) */
@@ -4795,8 +4901,17 @@ button:focus-visible {
   font-size: 1.05rem;
 }
 
+.project-group--compact .project-group__mark--image {
+  padding: 4px;
+  background: #fff;
+}
+
 .project-group--compact:nth-child(2) .project-group__mark {
   background: var(--portfolio-oxblood);
+}
+
+.project-group--compact:nth-child(2) .project-group__mark--image {
+  background: #fff;
 }
 
 .project-group--compact .project-group__eyebrow {

@@ -31,11 +31,33 @@ The paper asks whether language simply reflects social cognition or also support
 
 ## 02 / Models compared
 
-- **Symbolic models** make rules explicit and interpretable, but struggle when a listener's knowledge is uncertain.
-- **Bayesian inverse planning and Theory of Mind** infer beliefs and goals by reasoning backward from observed actions.
-- **Rational Speech Act models** formalize recursive speaker-listener reasoning to explain context-dependent meaning.
-- **Response-time models** use choices and decision times to infer another person's preferences and processing style.
-- **Capacity-limited Bayesian RL and LLM-based agents** offer complementary accounts of cognitive constraints and adaptive social behavior.
+<ol class="model-comparison" aria-label="Computational models compared">
+  <li>
+    <span class="model-comparison__index" aria-hidden="true">01</span>
+    <h3>Symbolic models</h3>
+    <p>Make rules explicit and interpretable, but struggle when a listener's knowledge is uncertain.</p>
+  </li>
+  <li>
+    <span class="model-comparison__index" aria-hidden="true">02</span>
+    <h3>Bayesian inverse planning and Theory of Mind</h3>
+    <p>Infer beliefs and goals by reasoning backward from observed actions.</p>
+  </li>
+  <li>
+    <span class="model-comparison__index" aria-hidden="true">03</span>
+    <h3>Rational Speech Act models</h3>
+    <p>Formalize recursive speaker-listener reasoning to explain context-dependent meaning.</p>
+  </li>
+  <li>
+    <span class="model-comparison__index" aria-hidden="true">04</span>
+    <h3>Response-time models</h3>
+    <p>Use choices and decision times to infer another person's preferences and processing style.</p>
+  </li>
+  <li>
+    <span class="model-comparison__index" aria-hidden="true">05</span>
+    <h3>Capacity-limited Bayesian RL and LLM-based agents</h3>
+    <p>Offer complementary accounts of cognitive constraints and adaptive social behavior.</p>
+  </li>
+</ol>
 
 ## 03 / What the comparison reveals
 

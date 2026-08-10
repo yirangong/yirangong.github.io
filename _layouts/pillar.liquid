@@ -38,9 +38,12 @@ layout: default
     {% endif %}
   </section>
 
-  <aside class="observe-bridge">
-    <span>OBSERVE / BEFORE THE WORK</span>
-    <p>{{ page.observe_text }}</p>
-    <a href="{{ '/field-notes/' | relative_url }}">Open field notes ↗</a>
-  </aside>
+  {% comment %}
+    Field Notes is temporarily unpublished. Restore this bridge when the section is ready.
+    <aside class="observe-bridge">
+      <span>OBSERVE / BEFORE THE WORK</span>
+      <p>{{ page.observe_text }}</p>
+      <a href="{{ '/field-notes/' | relative_url }}">Open field notes ↗</a>
+    </aside>
+  {% endcomment %}
 </main>

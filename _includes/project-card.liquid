@@ -4,15 +4,16 @@
   <a class="project-card__link" href="{{ project.url | relative_url }}" aria-label="Read {{ project.title }}">
     {% unless include.compact %}
       {% if project.card_image %}
-        <img
-          class="project-card__preview"
-          src="{{ project.card_image | relative_url }}"
-          alt=""
-          width="1200"
-          height="570"
-          loading="lazy"
-          aria-hidden="true"
-        >
+        <div class="project-card__preview" aria-hidden="true">
+          <img
+            class="project-card__preview-image"
+            src="{{ project.card_image | relative_url }}"
+            alt=""
+            width="1200"
+            height="570"
+            loading="lazy"
+          >
+        </div>
       {% else %}
         <div class="project-card__preview" aria-hidden="true"></div>
       {% endif %}

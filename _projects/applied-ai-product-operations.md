@@ -9,7 +9,7 @@ group: nauknauk
 card_title: End to end AI workflow shipping generative video feature
 card_badge: "~60%"
 card_detail: "5+ workflows shipped · 10,000+ users reached daily"
-card_image: /assets/projects/applied-ai-product-operations/hero-workflow.png
+card_image: /assets/projects/applied-ai-product-operations/card-kaiju-transformation.webp
 featured: true
 importance: 1
 published: true

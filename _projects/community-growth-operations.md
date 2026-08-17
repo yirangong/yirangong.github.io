@@ -7,7 +7,6 @@ summary: Combined community research, authentic participation, lightweight tooli
 experience: nauknauk
 group: nauknauk
 card_title: Growth without automating away trust
-card_badge: 500+
 card_detail: 0 → 500+ members · 200+ prospects tracked
 card_image: /assets/projects/community-growth-operations/card-storywithtoys-snoo-hifi.webp
 featured: true

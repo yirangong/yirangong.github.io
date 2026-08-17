@@ -4,11 +4,10 @@
 nauknauk:
   pillar: build
   experience: nauknauk
+  editorial: true
   mark: N
   mark_image: /assets/img/brands/nauknauk-icon.jpg
   eyebrow: Internship
-  context_label: About the work
-  scope_label: Role scope
   scope_note: Zero-to-one · AI-native
   link_label: Visit nauknauk.io
 

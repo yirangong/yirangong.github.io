@@ -15,18 +15,11 @@
 {% assign group_mark = group.mark | default: group_name | slice: 0 %}
 
 <section
-  class="project-group project-group--{{ group.pillar | default: page.pillar }}{% if group.compact %} project-group--compact{% endif %}"
+  class="project-group project-group--{{ group.pillar | default: page.pillar }}{% if group.compact %} project-group--compact{% endif %}{% if group.editorial %} project-group--editorial{% endif %}"
   aria-labelledby="project-group-{{ include.group_key }}"
 >
-  <header class="project-group__header">
-    <div class="project-group__identity">
-      <span class="project-group__mark{% if group.mark_image %} project-group__mark--image{% endif %}" aria-hidden="true">
-        {% if group.mark_image %}
-          <img src="{{ group.mark_image | relative_url }}" alt="">
-        {% else %}
-          {{ group_mark }}
-        {% endif %}
-      </span>
+  {% if group.editorial %}
+    <header class="project-group__header project-group__header--editorial">
       <div class="project-group__identity-copy">
         <p class="project-group__eyebrow">
           <span>{{ group.eyebrow }}</span>
@@ -34,55 +27,105 @@
             <span>{{ group_timeframe }}</span>
           {%- endif %}
         </p>
-        <h2 id="project-group-{{ include.group_key }}">{{ group_name }}</h2>
-        {% if group_role or group_reporting %}
-          <p class="project-group__meta">
-            {% if group_role -%}
-              <span>{{ group_role }}</span>
-            {%- endif %}
-            {% if group_reporting -%}
-              <span>{{ group_reporting }}</span>
-            {%- endif %}
-          </p>
+        <div class="project-group__brand">
+          <span class="project-group__mark{% if group.mark_image %} project-group__mark--image{% endif %}" aria-hidden="true">
+            {% if group.mark_image %}
+              <img src="{{ group.mark_image | relative_url }}" alt="">
+            {% else %}
+              {{ group_mark }}
+            {% endif %}
+          </span>
+          <h2 id="project-group-{{ include.group_key }}">{{ group_name }}</h2>
+        </div>
+      </div>
+
+      {% if group_url %}
+        <a class="project-group__link" href="{{ group_url }}" target="_blank" rel="noopener">
+          {{ group.link_label | default: group_url }}
+          <span aria-hidden="true">↗</span>
+        </a>
+      {% endif %}
+    </header>
+
+    <div class="project-group__editorial-context">
+      <div class="project-group__story">
+        {% if group_role %}
+          <p class="project-group__fact-label">{{ group_role }}</p>
+        {% endif %}
+        {% if group_context %}
+          <p class="project-group__lede">{{ group_context }}</p>
         {% endif %}
       </div>
     </div>
-
-    {% if group_url %}
-      <a class="project-group__link" href="{{ group_url }}" target="_blank" rel="noopener">
-        {{ group.link_label | default: group_url }}
-        <span aria-hidden="true">↗</span>
-      </a>
-    {% endif %}
-  </header>
-
-  {% if group.compact and group_context %}
-    <div class="project-group__focus{% if group.focus_tone == 'accent' %} project-group__focus--accent{% endif %}">
-      <p>{{ group_context }}</p>
-      {% if group_scope -%}
-        <span>{{ group_scope }}</span>
-      {%- endif %}
-    </div>
-  {% elsif group_context or group_scope %}
-    <div class="project-group__context">
-      {% if group_context %}
-        <div class="project-group__context-main">
-          <p class="project-group__label">{{ group.context_label | default: 'About the work' }}</p>
-          <p>{{ group_context }}</p>
+  {% else %}
+    <header class="project-group__header">
+      <div class="project-group__identity">
+        <span class="project-group__mark{% if group.mark_image %} project-group__mark--image{% endif %}" aria-hidden="true">
+          {% if group.mark_image %}
+            <img src="{{ group.mark_image | relative_url }}" alt="">
+          {% else %}
+            {{ group_mark }}
+          {% endif %}
+        </span>
+        <div class="project-group__identity-copy">
+          <p class="project-group__eyebrow">
+            <span>{{ group.eyebrow }}</span>
+            {% if group_timeframe -%}
+              <span>{{ group_timeframe }}</span>
+            {%- endif %}
+          </p>
+          <h2 id="project-group-{{ include.group_key }}">{{ group_name }}</h2>
+          {% if group_role or group_reporting %}
+            <p class="project-group__meta">
+              {% if group_role -%}
+                <span>{{ group_role }}</span>
+              {%- endif %}
+              {% if group_reporting -%}
+                <span>{{ group_reporting }}</span>
+              {%- endif %}
+            </p>
+          {% endif %}
         </div>
-      {% endif %}
+      </div>
 
-      {% if group_scope %}
-        <div class="project-group__context-scope">
-          <p class="project-group__label">{{ group.scope_label | default: 'Scope' }}</p>
-          <p>{{ group_scope }}</p>
-          {% if group.scope_note -%}
-            <span>{{ group.scope_note }}</span>
-          {%- endif %}
-        </div>
+      {% if group_url %}
+        <a class="project-group__link" href="{{ group_url }}" target="_blank" rel="noopener">
+          {{ group.link_label | default: group_url }}
+          <span aria-hidden="true">↗</span>
+        </a>
       {% endif %}
-    </div>
+    </header>
   {% endif %}
+
+  {% unless group.editorial %}
+    {% if group.compact and group_context %}
+      <div class="project-group__focus{% if group.focus_tone == 'accent' %} project-group__focus--accent{% endif %}">
+        <p>{{ group_context }}</p>
+        {% if group_scope -%}
+          <span>{{ group_scope }}</span>
+        {%- endif %}
+      </div>
+    {% elsif group_context or group_scope %}
+      <div class="project-group__context">
+        {% if group_context %}
+          <div class="project-group__context-main">
+            <p class="project-group__label">{{ group.context_label | default: 'About the work' }}</p>
+            <p>{{ group_context }}</p>
+          </div>
+        {% endif %}
+
+        {% if group_scope %}
+          <div class="project-group__context-scope">
+            <p class="project-group__label">{{ group.scope_label | default: 'Scope' }}</p>
+            <p>{{ group_scope }}</p>
+            {% if group.scope_note -%}
+              <span>{{ group.scope_note }}</span>
+            {%- endif %}
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+  {% endunless %}
 
   {% if projects.size > 0 %}
     <div class="project-index project-index--grouped">

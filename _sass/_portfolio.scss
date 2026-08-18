@@ -2408,7 +2408,7 @@ button:focus-visible {
 
 .project-group .project-card,
 .project-index--standalone .project-card {
-  background: rgba(255, 255, 255, 0.88);
+  background: var(--portfolio-paper);
   border-color: var(--portfolio-concrete-light);
   border-radius: 16px;
   box-shadow: 0 1px 8px rgba(29, 33, 29, 0.06);

@@ -14,7 +14,7 @@ footer_text: >
   Build · Understand · Observe
 keywords: applied ai, ai workflows, cognitive science, human collaboration, portfolio
 lang: en # the language of your site (for example: en, fr, cn, ru, etc.)
-icon: YG # the emoji used as the favicon (alternatively, provide image name in /assets/img/)
+icon: 🧠 # the emoji used as the favicon (alternatively, provide image name in /assets/img/)
 
 url: https://yirangong.github.io # the base hostname & protocol for your site
 baseurl: # the subpath of your site, e.g. /blog/. Leave blank for root

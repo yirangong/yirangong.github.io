@@ -90,43 +90,45 @@ layout: default
           </div>
 
           {% if exp %}
-            <details class="cs-experience">
-              <summary class="cs-experience__chip">
-                <span class="cs-experience__company">{{ exp.company }}</span>
-                {% if exp.role -%}
-                  <span class="cs-experience__role">&middot; {{ exp.role }}</span>
-                {%- endif %}
-                {% if exp.timeframe -%}
-                  <span class="cs-experience__when">&middot; {{ exp.timeframe }}</span>
-                {%- endif %}
-                <span class="cs-experience__more" aria-hidden="true">About the role &darr;</span>
-              </summary>
-              <div class="cs-experience__body">
-                {% if exp.reporting %}
-                  <p class="cs-experience__reporting">{{ exp.reporting }}</p>
-                {% endif %}
-                {% if exp.scope %}
-                  <p class="cs-experience__scope">{{ exp.scope }}</p>
-                {% endif %}
-                {% if exp.blurb %}
-                  <p class="cs-experience__blurb">{{ exp.blurb }}</p>
-                {% endif %}
-                {% if page.team %}
-                  <p class="cs-experience__team">
-                    <strong>Team:</strong> {{ page.team }}
-                    {% if page.team_url and page.team_link_label %}
-                      &middot;
-                      <a class="cs-team-link" href="{{ page.team_url }}" target="_blank" rel="noopener">
-                        {% if page.team_icon %}
-                          <img src="{{ page.team_icon | relative_url }}" alt="" aria-hidden="true">
-                        {% endif %}
-                        {{ page.team_link_label }}
-                      </a>
-                    {% endif %}
-                  </p>
-                {% endif %}
-              </div>
-            </details>
+            {% unless page.pillar == 'build' %}
+              <details class="cs-experience">
+                <summary class="cs-experience__chip">
+                  <span class="cs-experience__company">{{ exp.company }}</span>
+                  {% if exp.role -%}
+                    <span class="cs-experience__role">&middot; {{ exp.role }}</span>
+                  {%- endif %}
+                  {% if exp.timeframe -%}
+                    <span class="cs-experience__when">&middot; {{ exp.timeframe }}</span>
+                  {%- endif %}
+                  <span class="cs-experience__more" aria-hidden="true">About the role &darr;</span>
+                </summary>
+                <div class="cs-experience__body">
+                  {% if exp.reporting %}
+                    <p class="cs-experience__reporting">{{ exp.reporting }}</p>
+                  {% endif %}
+                  {% if exp.scope %}
+                    <p class="cs-experience__scope">{{ exp.scope }}</p>
+                  {% endif %}
+                  {% if exp.blurb %}
+                    <p class="cs-experience__blurb">{{ exp.blurb }}</p>
+                  {% endif %}
+                  {% if page.team %}
+                    <p class="cs-experience__team">
+                      <strong>Team:</strong> {{ page.team }}
+                      {% if page.team_url and page.team_link_label %}
+                        &middot;
+                        <a class="cs-team-link" href="{{ page.team_url }}" target="_blank" rel="noopener">
+                          {% if page.team_icon %}
+                            <img src="{{ page.team_icon | relative_url }}" alt="" aria-hidden="true">
+                          {% endif %}
+                          {{ page.team_link_label }}
+                        </a>
+                      {% endif %}
+                    </p>
+                  {% endif %}
+                </div>
+              </details>
+            {% endunless %}
           {% elsif page.role or page.company or page.timeframe or page.team %}
             {% comment %}
               Guarded: with none of these set the <dl> still rendered,

@@ -9,7 +9,9 @@
         class="portfolio-brand"
         href="{{ '/' | relative_url }}"
         aria-label="Yiran Gong, home"
-        {% if page.url == '/' %}aria-current="page"{% endif %}
+        {% if page.url == '/' %}
+          aria-current="page"
+        {% endif %}
       >
         <span class="portfolio-brand__name">Yiran Gong</span>
       </a>
@@ -35,7 +37,9 @@
             <a
               class="nav-link"
               href="{{ '/about/' | relative_url }}"
-              {% if page.url contains '/about/' %}aria-current="page"{% endif %}
+              {% if page.url contains '/about/' %}
+                aria-current="page"
+              {% endif %}
             >
               about me
             </a>
@@ -44,7 +48,9 @@
             <a
               class="nav-link"
               href="{{ '/build/' | relative_url }}"
-              {% if page.url contains '/build/' or page.pillar == 'build' %}aria-current="page"{% endif %}
+              {% if page.url contains '/build/' or page.pillar == 'build' %}
+                aria-current="page"
+              {% endif %}
             >
               building...
             </a>
@@ -53,7 +59,9 @@
             <a
               class="nav-link"
               href="{{ '/understand/' | relative_url }}"
-              {% if page.url contains '/understand/' or page.pillar == 'understand' %}aria-current="page"{% endif %}
+              {% if page.url contains '/understand/' or page.pillar == 'understand' %}
+                aria-current="page"
+              {% endif %}
             >
               understanding...
             </a>

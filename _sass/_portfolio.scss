@@ -2656,20 +2656,63 @@ body.page-about-profile {
 }
 
 .cs__back {
-  display: inline-flex;
+  display: grid;
+  grid-template-columns: 1.75rem minmax(0, 1fr);
+  width: 100%;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.7rem;
   margin-bottom: 1.75rem;
-  padding: 0.4rem 0.95rem;
-  font-size: 0.82rem;
-  font-weight: 500;
+  padding: 0.75rem 0.2rem 0.85rem 0;
+  border-top: 2px solid var(--portfolio-ink);
+  border-bottom: 1px solid var(--portfolio-hairline);
   color: var(--portfolio-ink);
   text-decoration: none;
-  border: 1px solid var(--portfolio-hairline-strong);
-  border-radius: var(--portfolio-radius);
   transition:
-    background 0.15s ease,
-    border-color 0.15s ease;
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+.cs__back:hover {
+  border-top-color: var(--portfolio-active);
+  color: var(--portfolio-active);
+  text-decoration: none;
+}
+.cs__back:focus-visible {
+  outline: 2px solid var(--portfolio-active);
+  outline-offset: 4px;
+}
+.cs__back-icon {
+  display: inline-flex;
+  width: 1.75rem;
+  height: 1.75rem;
+  align-items: center;
+  justify-content: center;
+  color: var(--portfolio-active);
+  font-size: 1.1rem;
+  transition: transform 0.15s ease;
+}
+.cs__back:hover .cs__back-icon {
+  transform: translateX(-3px);
+}
+.cs__back-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+.cs__back-label {
+  color: var(--portfolio-muted);
+  font-family: var(--portfolio-mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+.cs__back-title {
+  color: inherit;
+  font-family: var(--portfolio-display);
+  font-size: 0.88rem;
+  font-weight: 600;
+  line-height: 1.25;
 }
 
 .cs__nav ol {
@@ -2846,9 +2889,30 @@ body.page-about-profile {
   }
 
   .cs__back {
+    display: inline-grid;
+    grid-template-columns: auto auto;
+    width: auto;
     flex: 0 0 auto;
+    gap: 0.5rem;
     margin-bottom: 0;
+    padding: 0.5rem 0.75rem;
+    background: var(--portfolio-surface);
+    border: 1px solid var(--portfolio-hairline-strong);
+    border-radius: 999px;
     white-space: nowrap;
+  }
+
+  .cs__back-icon {
+    width: auto;
+    height: auto;
+  }
+
+  .cs__back-label {
+    display: none;
+  }
+
+  .cs__back-title {
+    font-size: 0.78rem;
   }
 
   .cs__nav {
@@ -4266,25 +4330,6 @@ body.page-about-profile {
 .roadmap-body th {
   background: var(--portfolio-paper-deep);
   font-weight: 600;
-}
-
-/* Footer nav */
-.cs-footer {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-top: 2.5rem;
-  padding-top: 1.75rem;
-  border-top: 1px solid var(--portfolio-hairline);
-  font-size: 0.9rem;
-}
-.cs-footer a {
-  color: var(--portfolio-ink);
-  text-decoration: none;
-}
-.cs-footer a:hover {
-  color: var(--portfolio-accent);
 }
 
 @media (max-width: 720px) {

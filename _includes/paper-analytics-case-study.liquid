@@ -1,7 +1,13 @@
 <main class="pa-case-study">
   <div class="pa-shell">
     <aside class="pa-rail cs__rail" aria-label="Case study sections">
-      <a class="cs__back" href="{{ '/build/' | relative_url }}"> <span aria-hidden="true">&larr;</span> Build </a>
+      <a class="cs__back" href="{{ '/build/' | relative_url }}" aria-label="Back to all Build projects">
+        <span class="cs__back-icon" aria-hidden="true">&larr;</span>
+        <span class="cs__back-copy">
+          <span class="cs__back-label">Project index</span>
+          <span class="cs__back-title">All Build projects</span>
+        </span>
+      </a>
       <nav class="cs__nav" aria-label="On this page">
         <ol>
           <li><a class="pa-rail__link is-active" href="#tldr" data-pa-target="tldr">TL;DR</a></li>

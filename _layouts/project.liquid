@@ -8,8 +8,16 @@ layout: default
     <div class="cs__shell">
       <!-- LEFT: sticky section nav (list filled by the script below) -->
       <aside class="cs__rail" aria-label="Section navigation">
-        <a class="cs__back" href="{{ '/' | append: page.pillar | append: '/' | relative_url }}">
-          <span aria-hidden="true">&larr;</span> {{ page.pillar | capitalize }}
+        <a
+          class="cs__back"
+          href="{{ '/' | append: page.pillar | append: '/' | relative_url }}"
+          aria-label="Back to all {{ page.pillar | capitalize }} projects"
+        >
+          <span class="cs__back-icon" aria-hidden="true">&larr;</span>
+          <span class="cs__back-copy">
+            <span class="cs__back-label">Project index</span>
+            <span class="cs__back-title">All {{ page.pillar | capitalize }} projects</span>
+          </span>
         </a>
         <nav class="cs__nav" aria-label="On this page"><ol></ol></nav>
       </aside>
@@ -357,11 +365,6 @@ layout: default
             </div>
           </section>
         {% endif %}
-
-        <nav class="cs-footer" aria-label="Case study navigation">
-          <a href="{{ '/' | append: page.pillar | append: '/' | relative_url }}">&larr; Back to {{ page.pillar | capitalize }}</a>
-          <a href="{{ '/field-notes/' | relative_url }}">Field notes &#8599;</a>
-        </nav>
       </div>
     </div>
   </main>

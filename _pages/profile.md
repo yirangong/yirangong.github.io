@@ -7,6 +7,7 @@ nav_order: 4
 nav_index: "04"
 permalink: /about/
 description: Working across applied AI, cognitive science, and human behavior.
+body_class: page-about-profile
 ---
 
 <main class="about-profile">

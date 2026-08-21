@@ -18,7 +18,7 @@
   <!-- Body -->
   <body
     id="top"
-    class="{% if site.navbar_fixed %}fixed-top-nav{% endif %} {% unless site.footer_fixed %}sticky-bottom-footer{% endunless %} page-{{ page.layout }}{% if page.paper_design %} paper-design paper-design--{{ page.paper_design }}{% endif %}"
+    class="{% if site.navbar_fixed %}fixed-top-nav{% endif %} {% unless site.footer_fixed %}sticky-bottom-footer{% endunless %} page-{{ page.layout }}{% if page.body_class %} {{ page.body_class }}{% endif %}{% if page.paper_design %} paper-design paper-design--{{ page.paper_design }}{% endif %}"
   >
     <!-- Header -->
     {% include header.liquid %}

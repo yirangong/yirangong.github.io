@@ -113,6 +113,7 @@ button:focus-visible {
   width: max-content;
   max-width: calc(100vw - 32px);
   min-height: 0;
+  align-items: center;
   padding: 5px;
   border: 1px solid var(--portfolio-hairline);
   border-radius: 18px;
@@ -124,19 +125,17 @@ button:focus-visible {
 }
 
 .portfolio-nav {
-  display: grid;
+  display: flex;
   width: auto;
   max-width: none;
-  min-height: 40px;
-  grid-template-columns: auto auto auto;
+  height: 40px;
   align-items: center;
   padding: 0;
 }
 
-.portfolio-brand,
-.portfolio-nav__spacer {
+.portfolio-brand {
   display: inline-flex;
-  min-height: 40px;
+  height: 40px;
   align-items: center;
   padding: 0 15px 0 13px;
   color: var(--portfolio-ink);
@@ -144,14 +143,10 @@ button:focus-visible {
   font-size: 0.9rem;
   font-weight: 600;
   letter-spacing: 0;
+  line-height: 1;
   text-decoration: none;
   text-transform: none;
   white-space: nowrap;
-}
-
-.portfolio-nav__spacer {
-  visibility: hidden;
-  pointer-events: none;
 }
 
 .portfolio-brand:hover,
@@ -161,23 +156,29 @@ button:focus-visible {
 }
 
 .portfolio-nav__links {
+  align-self: center;
+  align-items: center;
   flex-basis: auto;
 }
 
 .site-header .navbar-nav {
+  height: 40px;
   align-items: center;
   gap: 1px;
+  margin: 0;
+  padding: 0;
 }
 
 .site-header .nav-item {
   display: flex;
+  height: 40px;
   align-items: center;
   margin: 0;
 }
 
 .site-header .nav-link {
   display: flex;
-  min-height: 40px;
+  height: 40px;
   align-items: center;
   padding: 0 11px !important;
   border-radius: 12px;
@@ -185,6 +186,7 @@ button:focus-visible {
   font-size: 0.82rem;
   font-weight: 500;
   letter-spacing: 0.01em;
+  line-height: 1;
   text-transform: none;
   white-space: nowrap;
   transition:
@@ -1759,14 +1761,9 @@ body.page-about-profile {
   }
 
   .portfolio-nav {
-    display: flex;
     position: relative;
     width: 100%;
     justify-content: space-between;
-  }
-
-  .portfolio-nav__spacer {
-    display: none;
   }
 
   .portfolio-brand {
@@ -1789,6 +1786,7 @@ body.page-about-profile {
   }
 
   .site-header .navbar-nav {
+    height: auto;
     align-items: stretch;
   }
 

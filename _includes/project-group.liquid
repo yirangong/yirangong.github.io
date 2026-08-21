@@ -12,7 +12,10 @@
 {% assign group_url = group.url | default: exp.url %}
 {% assign group_context = group.context | default: exp.hub_blurb | default: exp.blurb | default: page.description %}
 {% assign group_scope = group.scope | default: exp.hub_scope | default: exp.scope | default: page.supporting_text %}
-{% assign group_mark = group.mark | default: group_name | slice: 0 %}
+{% assign group_mark = group.mark %}
+{% unless group_mark %}
+  {% assign group_mark = group_name | slice: 0 %}
+{% endunless %}
 
 <section
   class="project-group project-group--{{ group.pillar | default: page.pillar }}{% if group.compact %} project-group--compact{% endif %}{% if group.editorial %} project-group--editorial{% endif %}"

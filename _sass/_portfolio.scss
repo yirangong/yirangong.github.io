@@ -124,15 +124,17 @@ button:focus-visible {
 }
 
 .portfolio-nav {
-  display: flex;
+  display: grid;
   width: auto;
   max-width: none;
   min-height: 40px;
+  grid-template-columns: auto auto auto;
   align-items: center;
   padding: 0;
 }
 
-.portfolio-brand {
+.portfolio-brand,
+.portfolio-nav__spacer {
   display: inline-flex;
   min-height: 40px;
   align-items: center;
@@ -145,6 +147,11 @@ button:focus-visible {
   text-decoration: none;
   text-transform: none;
   white-space: nowrap;
+}
+
+.portfolio-nav__spacer {
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .portfolio-brand:hover,
@@ -1752,9 +1759,14 @@ body.page-about-profile {
   }
 
   .portfolio-nav {
+    display: flex;
     position: relative;
     width: 100%;
     justify-content: space-between;
+  }
+
+  .portfolio-nav__spacer {
+    display: none;
   }
 
   .portfolio-brand {

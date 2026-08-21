@@ -1,40 +1,21 @@
-<header class="site-header">
+<header class="site-header portfolio-header">
   <nav
     id="navbar"
     class="navbar navbar-light navbar-expand-md {% if site.navbar_fixed %}fixed-top{% else %}sticky-top{% endif %}"
     aria-label="Primary navigation"
   >
-    {% assign sorted_pages = site.pages | sort: 'nav_order' %}
     <div class="container portfolio-nav">
-      <div class="portfolio-nav__left">
-        <a class="portfolio-brand" href="{{ '/' | relative_url }}" aria-label="Yiran Gong, home">
-          <span class="portfolio-brand__mark">YG</span>
-          <span class="portfolio-brand__name">Yiran Gong</span>
-        </a>
-
-        <ul class="portfolio-brand-nav">
-          {% for p in sorted_pages %}
-            {% if p.nav and p.autogen == null %}
-              {% if p.permalink == '/about/' or p.permalink == '/cv/' %}
-                {% assign parent_link = p.permalink | remove: 'index.html' %}
-                {% assign nav_active = false %}
-                {% if page.url contains parent_link %}{% assign nav_active = true %}{% endif %}
-                <li class="nav-item {% if nav_active %}active{% endif %}">
-                  <a class="nav-link" href="{{ p.url | relative_url }}">
-                    <span>{{ p.nav_label | default: p.title }}</span>
-                    {% if nav_active -%}
-                      <span class="sr-only">(current)</span>
-                    {%- endif %}
-                  </a>
-                </li>
-              {% endif %}
-            {% endif %}
-          {% endfor %}
-        </ul>
-      </div>
+      <a
+        class="portfolio-brand"
+        href="{{ '/' | relative_url }}"
+        aria-label="Yiran Gong, home"
+        {% if page.url == '/' %}aria-current="page"{% endif %}
+      >
+        <span class="portfolio-brand__name">Yiran Gong</span>
+      </a>
 
       <button
-        class="navbar-toggler collapsed ml-auto"
+        class="navbar-toggler collapsed"
         type="button"
         data-toggle="collapse"
         data-target="#navbarNav"
@@ -48,26 +29,43 @@
         <span class="icon-bar bottom-bar"></span>
       </button>
 
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-          {% for p in sorted_pages %}
-            {% if p.nav and p.autogen == null %}
-              {% unless p.permalink == '/about/' or p.permalink == '/cv/' %}
-                {% assign parent_link = p.permalink | remove: 'index.html' %}
-                {% assign nav_active = false %}
-                {% if page.url contains parent_link %}{% assign nav_active = true %}{% endif %}
-                {% if page.pillar and p.pillar == page.pillar %}{% assign nav_active = true %}{% endif %}
-                <li class="nav-item {% if nav_active %}active{% endif %}">
-                  <a class="nav-link" href="{{ p.url | relative_url }}">
-                    <span>{{ p.nav_label | default: p.title }}</span>
-                    {% if nav_active -%}
-                      <span class="sr-only">(current)</span>
-                    {%- endif %}
-                  </a>
-                </li>
-              {% endunless %}
-            {% endif %}
-          {% endfor %}
+      <div class="collapse navbar-collapse portfolio-nav__links" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item {% if page.url contains '/about/' %}active{% endif %}">
+            <a
+              class="nav-link"
+              href="{{ '/about/' | relative_url }}"
+              {% if page.url contains '/about/' %}aria-current="page"{% endif %}
+            >
+              about me
+            </a>
+          </li>
+          <li class="nav-item {% if page.url contains '/build/' or page.pillar == 'build' %}active{% endif %}">
+            <a
+              class="nav-link"
+              href="{{ '/build/' | relative_url }}"
+              {% if page.url contains '/build/' or page.pillar == 'build' %}aria-current="page"{% endif %}
+            >
+              building...
+            </a>
+          </li>
+          <li class="nav-item {% if page.url contains '/understand/' or page.pillar == 'understand' %}active{% endif %}">
+            <a
+              class="nav-link"
+              href="{{ '/understand/' | relative_url }}"
+              {% if page.url contains '/understand/' or page.pillar == 'understand' %}aria-current="page"{% endif %}
+            >
+              understanding...
+            </a>
+          </li>
+
+          {% comment %}
+            Reserved CTA slot. Restore this list item when the destination and
+            label are ready.
+            <li class="nav-item portfolio-nav__cta">
+              <a class="nav-link" href="mailto:{{ site.data.socials.email }}">Get in touch</a>
+            </li>
+          {% endcomment %}
         </ul>
       </div>
     </div>

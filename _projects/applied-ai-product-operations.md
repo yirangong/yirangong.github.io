@@ -7,18 +7,18 @@ summary: >-
   I turned toy-character motion ideas into 5+ production workflows by sequencing image-prep and video models, defining anatomy-aware evaluations, and adding fallback and monitoring. The workflows reached 10K+ users per day with ~60% generation-to-publish conversion.
 experience: nauknauk
 group: nauknauk
-card_title: Shipped 5+ AI video workflows from concept to production
-card_detail: "10K+ users/day · ~60% generation-to-publish conversion"
+card_title: Shipped AI video workflows from concept to production for 1M+ users
+card_detail: "prototyped with multi-modal generative models, defined anatomy-specific fidelity gates, shipped toy-specific fallback modes"
 card_image: /assets/projects/applied-ai-product-operations/card-kaiju-transformation.webp
 featured: true
 importance: 1
 published: true
 status: published
 skills:
-  - AI product strategy
+  - Product strategy
   - Model evaluation & selection
-  - AI workflow architecture
-  - Experimentation & launch
+  - Prompt engineering
+  - Latency, cost, quality tradeoff
   - Reliability & fallback design
 metrics:
   - value: "5+"

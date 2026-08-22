@@ -4,11 +4,11 @@ title: Growing a Reddit community from 0 to 500+ without automating trust
 pillar: build
 kind: Growth product · Community operations
 summary: >-
-  I grounded growth in research across ~100 posts, used Codex to build a lightweight outreach tracker, and cut AI from message writing when testing showed it added cost but not value. The system supported 200+ prospects and grew r/StoryWithToys from 0 to 500+ members organically in four months.
+  I grounded growth in research across ~100 posts, used Codex to build a lightweight outreach tracker, and cut AI from message writing when testing showed it added cost but not value. The system supported 200+ prospects and grew r/StoryWithToys from 0 to 500+ members in four months -- still growing organically.
 experience: nauknauk
 group: nauknauk
-card_title: Built a human-in-the-loop growth system for Reddit
-card_detail: 500+ members in 4 months · 200+ prospects tracked
+card_title: Built a human-in-the-loop growth system for community operations
+card_detail: internal tooling · user research · automations
 card_image: /assets/projects/community-growth-operations/card-storywithtoys-snoo-hifi.webp
 featured: true
 importance: 3

@@ -35,8 +35,8 @@ nyu-collaboration:
 computational-decision-making:
   pillar: understand
   compact: true
-  focus_tone: accent
   mark: "02"
+  mark_image: /assets/img/brands/barnard-college-crest.png
   eyebrow: Barnard coursework · Cognitive science
   name: Computational Models of Decision-Making
   role: Independent final paper · Spring 2025

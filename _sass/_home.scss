@@ -598,3 +598,18 @@
     line-height: 1.18;
   }
 }
+
+/*
+ * On desktop the floating nav is intentionally allowed to overlap the hero.
+ * Removing the framework's nav clearance and the hero's duplicate top padding
+ * makes the initial viewport match the intended above-the-fold composition.
+ */
+@media (min-width: 901px) {
+  body.page-home.fixed-top-nav {
+    padding-top: 0;
+  }
+
+  .home-pavilion .home-hero {
+    padding-top: 0;
+  }
+}

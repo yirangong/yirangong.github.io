@@ -8,7 +8,7 @@ summary: >-
 experience: nauknauk
 group: nauknauk
 card_title: Shipped AI video workflows from concept to production for 1M+ users
-card_detail: "prototyped with multi-modal generative models, defined anatomy-specific fidelity gates, shipped toy-specific fallback modes"
+card_detail: "multi-modal generative models & user-specific evals"
 card_image: /assets/projects/applied-ai-product-operations/card-kaiju-transformation.webp
 featured: true
 importance: 1

@@ -1,39 +1,47 @@
 ---
 layout: project
-title: Building a community-growth system without automating away trust
+title: Growing a Reddit community from 0 to 500+ without automating trust
 pillar: build
-kind: Community growth · Product operations
-summary: Combined community research, authentic participation, lightweight tooling, and measurement to grow an early creative-AI community from zero — without automating away the trust it ran on.
+kind: Growth product · Community operations
+summary: >-
+  I grounded growth in research across ~100 posts, used Codex to build a lightweight outreach tracker, and cut AI from message writing when testing showed it added cost but not value. The system supported 200+ prospects and grew r/StoryWithToys from 0 to 500+ members organically in four months.
 experience: nauknauk
 group: nauknauk
-card_title: Growth without automating away trust
-card_detail: 0 → 500+ members · 200+ prospects tracked
+card_title: Built a human-in-the-loop growth system for Reddit
+card_detail: 500+ members in 4 months · 200+ prospects tracked
 card_image: /assets/projects/community-growth-operations/card-storywithtoys-snoo-hifi.webp
 featured: true
 importance: 3
 published: true
+status: published
 skills:
-  - "0-1"
-  - "Internal tools"
-  - "Rapid prototyping"
-  - "Human-in-the-loop AI design"
-  - "Community research & growth strategy"
+  - Zero-to-one growth
+  - Community research
+  - Internal tool prototyping
+  - Human-in-the-loop workflow design
+  - Experimentation & prioritization
 metrics:
+  - value: "0 → 160"
+    label: members in 30 days
   - value: "0 → 500+"
-    label: "members, growing organically"
+    label: members in 4 months
   - value: "200+"
-    label: "prospects tracked in a self-built tool"
-  - value: "≥5"
-    label: "clicks removed per outreach"
-  - value: "~100"
-    label: "posts researched to set the cadence"
+    label: prospects tracked
+  - value: "5+"
+    label: clicks removed per outreach
 roadmap_label: How I built it
-problem: I owned the zero-to-one growth of a Reddit community, but with no Reddit API access, finding relevant users, preserving each post's context, and running personalized cold outreach all had to happen by hand — without tipping into spam.
-approach: I grounded growth in community research and an anti-spam cadence, used Codex to rapidly build a lightweight outreach tracker, and deliberately cut AI from the one step where it added cost but not value.
-impact: Removed at least five clicks per outreach, tracked 200+ prospects, and grew the community from zero to 500+ members organically. The team kept using the tracker after I handed it off.
+roadmap_headline: Scaled the workflow while keeping outreach human
+problem: >-
+  With no Reddit API, prospecting and outreach were manual. I needed to scale discovery and team coordination without turning personalized community outreach into spam.
+approach: >-
+  Reviewed ~100 posts and user profiles to define community norms, then used Codex to build a browser-based tracker. Tested AI-generated DMs, replaced them with a deterministic template, and preserved human review and one-click source context.
+impact: >-
+  Reached ~160 members in the first 30 days and 500+ in four months. The tracker supported 200+ prospects, removed at least five clicks per outreach, and remained in use after handoff.
 ---
 
-Growing a community is a human problem before it is a tooling problem. I owned the zero-to-one growth of r/StoryWithToys, the community around NaukNauk, and the goal was never just a bigger member count — it was members who trusted the space enough to post in it. Every system I built had to serve that, not undermine it.
+The core product decision was what not to automate. I automated prospect capture and team coordination, but kept message judgment human. After testing AI-generated DMs, I replaced them with a deterministic template because it was faster, cheaper, and more trustworthy.
+
+That system supported 200+ prospects and helped grow r/StoryWithToys from 0 to 500+ members organically in four months. The team continued using the tracker after handoff.
 
 > **Route** Reddit signal -> community research -> lightweight tracker -> deterministic DM -> shared team workflow -> organic growth
 
@@ -41,7 +49,7 @@ Growing a community is a human problem before it is a tooling problem. I owned t
 
 **No API access meant every step stayed manual — and had to stay legible to a human.**
 
-We had no access to Reddit's API, so finding relevant users, preserving the context of their posts, and running personalized cold outreach all had to happen manually. That constraint set the terms for everything that followed: the work had to stay personal and legible to a human, never automated into something the community would read as spam.
+With no Reddit API, prospect discovery and outreach stayed manual. I treated that as a product constraint: the system could accelerate context capture and coordination, but a human would still review the source post and decide whether and how to contact someone.
 
 ## 02 / The groundwork
 
@@ -63,9 +71,9 @@ Live demo — paste a Reddit post into the _add user_ tab and watch the fields a
 
 ## 04 / The decision that mattered
 
-**AI judgment, not AI maximalism.**
+**I removed AI from message writing after it failed the quality–cost tradeoff.**
 
-My first version used AI to generate a unique DM for every user. I tested it, and the cost was clear: tokens, latency, and thin post context that often made the "personalized" output no better than a strong template. So I replaced it with a deterministic, field-based template populated from structured user and post data — faster, cheaper, and more reliable.
+My first version used AI to generate a unique DM for every user. I compared it with a deterministic template on output quality, latency, and cost. Thin post context limited personalization, while generation added tokens and delay, so I removed AI from message writing. Structured fields handled personalization, and a human reviewed the source post before sending.
 
 {% details View what the template actually does %}
 

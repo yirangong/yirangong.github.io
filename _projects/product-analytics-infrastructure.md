@@ -1,13 +1,14 @@
 ---
 layout: project
-title: Counting outcomes, not endpoints
+title: Rebuilding AI video metrics around user outcomes
 pillar: build
-kind: Product analytics · Data infrastructure
-summary: Built the first template-level measurement layer for an AI video feature, replacing endpoint error counts with outcome-based metrics across 40+ templates. Adopted for daily launch monitoring and weekly template-health reviews.
+kind: Product analytics · AI reliability
+summary: >-
+  I found that endpoint error counts were misclassifying fallback-rescued generations as failures. I redefined success at the generation level and built four role-specific views across 40+ templates, now used daily by Content Ops and weekly by product leadership.
 experience: nauknauk
 group: nauknauk
-card_title: From root-cause to dashboard
-card_detail: Outcome-based failure metrics · survived migration
+card_title: Health and performance dashboard for AI template reliability
+card_detail: 40+ templates · daily ops monitoring · weekly product reviews
 card_image: /assets/projects/product-analytics-infrastructure/card-outcome-migration.svg
 featured: true
 importance: 2
@@ -15,44 +16,33 @@ published: true
 status: published
 paper_design: analytics-real-artifacts-v1
 skills:
-  - Metric design & semantics
-  - Analytics infrastructure
-  - Dashboard design
-  - Data integrity
-  - Migration-resilient semantics
+  - Product analytics
+  - Metric definition & governance
+  - Data modeling
+  - Dashboard & decision systems
+  - Reliability monitoring
 metrics:
-  - value: "0 broken"
-    label: metric definitions when the backend migrated to Step Functions — they described generations, not endpoints
-  - value: "4 views"
-    label: replaced one overloaded dashboard — pulse, working table, drill-down, comparison
-media_label: Before and after
-media:
-  - type: image
-    src:
-    caption: "Before — feature-type aggregated view; no way to drill into a specific template"
-  - type: image
-    src:
-    caption: "Before — endpoint-based analysis, messy and hard to read as product signal"
-  - type: image
-    src:
-    featured: true
-    caption: "After — pulse view: template health at a glance for weekly product review"
-  - type: image
-    src:
-    caption: "After — full working table for Content Ops daily monitoring"
-  - type: image
-    src:
-    caption: "After — drill-down view for investigating a single template"
-  - type: image
-    src:
-    caption: "After — comparison view for weighing templates against each other"
+  - value: "40+"
+    label: templates monitored
+  - value: "4"
+    label: decision-specific views
+  - value: Daily
+    label: launch monitoring
+  - value: Weekly
+    label: product health review
 roadmap_label: How I rebuilt it
-problem: The single number behind every promote / fix / retire decision on the template library was measuring an engineering event, not a product outcome — and no one reading it knew that.
-approach: Redefine failure around what the user ends up with, rebuild the data layer at the generation level, and split one overloaded dashboard into surfaces matched to how each team actually works.
-impact: The new definitions survived a full backend migration to Step Functions. Content Ops now monitors the analytics layer daily through launches; the head of product reviews template health weekly.
+roadmap_headline: From misleading endpoint logs to a product decision system
+problem: >-
+  The failure rate used to promote, fix, or retire templates counted endpoint errors even when fallback delivered a successful video. Product decisions were being made on an inflated failure signal.
+approach: >-
+  Audited endpoint events against user outcomes, redefined failure at the generation level, and rebuilt the data layer independently of backend topology. Designed four views for daily operations and weekly product decisions.
+impact: >-
+  The outcome definitions remained valid through the migration to Step Functions, even though the underlying joins changed. Content Ops now uses the dashboard daily through launches, and the head of product reviews template health weekly.
 ---
 
-Templates are the content supply for an AI feature. PMs and Content Ops decide which to promote, fix, or retire based on failure rate — so that number has to mean what they think it means. Before I built anything on top of it, I checked whether it represented reality. It didn't.
+PMs and Content Ops used one failure-rate metric to decide which AI templates to promote, fix, or retire. I audited the event logic before building the dashboard and found that it counted fallback-rescued generations as failures.
+
+I redefined success around the user outcome—whether a video was delivered—rebuilt the data layer across 40+ templates, and designed four views for daily operations and weekly product review.
 
 > **Route** Endpoint logs → generation-level semantics → outcome-based failure → role-specific surfaces
 
@@ -60,7 +50,7 @@ Templates are the content supply for an AI feature. PMs and Content Ops decide w
 
 Every template has a fallback engine. When the main engine fails and the fallback succeeds, the user gets their video and never knows anything went wrong — but the logs still record an error. Those rescued generations were being counted as failures. So a template whose fallback was quietly doing its job registered the same as one that was actually failing users, and the library got pruned on the difference.
 
-[ADD: before/after — the mislabeled failure spike next to the true outcome rate]
+> **Decision** Keep endpoint errors as engineering diagnostics, but remove them from the product failure definition. Product health would be measured at the generation level; service-level errors would remain available for root-cause analysis.
 
 ## Redefining failure around the user
 
@@ -76,4 +66,4 @@ Content Ops and PMs were reaching for the same dashboard to do different jobs, s
 
 ## Reflection
 
-The habit underneath all of this: I don't just report the metric. I check whether the system generating it represents reality, and rebuild it when it doesn't — on foundations stable enough to survive the next migration.
+The dashboard was not the core product. The shared definition was. By separating user outcomes from service diagnostics, I gave PM and Content Ops a stable basis for decisions while preserving the lower-level signals engineering needed to investigate failures.

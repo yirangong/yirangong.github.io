@@ -2,20 +2,10 @@
 layout: project
 title: Senior Project
 pillar: build
-index: B—02
-kind: Project · To be defined
-summary: A reserved framework for the senior-year project once its question, implementation, and evidence are ready.
-media:
-  - type: image
-    featured: true
-    caption: "Cover still — add a hero image"
-role: "[Role to add]"
-timeframe: "[Timeline to add]"
-team: "[Team to add]"
-skills:
-  - "[Methods to add]"
+kind: Project · In development
+summary: Unpublished until the project has a working prototype, evaluation, and public-safe evidence.
 featured: false
-importance: 2
+importance: 99
 status: draft
 published: false
 ---

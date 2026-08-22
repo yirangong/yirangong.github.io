@@ -1,30 +1,34 @@
 ---
 layout: project
-title: "Making toys move: what it takes to ship generative video as a product"
+title: Shipping generative video from model experiment to reliable product
 pillar: build
-kind: Generative AI · Product operations
-summary: Designed, tested, and shipped generative-video workflows by connecting model capabilities, input architecture, prompt design, deployment constraints, and user experience.
+kind: AI product · Generative video
+summary: >-
+  I turned toy-character motion ideas into 5+ production workflows by sequencing image-prep and video models, defining anatomy-aware evaluations, and adding fallback and monitoring. The workflows reached 10K+ users per day with ~60% generation-to-publish conversion.
 experience: nauknauk
 group: nauknauk
-card_title: End to end AI workflow shipping generative video feature
-card_detail: "5+ workflows shipped · 10,000+ users reached daily"
+card_title: Shipped AI video workflows from concept to production for 1M+ users
+card_detail: "multi-modal generative models & user-specific evals"
 card_image: /assets/projects/applied-ai-product-operations/card-kaiju-transformation.webp
 featured: true
 importance: 1
 published: true
+status: published
 skills:
-  - AI pipeline architecture
+  - Product strategy
   - Model evaluation & selection
   - Prompt engineering
-  - Cost / latency / moderation tradeoffs
-  - Monitoring & fallback design
+  - Latency, cost, quality tradeoff
+  - Reliability & fallback design
 metrics:
   - value: "5+"
-    label: workflows shipped
-  - value: "10,000+"
-    label: users reached daily
+    label: production workflows shipped
+  - value: "10K+"
+    label: users reached per day
   - value: "~60%"
-    label: avg publish conversion
+    label: generation-to-publish conversion
+  - value: "+14 pp"
+    label: Knee Slide vs average
 media_label: Campaign
 media:
   - type: video
@@ -39,10 +43,13 @@ media:
     ratio: 624 / 1110
     title: "May the 4th"
 roadmap_label: How I built it
-roadmap_headline: Developing a feature users would actually use
-problem: Turning a toy-community facing idea into an AI-native product feature meant handling messy user images, very different character shapes, coherent motion transfer, model restrictions, and reliable product integration.
-approach: Owned the entire lifecycle from research to deployment — sequencing image-prep and video models, controlling inputs, designing an anatomy-aware evaluation, and building fallback and monitoring into the product itself.
-impact: Reusable, personalizable AI template workflows across motion control, storytelling, and campaign needs.
+roadmap_headline: From demand signal to monitored production workflow
+problem: >-
+  Toy images vary in quality and anatomy, while video models introduce fidelity, motion, moderation, and reliability failures. I needed to turn a promising demo into a repeatable production workflow.
+approach: >-
+  Prioritized ideas from community and cultural signals, then sequenced image-prep and video models around controllable inputs. Defined anatomy-specific fidelity gates and shipped with cross-family fallbacks, monitoring, and a release checklist.
+impact: >-
+  Shipped 5+ reusable workflows across motion, storytelling, and campaigns. One motion-control workflow reached ~70% publish conversion versus a 56% average, and the product served 10K+ users per day.
 impact_examples_label: Motion control
 impact_examples:
   - title: Knee Slide
@@ -56,16 +63,17 @@ impact_examples:
     ratio: 1626 / 1080
 ---
 
-Building an AI video template was not just a matter of finding one model and writing one prompt.\
-Iterating with a focus on user figure fidelity — core reason why users engage.
+Toy-character video looked like a model problem. In production, it was a product-system problem: messy uploads, unfamiliar anatomy, motion fidelity, moderation limits, latency, and fallback behavior.
 
-> **Route** Ideas -> Model system -> Controlled input -> Product integration -> Monitoring -> Iteration
+I owned the workflow from idea selection through model orchestration, evaluation, deployment, and monitoring. The result was 5+ reusable workflows reaching 10K+ users per day at ~60% generation-to-publish conversion.
+
+> **Route** Demand signal -> Product hypothesis -> Input architecture -> Model sequence -> Evaluation -> Release -> Monitoring
 
 ## 01 / Research
 
 Research here did not mean a survey. It meant deciding what was worth building at all — a clip climbing a subreddit, a scene people quote from a movie, a joke only insiders get, sometimes a hallucinated video that came straight out of prompting.
 
-This is where agency and real human judgment comes in.
+I used community traction and cultural relevance to prioritize ideas before spending time on model testing.
 
 {% include research-funnel.liquid %}
 
@@ -111,7 +119,7 @@ I moved the character anchor to the ground, specified the intended scale, and pl
 
 > Anchor the character to the ground using its feet, bottom edge, or lowest point. Scale it proportionally from the ground up. Do not align its head with the reference fighter's head. Element 1 and Element 2 are small toy-sized characters; their total height should be approximately 40–60% of the reference video fighters' height. Scale down proportionally and keep them grounded.
 
-This was a deeper fix than another round of surface-level prompt tuning.
+Changing the spatial anchor fixed the underlying constraint; more surface-level prompt tuning would only have masked it.
 
 {% enddetails %}
 

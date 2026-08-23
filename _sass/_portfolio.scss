@@ -3327,6 +3327,121 @@ body.page-about-profile {
     transform: none;
   }
 }
+
+/* A single viewport-level player expands hover previews without resizing the
+   media grid. It remains non-interactive until the visitor pins it by click or
+   keyboard, so simply moving away from the source tile still closes it. */
+.cs-video-float-layer {
+  position: fixed;
+  z-index: 2000;
+  inset: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.cs-video-float-layer::before {
+  position: absolute;
+  content: "";
+  inset: 0;
+  background: rgba(17, 20, 24, 0);
+  transition: background 0.22s ease;
+}
+
+.cs-video-float-layer.is-visible {
+  visibility: visible;
+}
+
+.cs-video-float-layer.is-pinned::before {
+  background: rgba(17, 20, 24, 0.12);
+}
+
+.cs-video-float-panel {
+  --float-shift-x: 0px;
+  --float-shift-y: 0px;
+  --float-scale-x: 1;
+  --float-scale-y: 1;
+
+  position: fixed;
+  overflow: hidden;
+  background: #090b0d;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 14px;
+  box-shadow:
+    0 26px 70px rgba(17, 20, 24, 0.28),
+    0 8px 22px rgba(17, 20, 24, 0.2);
+  opacity: 0;
+  transform: translate3d(var(--float-shift-x), var(--float-shift-y), 0) scale(var(--float-scale-x), var(--float-scale-y));
+  transform-origin: top left;
+  transition:
+    opacity 0.18s ease,
+    transform 0.22s cubic-bezier(0.2, 0.75, 0.25, 1),
+    box-shadow 0.22s ease;
+  will-change: transform, opacity;
+}
+
+.cs-video-float-panel.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+.cs-video-float-panel.is-pinned {
+  pointer-events: auto;
+  box-shadow:
+    0 32px 90px rgba(17, 20, 24, 0.34),
+    0 10px 28px rgba(17, 20, 24, 0.24);
+}
+
+.cs-video-float-panel__video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #090b0d;
+  object-fit: contain;
+}
+
+.cs-video-float-panel__close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: none;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: rgba(9, 11, 13, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 50%;
+  color: #fff;
+  font-family: var(--portfolio-sans);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.cs-video-float-panel.is-pinned .cs-video-float-panel__close {
+  display: flex;
+}
+
+.cs-video-float-panel__close:hover,
+.cs-video-float-panel__close:focus-visible {
+  background: var(--portfolio-oxblood);
+  border-color: #fff;
+  outline: 3px solid rgba(255, 255, 255, 0.7);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cs-video-float-layer::before,
+  .cs-video-float-panel {
+    transition: none;
+  }
+
+  .cs-video-float-panel {
+    transform: none;
+  }
+}
+
 .cs-media-embed {
   position: relative;
   padding-top: 56.25%;

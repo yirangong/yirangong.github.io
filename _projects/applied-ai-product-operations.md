@@ -14,6 +14,7 @@ featured: true
 importance: 1
 published: true
 status: published
+floating_video_preview: true
 skills:
   - Product strategy
   - Model evaluation & selection

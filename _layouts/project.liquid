@@ -4,7 +4,10 @@ layout: default
 {% if page.paper_design == 'analytics-real-artifacts-v1' %}
   {% include paper-analytics-case-study.liquid %}
 {% else %}
-  <main class="case-study cs cs--{{ page.pillar }}">
+  <main
+    class="case-study cs cs--{{ page.pillar }}{% if page.floating_video_preview %} cs--floating-video-preview{% endif %}"
+    data-floating-video-preview="{% if page.floating_video_preview %}true{% else %}false{% endif %}"
+  >
     <div class="cs__shell">
       <!-- LEFT: sticky section nav (list filled by the script below) -->
       <aside class="cs__rail" aria-label="Section navigation">
@@ -239,7 +242,7 @@ layout: default
                   <p class="cs-group-label">{{ page.impact_examples_label | default: 'Selected work' }}</p>
                   <ul class="cs-impact-list">
                     {% for ex in page.impact_examples %}
-                      <li class="cs-impact-item">
+                      <li class="cs-impact-item{% if ex.src %} cs-hover-video-card{% endif %}">
                         {% if ex.src %}
                           <video
                             class="cs-media-hoverplay"
@@ -276,7 +279,7 @@ layout: default
                   <p class="cs-group-label cs-group-label--warm">{{ page.media_label | default: 'Highlights' }}</p>
                   <div class="cs-media-grid">
                     {% for item in extra_media %}
-                      <figure class="cs-media-item{% if item.wide %} cs-media-item--featured{% endif %}">
+                      <figure class="cs-media-item{% if item.wide %} cs-media-item--featured{% endif %}{% if item.type == 'video' %} cs-hover-video-card{% endif %}">
                         {% if item.src == null %}
                           <div class="cs-media-placeholder">{{ item.caption | default: 'Media to add' }}</div>
                         {% elsif item.type == 'video' %}
@@ -637,63 +640,6 @@ layout: default
         bq.appendChild(btn);
       });
     })();
-
-    // Highlights grid: hover to play. Pointer devices only — on touch the videos
-    // keep their normal tap-to-play controls, since there is no hover to leave.
-    (function () {
-      var vids = Array.prototype.slice.call(document.querySelectorAll('.cs-media-hoverplay'));
-      if (!vids.length) return;
-      var canHover = !!window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-
-      vids.forEach(function (v) {
-        var card = v.closest('.cs-media-item, .cs-impact-item') || v;
-
-        function play() {
-          var p = v.play();
-          if (p && p.catch) p.catch(function () {});
-        }
-        function stop() {
-          v.pause();
-          v.currentTime = 0;
-        }
-
-        // Cue state rides on the video's own events, so it clears however
-        // playback started — hover, click, or keyboard.
-        v.addEventListener('play', function () {
-          card.classList.add('is-playing');
-        });
-        ['pause', 'ended'].forEach(function (evt) {
-          v.addEventListener(evt, function () {
-            card.classList.remove('is-playing');
-          });
-        });
-
-        // These clips carry no control bar, so click and keyboard are the ways in
-        // that do not depend on a pointer. Focusable for the keyboard path.
-        v.setAttribute('tabindex', '0');
-        v.addEventListener('click', function () {
-          v.paused ? play() : stop();
-        });
-        v.addEventListener('keydown', function (e) {
-          if (e.key !== 'Enter' && e.key !== ' ') return;
-          e.preventDefault();
-          v.paused ? play() : stop();
-        });
-
-        // Without hover there is nothing to drive playback implicitly, so give
-        // those visitors the native controls back rather than a dead poster.
-        if (!canHover) {
-          v.setAttribute('controls', '');
-          return;
-        }
-
-        card.addEventListener('mouseenter', play);
-        card.addEventListener('mouseleave', function () {
-          // Going fullscreen pulls the pointer off the card — don't kill playback.
-          if (document.fullscreenElement || document.webkitFullscreenElement) return;
-          stop();
-        });
-      });
-    })();
   </script>
+  <script defer src="{{ '/assets/js/video-float-preview.js' | relative_url | bust_file_cache }}"></script>
 {% endif %}

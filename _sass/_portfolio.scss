@@ -3314,6 +3314,15 @@ body.page-about-profile {
     transform 0.2s ease;
 }
 @media (hover: hover) and (pointer: fine) {
+  /* Match the navigation's hand cursor across the full hover target, including
+     captions and the pinned expanded player—not only the video pixels. */
+  .cs-hover-video-card,
+  .cs-media-hoverplay,
+  .cs-video-float-panel.is-pinned {
+    cursor: pointer;
+  }
+}
+@media (hover: hover) and (pointer: fine) {
   .cs-media-item:hover .cs-media-hoverplay {
     border-color: var(--portfolio-ink);
     transform: translateY(-2px);

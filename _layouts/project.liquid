@@ -242,7 +242,7 @@ layout: default
                   <p class="cs-group-label">{{ page.impact_examples_label | default: 'Selected work' }}</p>
                   <ul class="cs-impact-list">
                     {% for ex in page.impact_examples %}
-                      <li class="cs-impact-item">
+                      <li class="cs-impact-item{% if ex.src %} cs-hover-video-card{% endif %}">
                         {% if ex.src %}
                           <video
                             class="cs-media-hoverplay"
@@ -279,7 +279,7 @@ layout: default
                   <p class="cs-group-label cs-group-label--warm">{{ page.media_label | default: 'Highlights' }}</p>
                   <div class="cs-media-grid">
                     {% for item in extra_media %}
-                      <figure class="cs-media-item{% if item.wide %} cs-media-item--featured{% endif %}">
+                      <figure class="cs-media-item{% if item.wide %} cs-media-item--featured{% endif %}{% if item.type == 'video' %} cs-hover-video-card{% endif %}">
                         {% if item.src == null %}
                           <div class="cs-media-placeholder">{{ item.caption | default: 'Media to add' }}</div>
                         {% elsif item.type == 'video' %}
